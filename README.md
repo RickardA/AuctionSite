@@ -16,7 +16,6 @@ Tryck bara på fliken <b>Project</b> ute till vänster av fönstret<br><br>
 <b>8.</b> Högerklicka på frontend mappen och välj sedan <b>Open in Terminal</b><br>
 <img src="GuideImages/5.png" />
 <b>9.</b> I terminalen som öppnas skriver du <b>npm install</b> och tryck enter, nu installeras alla paket som finns i projektet<br>
-<img src="GuideImages/4.PNG" />
 <b>10.</b> Navigera nu till <b> application.properties</b> som finns under <b> Src -> Main -> Resources </b>, 
 här skall du klistra in kodsnutten som jag skickade i discord<br><br>
 <b>11.</b> Prova nu att köra projektet , om det startar upp utan några felmeddelanden så har du lyckats!<br><br>
