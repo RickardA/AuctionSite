@@ -3,15 +3,15 @@
     <v-flex xs10 sm2 offset-sm1 offset-xs1>
       <v-card>
         <v-img
-          :src="imageSrc"
+          :src="auctionObject.image"
           height="200px"
         >
         </v-img>
         <v-card-title primary-title>
           <div>
-            <div class="headline">{{title}}</div>
-            <span class="grey--text">Current Bid: ${{currentBid}}</span><br>
-            <span class="grey--text">Auction ends: {{date}}</span>
+            <div class="headline">{{auctionObject.title}}</div>
+            <span class="grey--text">Current Bid: ${{auctionObject.currentBid}}</span><br>
+            <span class="grey--text">Auction ends: {{auctionObject.date}}</span>
           </div>
         </v-card-title>
         <v-card-actions>
@@ -29,7 +29,7 @@
         </v-card-actions>
         <v-slide-y-transition>
           <v-card-text v-show="show">
-            {{text}}
+            {{auctionObject.text}}
           </v-card-text>
         </v-slide-y-transition>
       </v-card>
@@ -42,11 +42,6 @@ export default {
     name:'AuctionCard',
      data: () => ({
       show: false,
-      currentBid: 200,
-      title:'View for sale',
-        date: '2019-05-20 23:59',
-        imageSrc:'https://cdn.vuetifyjs.com/images/cards/sunshine.jpg',
-        text:'Im a thing. But, like most politicians, he promised more than he could deliver. You wont have time for sleeping, soldier, not with all the bed making you',
     }),
     props: {
         auctionObject: Object,
