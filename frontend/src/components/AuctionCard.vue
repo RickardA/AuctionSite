@@ -1,6 +1,7 @@
 <template>
     <v-flex mt-2 xs-1 ml-1 mr-1>
       <v-card>
+        <div @click="routeToAuction" class="hover">
         <v-img
           :src="auctionObject.image"
           height="200px"
@@ -13,6 +14,7 @@
             <span class="grey--text">Auction ends: {{auctionObject.deadline}}</span>
           </div>
         </v-card-title>
+        </div>
         <v-card-actions>
             <!-- Replace with bid component
           <v-text-field
@@ -43,12 +45,19 @@ export default {
     }),
     props: {
         auctionObject:null,
+    },
+    methods:{
+      routeToAuction(){
+        this.$router.push('/auction?'+this.auctionObject.itemID);
+      }
     }
 }
 </script>
 
 <style>
-
+.hover{
+  cursor: pointer;
+}
 </style>
 
 

@@ -8,7 +8,7 @@ export default new Vuex.Store({
   state: {
     auctions: [
       {
-        itemID: '12375463241',
+        itemID: '12375463252345234092349041',
         title: 'Shy Rabbit',
         min_price: '20',
         currentBid:'123',
@@ -20,7 +20,7 @@ export default new Vuex.Store({
         image:'https://cdn.vuetifyjs.com/images/cards/desert.jpg'
     },
     {
-      itemID: '12332134241',
+      itemID: '1236545432430020345032134241',
       title: 'Shy Rabbit',
       min_price: '20',
       currentBid:'123',
@@ -32,7 +32,7 @@ export default new Vuex.Store({
       image:'https://cdn.vuetifyjs.com/images/cards/desert.jpg'
   },
   {
-    itemID: '123376584241',
+    itemID: '1233766574564876845584241',
     title: 'Shy Rabbit',
     min_price: '20',
     currentBid:'123',
@@ -44,7 +44,7 @@ export default new Vuex.Store({
     image:'https://cdn.vuetifyjs.com/images/cards/desert.jpg'
 },
 {
-  itemID: '12123453433241',
+  itemID: '121234534255645353441243433241',
   title: 'Shy Rabbit',
   min_price: '20',
   currentBid:'123',
@@ -56,7 +56,7 @@ export default new Vuex.Store({
   image:'https://cdn.vuetifyjs.com/images/cards/desert.jpg'
 },
 {
-  itemID: '12364353241',
+  itemID: '1236433454364535353241',
   title: 'Shy Rabbit',
   min_price: '20',
   currentBid:'123',
@@ -68,7 +68,7 @@ export default new Vuex.Store({
   image:'https://cdn.vuetifyjs.com/images/cards/desert.jpg'
 },
 {
-  itemID: '123123241',
+  itemID: '1237645763453123241',
   title: 'Shy Rabbit',
   min_price: '20',
   currentBid:'123',
@@ -80,7 +80,7 @@ export default new Vuex.Store({
   image:'https://cdn.vuetifyjs.com/images/cards/desert.jpg'
 },
 {
-  itemID: '12333245241',
+  itemID: '123332456457654345235241',
   title: 'Shy Rabbit',
   min_price: '20',
   currentBid:'123',
@@ -92,7 +92,7 @@ export default new Vuex.Store({
   image:'https://cdn.vuetifyjs.com/images/cards/desert.jpg'
 },
 {
-  itemID: '12332532441',
+  itemID: '12332358387902532441',
   title: 'Shy Rabbit',
   min_price: '20',
   currentBid:'123',
@@ -105,7 +105,7 @@ export default new Vuex.Store({
   
 },
 {
-  itemID: '12332341',
+  itemID: '12339087654323456786545435232341',
   title: 'Shy Rabbit',
   min_price: '20',
   currentBid:'123',
@@ -117,7 +117,7 @@ export default new Vuex.Store({
   image:'https://cdn.vuetifyjs.com/images/cards/desert.jpg'
 },
 {
-  itemID: '12332341',
+  itemID: '1233122345678654322341',
   title: 'Shy Rabbit',
   min_price: '20',
   currentBid:'123',
@@ -129,7 +129,7 @@ export default new Vuex.Store({
   image:'https://cdn.vuetifyjs.com/images/cards/desert.jpg'
 },
 {
-  itemID: '12332341',
+  itemID: '12332376858756463441',
   title: 'Shy Rabbit',
   min_price: '20',
   currentBid:'123',
@@ -141,7 +141,7 @@ export default new Vuex.Store({
   image:'https://cdn.vuetifyjs.com/images/cards/desert.jpg'
 },
 {
-  itemID: '12332341',
+  itemID: '1233243534341',
   title: 'Shy Rabbit',
   min_price: '20',
   currentBid:'123',
@@ -153,7 +153,7 @@ export default new Vuex.Store({
   image:'https://cdn.vuetifyjs.com/images/cards/desert.jpg'
 },
 {
-  itemID: '12332341',
+  itemID: '12332398798741',
   title: 'Shy Rabbit',
   min_price: '20',
   currentBid:'123',
@@ -165,7 +165,7 @@ export default new Vuex.Store({
   image:'https://cdn.vuetifyjs.com/images/cards/desert.jpg'
 },
 {
-  itemID: '12332341',
+  itemID: '1233212123341',
   title: 'Shy Rabbit',
   min_price: '20',
   currentBid:'123',
@@ -177,7 +177,7 @@ export default new Vuex.Store({
   image:'https://cdn.vuetifyjs.com/images/cards/desert.jpg'
 },
 {
-  itemID: '12332341',
+  itemID: '123765432341',
   title: 'Shy Rabbit',
   min_price: '20',
   currentBid:'123',
@@ -189,7 +189,7 @@ export default new Vuex.Store({
   image:'https://cdn.vuetifyjs.com/images/cards/desert.jpg'
 },
 {
-  itemID: '12332341',
+  itemID: '1233234234561',
   title: 'Shy Rabbit',
   min_price: '20',
   currentBid:'123',
