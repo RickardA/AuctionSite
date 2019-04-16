@@ -8,8 +8,12 @@ Vue.config.productionTip = false
 
 //Vuetify
 import Vuetify from 'vuetify'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 import 'vuetify/dist/vuetify.min.css'
-Vue.use(Vuetify)
+Vue.use(Vuetify, VueAxios, axios)
+
+Vue.prototype.axios = axios
 
 //Fontawesome
 import { library } from '@fortawesome/fontawesome-svg-core'
