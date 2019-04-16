@@ -1,9 +1,8 @@
 <template>
     <v-card class="hidden-md-and-up" height="55px" flat>
         <v-bottom-nav
-                :active.sync="bottomNav"
                 :value="true"
-                fixed="true"
+                fixed
                 color="white"
                 class="hidden-md-and-up"
         >
