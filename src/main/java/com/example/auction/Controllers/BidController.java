@@ -1,12 +1,13 @@
 package com.example.auction.Controllers;
 
 import com.example.auction.Repositories.AuctionRepository;
+import com.example.auction.Repositories.BidRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 
-public class AuctionController {
+public class BidController {
     @Autowired
-    AuctionRepository repo;
+    BidRepository repo;
 
     @GetMapping
     Iterable getPosts(){
