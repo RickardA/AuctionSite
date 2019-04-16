@@ -17,11 +17,6 @@ export default {
     HelloWorld,
     Popup
   },
-  computed:{
-    popupState() {
-      return this.$store.getters.getPopupState;
-    }
-  },
   created() {
     //this.$store.dispatch("getAuctionsFromDB");
   },
