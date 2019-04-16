@@ -8,10 +8,14 @@ import javax.persistence.Id;
 public class User {
      @Id
     private long userID;
-    private final String firstName;
-    private final String lastName;
-    private final String mail;
-    private final String password;
+    private String firstName;
+    private String lastName;
+    private String mail;
+    private String password;
+
+    public User(){
+
+    }
 
     public User(long userID, String firstName, String lastName, String mail, String password) {
         this.userID = userID;

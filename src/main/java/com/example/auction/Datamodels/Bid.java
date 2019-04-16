@@ -1,7 +1,12 @@
 package com.example.auction.Datamodels;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Bid {
 
+    @Id
     private Long buyerID;
     private Long itemID;
     private double current_price;
