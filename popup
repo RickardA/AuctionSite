@@ -1,0 +1,9 @@
+To add popup button to menu implement this in the menu component
+
+in the template add this:
+<v-btn @click="togglePopup">Sign In/Up</v-btn>
+
+in the methods add this method:
+togglePopup(){
+      this.$store.commit('togglePopup',true);
+    }
