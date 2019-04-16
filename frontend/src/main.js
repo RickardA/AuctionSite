@@ -11,6 +11,15 @@ import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 Vue.use(Vuetify)
 
+//Fontawesome
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faArrowUp } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+library.add(faArrowUp)
+
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+
 new Vue({
   router,
   store,

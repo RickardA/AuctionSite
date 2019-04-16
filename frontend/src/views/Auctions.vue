@@ -4,6 +4,15 @@
           <v-layout row wrap>
         <AuctionCard v-for="auction in auctions" v-bind:key="auction.itemID" :auctionObject="auction"></AuctionCard>
           </v-layout>
+          <v-btn
+        fab
+        fixed
+        bottom
+        right
+        @click="scrollToTop"
+      >
+        <font-awesome-icon icon="arrow-up" />
+      </v-btn>
   </v-flex>
 </template>
 
@@ -18,6 +27,11 @@ export default {
   },
   components:{
       AuctionCard,
+  },
+  methods:{
+    scrollToTop(){
+      window.scrollTo(top);
+    }
   }
 }
 </script>
