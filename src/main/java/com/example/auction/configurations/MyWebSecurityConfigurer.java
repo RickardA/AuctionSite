@@ -1,6 +1,7 @@
 package com.example.auction.configurations;
 
 
+import com.example.auction.Services.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -38,6 +39,7 @@ public class MyWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/assets/**");
+        web.ignoring().antMatchers("/api/user/");
     }
 
     @Override

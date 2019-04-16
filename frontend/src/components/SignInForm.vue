@@ -13,8 +13,8 @@
                 <v-text-field label="Password*" type="password" required></v-text-field>
               </v-flex>
             </v-layout>
+             <small style="color:red">*indicates required field</small>
           </v-container>
-          <small>*indicates required field</small>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>

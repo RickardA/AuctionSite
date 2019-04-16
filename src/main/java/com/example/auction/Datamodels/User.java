@@ -2,12 +2,16 @@ package com.example.auction.Datamodels;
 
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class User {
-     @Id
-    private long userID;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    private String userID;
     private String firstName;
     private String lastName;
     private String mail;
@@ -17,7 +21,7 @@ public class User {
 
     }
 
-    public User(long userID, String firstName, String lastName, String mail, String password) {
+    public User(String userID, String firstName, String lastName, String mail, String password) {
         this.userID = userID;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -25,8 +29,12 @@ public class User {
         this.password = password;
     }
 
-    public long getId() {
+    public String getUserID() {
         return userID;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public String getFirstName() {

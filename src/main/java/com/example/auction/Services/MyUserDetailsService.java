@@ -1,4 +1,4 @@
-package com.example.auction.configurations;
+package com.example.auction.Services;
 
 
 import com.example.auction.Datamodels.User;
@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.annotation.PostConstruct;
+import java.util.UUID;
 
 @Configuration
 public class MyUserDetailsService implements UserDetailsService {
@@ -24,9 +25,9 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @PostConstruct
     private void createDefaultUsers(){
-        if (repository.findDistinctFirstByMailIgnoreCase("user") == null) {
+       /* if (repository.findDistinctFirstByMailIgnoreCase("user") == null) {
             addUser("user","user","mail@mail.com", "password");
-        }
+        }*/
     }
 
     @Override
@@ -38,8 +39,9 @@ public class MyUserDetailsService implements UserDetailsService {
         return toUserDetails(user);
     }
 
-    public void addUser(String firstName,String lastName,String mail, String password){
-        User u = new User(231,firstName,lastName,mail, encoder.encode(password));
+    public void addUser(User user){
+        String userID = UUID.randomUUID().toString();
+        User u = new User(userID,user.getFirstName(),user.getLastName(),user.getMail(), encoder.encode(user.getPassword()));
         try {
             repository.save(u);
         } catch (Exception ex) {
