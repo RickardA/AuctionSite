@@ -39,13 +39,18 @@ public class MyUserDetailsService implements UserDetailsService {
         return toUserDetails(user);
     }
 
-    public void addUser(User user){
-        String userID = UUID.randomUUID().toString();
-        User u = new User(userID,user.getFirstName(),user.getLastName(),user.getMail(), encoder.encode(user.getPassword()));
-        try {
-            repository.save(u);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+    public boolean addUser(User user){
+        if(repository.findDistinctFirstByMailIgnoreCase(user.getMail()) == null) {
+            String userID = UUID.randomUUID().toString();
+            User u = new User(userID, user.getFirstName(), user.getLastName(), user.getMail(), encoder.encode(user.getPassword()));
+            try {
+                repository.save(u);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            return true;
+        }else{
+            return false;
         }
     }
 
