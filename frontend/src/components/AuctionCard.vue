@@ -1,6 +1,5 @@
 <template>
-     <v-layout row>
-    <v-flex xs10 sm2 offset-sm1 offset-xs1>
+    <v-flex mt-2 xs-1 ml-1 mr-1>
       <v-card>
         <v-img
           :src="auctionObject.image"
@@ -11,7 +10,7 @@
           <div>
             <div class="headline">{{auctionObject.title}}</div>
             <span class="grey--text">Current Bid: ${{auctionObject.currentBid}}</span><br>
-            <span class="grey--text">Auction ends: {{auctionObject.date}}</span>
+            <span class="grey--text">Auction ends: {{auctionObject.deadline}}</span>
           </div>
         </v-card-title>
         <v-card-actions>
@@ -29,12 +28,11 @@
         </v-card-actions>
         <v-slide-y-transition>
           <v-card-text v-show="show">
-            {{auctionObject.text}}
+            {{auctionObject.description}}
           </v-card-text>
         </v-slide-y-transition>
       </v-card>
     </v-flex>
-  </v-layout>
 </template>
 
 <script>
@@ -44,7 +42,7 @@ export default {
       show: false,
     }),
     props: {
-        auctionObject: Object,
+        auctionObject:null,
     }
 }
 </script>
