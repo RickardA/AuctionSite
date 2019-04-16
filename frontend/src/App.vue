@@ -17,6 +17,9 @@ export default {
     return {
       //
     }
+  },
+  created() {
+    //this.$store.dispatch("getAuctionsFromDB");
   }
 }
 </script>
