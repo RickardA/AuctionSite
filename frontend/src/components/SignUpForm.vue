@@ -62,14 +62,16 @@ export default {
     },
     async registerUser(user) {
       console.log("printing from addUseerToDB");
-      await fetch(API_URL + "user/", {
+      this.response = await fetch(API_URL + "user/", {
         method: "POST",
         body: JSON.stringify(user),
         headers: { "Content-Type": "application/json" }
       });
+      this.response = await this.response.text();
     }
   },
   data: () => ({
+    response: boolean,
     firstName: "",
     nameRules: [
       v => !!v || "Name is required",
