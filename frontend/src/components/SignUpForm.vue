@@ -71,7 +71,7 @@ export default {
     }
   },
   data: () => ({
-    response: boolean,
+    response: null,
     firstName: "",
     nameRules: [
       v => !!v || "Name is required",
