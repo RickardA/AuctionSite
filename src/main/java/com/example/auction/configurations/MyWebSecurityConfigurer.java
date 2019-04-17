@@ -17,7 +17,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 
 @Configuration
-@EnableWebSecurity
 public class MyWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -25,7 +24,8 @@ public class MyWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http.cors().and()
+                .authorizeRequests()
                 .antMatchers("/api/**").hasRole("USER")
                 .and().formLogin().permitAll().defaultSuccessUrl("/", true)
                 .and().logout().permitAll().logoutSuccessUrl("/")
