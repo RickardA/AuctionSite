@@ -1,4 +1,6 @@
 <template>
+    <div id="content" class="">
+    <SearchBarAndFilter/>
     <v-flex sm10 offset-sm1 offset-xs mt-2>
         <h1>All Auctions</h1>
           <v-layout row wrap>
@@ -15,10 +17,12 @@
         <font-awesome-icon icon="arrow-up" />
       </v-btn>
   </v-flex>
+    </div>
 </template>
 
 <script>
 import AuctionCard from '../components/AuctionCard';
+import SearchBarAndFilter from '../components/SearchBarAndFilter';
 export default {
     name:'Auctions',
     computed:{
@@ -28,6 +32,7 @@ export default {
   },
   components:{
       AuctionCard,
+      SearchBarAndFilter
   },
   methods:{
     scrollToTop(){
@@ -43,6 +48,9 @@ export default {
         margin-bottom: 50px;
     }
 
+    #content{
+        margin-top: 12vh;
+    }
 </style>
 
 
