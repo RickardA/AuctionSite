@@ -22,6 +22,12 @@
             </v-flex>
           </v-layout>
           <small style="color:red">*indicates required field</small>
+          <v-alert
+            :value="displayError"
+            color="error"
+            icon="warning"
+            outline
+          >Something went wrong, please try again</v-alert>
         </v-container>
       </v-card-text>
       <v-card-actions>
@@ -37,9 +43,7 @@ const API_URL = "http://localhost:8080/";
 export default {
   name: "signInForm",
   data: () => ({
-    response: null,
-    responseSuccess: false,
-    responseError: false,
+    displayError: false,
     email: "",
     password: "",
     passwordRules: [
@@ -49,44 +53,51 @@ export default {
     emailRules: [
       v => !!v || "E-mail is required",
       v => /.+@.+/.test(v) || "E-mail must be valid"
-    ],
+    ]
   }),
   methods: {
     submitSignIn() {
+      this.showErrorMessage(false);
       if (this.$refs.form.validate()) {
         let user = {
           username: this.email,
           password: this.password
-        }
-        this.makeSignInRequest(user)
+        };
+        this.makeSignInRequest(user);
       }
     },
     async makeSignInRequest(user) {
-      let response = await fetch(API_URL+"login", {
+      let response = await fetch(API_URL + "login", {
         method: "POST",
         body: this.transformRequest(user),
         headers: { "Content-Type": "application/x-www-form-urlencoded" }
       });
       let successfulLogin = !response.url.includes("error");
-      if(successfulLogin === true){
+      if (successfulLogin === true) {
+        this.showErrorMessage(false);
         this.setUserLoggedIn();
+        this.$refs.form.reset();
+      } else if (successfulLogin === false) {
+        this.showErrorMessage(true);
       }
     },
-    setUserLoggedIn(){
-      this.$store.commit('toggleLogin',true);
-      this.$store.commit('togglePopup',false);
+    setUserLoggedIn() {
+      this.$store.commit("toggleLogin", true);
+      this.$store.commit("togglePopup", false);
     },
-    
-    transformRequest(jsonData = {}){
-  return Object.entries(jsonData)
-    .map(x => `${encodeURIComponent(x[0])}=${encodeURIComponent(x[1])}`)
-    .join('&');
-}
+    showErrorMessage(displayError) {
+      this.displayError = displayError;
+    },
+
+    transformRequest(jsonData = {}) {
+      return Object.entries(jsonData)
+        .map(x => `${encodeURIComponent(x[0])}=${encodeURIComponent(x[1])}`)
+        .join("&");
+    }
   }
 };
 </script>
 
 <style scoped>
-
 </style>
 
