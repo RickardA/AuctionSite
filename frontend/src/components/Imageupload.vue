@@ -1,6 +1,6 @@
 <template>
    <div>
-      <img src:previewImage class="uploading-image" />
+      <img :src="previewImage" class="uploading-image" />
       <input type="file" accept="image/jpeg" @change=uploadImage>
    </div>
 </template>
