@@ -1,10 +1,10 @@
 <template>
         <v-toolbar fixed class="hidden-sm-and-down">
-            <v-toolbar-side-icon><router-link to="/"><v-icon>home</v-icon></router-link></v-toolbar-side-icon>
+            <v-toolbar-side-icon to="/"><v-icon>home</v-icon></v-toolbar-side-icon>
             <v-toolbar-title>KOOL AUCTIONS COmPANY</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-toolbar-items class="hidden-sm-and-down">
-                <v-btn flat><router-link to="/auctions">Auctions</router-link></v-btn>
+                <v-btn flat to="/auctions">Auctions</v-btn>
                 <v-btn flat @click="togglePopup">Login/Register</v-btn>
                 <v-btn flat>Link Three</v-btn>
             </v-toolbar-items>
