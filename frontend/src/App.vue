@@ -6,6 +6,7 @@
       <router-view/>
     </main>
     <BottomNav/>
+    <Footer />
   </v-app>
 </template>
 
@@ -14,6 +15,7 @@ import HelloWorld from './components/HelloWorld'
 import Popup from './components/Popup'
 import NavBar from './components/NavBar'
 import BottomNav from './components/BottomNav'
+import Footer from './components/Footer'
 
 export default {
   name: 'App',
@@ -21,7 +23,8 @@ export default {
     HelloWorld,
     Popup,
     NavBar,
-    BottomNav
+    BottomNav,
+    Footer
   },
   created() {
     //this.$store.dispatch("getAuctionsFromDB");
