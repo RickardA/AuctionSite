@@ -3,13 +3,21 @@ package com.example.auction.configurations;
 
 import com.example.auction.Services.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 @Configuration
+@EnableWebSecurity
 public class MyWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -23,17 +31,6 @@ public class MyWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .and().logout().permitAll().logoutSuccessUrl("/")
                 .and().csrf().disable()
         ;
-
-//        http.authorizeRequests().antMatchers("/api/**").hasRole("USER").and().formLogin();
-
-//        http.authorizeRequests()
-//                .antMatchers(HttpMethod.GET,"/api/users/*").hasRole("USER")
-//                .antMatchers(HttpMethod.GET,"/api/**").permitAll()
-//                .antMatchers("/api/**").hasRole("USER")
-//                .and().formLogin();
-
-        // Anything that does not start with /api
-//                .regexMatchers("^(?!\/api\/).+").hasRole("USER")
     }
 
     @Override
@@ -56,5 +53,15 @@ public class MyWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .password(myUserDetailsService.getEncoder().encode("password"))
                 .roles("USER");
 
+    }
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:8081"));
+        configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }
