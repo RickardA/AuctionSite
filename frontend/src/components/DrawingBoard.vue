@@ -93,7 +93,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 canvas {
   background: white;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
