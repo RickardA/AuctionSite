@@ -1,5 +1,6 @@
 package com.example.auction.Controllers;
 
+import com.example.auction.Datamodels.Auction;
 import com.example.auction.Datamodels.User;
 import com.example.auction.Repositories.AuctionRepository;
 import com.example.auction.Services.MyUserDetailsService;
@@ -23,9 +24,15 @@ public class AuctionController {
         return repo.findAll();
     }
 
-    @PostMapping(value = "/addPost")
+    @PostMapping(value = "addImage")
     public ResponseEntity create(@RequestParam("file") MultipartFile file){
         System.out.println(file);
         return new ResponseEntity(HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping(value = "addAuction")
+    public boolean addAuction(@RequestBody Auction auction){
+        System.out.println("trhgrgergergergergergergergregergergergergerergerg " +auction.getCategory());
+        return false;
     }
 }
