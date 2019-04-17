@@ -1,21 +1,30 @@
 <template>
   <v-app>
-    <v-btn @click="togglePopup">Sign In/Up</v-btn>
-    <Popup />
+    <NavBar/>
+    <Popup/>
     <main>
       <router-view/>
     </main>
+    <BottomNav/>
+    <Footer />
   </v-app>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld'
 import Popup from './components/Popup'
+import NavBar from './components/NavBar'
+import BottomNav from './components/BottomNav'
+import Footer from './components/Footer'
+
 export default {
   name: 'App',
   components: {
     HelloWorld,
-    Popup
+    Popup,
+    NavBar,
+    BottomNav,
+    Footer
   },
   created() {
     //this.$store.dispatch("getAuctionsFromDB");

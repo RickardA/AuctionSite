@@ -7,6 +7,7 @@ import javax.persistence.Id;
 public class Bid {
 
     @Id
+    private Long bidID;
     private Long buyerID;
     private Long itemID;
     private double current_price;
@@ -14,10 +15,18 @@ public class Bid {
     public Bid(){
 
     }
-    public Bid(Long buyerID, Long itemID, double current_price) {
+    public Bid(Long bidID, Long buyerID, Long itemID, double current_price) {
+        this.bidID = bidID;
         this.buyerID = buyerID;
         this.itemID = itemID;
         this.current_price = current_price;
+    }
+
+    public Long getBidID(){
+        return bidID;
+    }
+    public void setBidID(Long bidID){
+        this.bidID = bidID;
     }
 
     public Long getBuyerID() {
