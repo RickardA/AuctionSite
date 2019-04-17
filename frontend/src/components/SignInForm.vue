@@ -49,28 +49,34 @@ export default {
     emailRules: [
       v => !!v || "E-mail is required",
       v => /.+@.+/.test(v) || "E-mail must be valid"
-    ]
+    ],
   }),
   methods: {
     submitSignIn() {
       if (this.$refs.form.validate()) {
         let user = {
-          mail: this.mail,
+          username: this.email,
           password: this.password
         }
         this.makeSignInRequest(user)
       }
     },
-    makeSignInRequest(user) {
-      fetch(API_URL+"login", {
+    async makeSignInRequest(user) {
+      let response = await fetch(API_URL+"login", {
         method: "POST",
         body: this.transformRequest(user),
         headers: { "Content-Type": "application/x-www-form-urlencoded" }
-      }).then(function(response) {
-        let successfulLogin = !response.url.includes("error");
-        console.log("the login result is:", successfulLogin);
       });
+      let successfulLogin = !response.url.includes("error");
+      if(successfulLogin === true){
+        this.setUserLoggedIn();
+      }
     },
+    setUserLoggedIn(){
+      this.$store.commit('toggleLogin',true);
+      this.$store.commit('togglePopup',false);
+    },
+    
     transformRequest(jsonData = {}){
   return Object.entries(jsonData)
     .map(x => `${encodeURIComponent(x[0])}=${encodeURIComponent(x[1])}`)
