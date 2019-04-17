@@ -200,16 +200,23 @@ export default new Vuex.Store({
   category: 'Animals',
   image:'https://cdn.vuetifyjs.com/images/cards/desert.jpg'
 }
-  ]
+  ],
+  showPopup: false,
   },
   mutations: {
     setPosts(state,auctions){
       state.auctions = auctions;
+    },
+    togglePopup(state,popupState){
+      state.showPopup = popupState;
     }
   },
   getters:{
     getAuctions: state => {
       return state.auctions;
+    },
+    getPopupState: state => {
+      return state.showPopup;
     }
   },
   actions: {
