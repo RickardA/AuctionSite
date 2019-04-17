@@ -21,11 +21,10 @@
                 reader.onload = e =>{
                     this.previewImage = e.target.result;
                     console.log(this.previewImage);
+                    this.$store.commit('setUploadedImage', this.previewImage);
                 };
-                fetch('/addImage', {
-                method: 'POST',
-                body: image,
-});
+                console.log(image)
+               
             }
         }
      }  // missing closure added

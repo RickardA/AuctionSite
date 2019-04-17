@@ -32,9 +32,7 @@ public class AuctionController {
 
     @PostMapping(value = "addAuction")
     public boolean addAuction(@RequestBody Auction auction){
-        System.out.println("trhgrgergergergergergergergregergergergergerergerg " +auction.getCategory());
-        //sdfsdfsdfwduiashfsdubfhuisdbafhusadbfuiwdsbafhisdabfusdiafbuiasdobfuiosdabfo
-        //dxfnuisdbfuihsdbfuisdobfuisdabfuiosd
+        System.out.println("trhgrgergergergergergergergregergergergergerergerg " +auction.getImage());
         return false;
     }
 }

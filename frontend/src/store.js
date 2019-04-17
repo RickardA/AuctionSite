@@ -203,6 +203,7 @@ export default new Vuex.Store({
   ],
   showPopup: false,
   isLoggedIn: false,
+  uploadedImage: null,
   },
   mutations: {
     setPosts(state,auctions){
@@ -213,6 +214,9 @@ export default new Vuex.Store({
     },
     toggleLogin(state,isLoggedIn){
       state.isLoggedIn = isLoggedIn;
+    },
+    setUploadedImage(state, img){
+      state.uploadedImage = img;
     }
   },
   getters:{
@@ -224,6 +228,9 @@ export default new Vuex.Store({
     },
     getLoginState: state => {
       return state.isLoggedIn;
+    },
+    getUploadedImage: state =>{
+      return state.uploadedImage;
     }
   },
   actions: {

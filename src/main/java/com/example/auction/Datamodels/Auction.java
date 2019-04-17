@@ -2,7 +2,9 @@ package com.example.auction.Datamodels;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.util.Date;
+import javax.persistence.Transient;
+import java.awt.*;
+import java.sql.Date;
 
 @Entity
 public class Auction {
@@ -15,10 +17,12 @@ public class Auction {
     private Long sellerID;
     private Date deadline;
     private String category;
-
+    @Transient
+    private String image;
+    private String imageURL;
     public Auction(){}
 
-    public Auction(Long itemID, String title, double min_price, String status, String description, Long sellerID, Date deadline, String category) {
+    public Auction(Long itemID, String title, double min_price, String status, String description, Long sellerID, Date deadline, String category, String image) {
         this.itemID = itemID;
         this.title = title;
         this.min_price = min_price;
@@ -27,6 +31,7 @@ public class Auction {
         this.sellerID = sellerID;
         this.deadline = deadline;
         this.category = category;
+        this.image = image;
     }
 
     public Long getItemID() {
@@ -92,4 +97,20 @@ public class Auction {
     public void setCategory(String category) {
         this.category = category;
     }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
 }

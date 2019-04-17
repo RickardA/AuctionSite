@@ -7,7 +7,7 @@
             <h1 id="headtitle">Upload new item</h1>
           <v-text-field
             ref="title"
-            v-model="title"
+            v-model="formInfo.title"
             :rules="[() => !!name || 'This field is required']"
             :error-messages="errorMessages"
             label="Title of item"
@@ -27,13 +27,13 @@
       name="input-7-1"
       box
       label="Description of item"
-      v-model="description"
+      v-model="formInfo.description"
       auto-grow
      placeholder="Tell us a little bit about your item"
     ></v-textarea>
           <v-text-field
             ref="minPrice"
-            v-model="minPrice"
+            v-model="formInfo.min_price"
             label="Minimum price"
             placeholder="Min price"
             required
@@ -41,7 +41,7 @@
           <h2>Pick last date of auction</h2>
            <div>
 
-    <v-date-picker v-model="picker"></v-date-picker>
+    <v-date-picker v-model="formInfo.deadline"></v-date-picker>
   </div>
    <Imageupload />
         </v-card-text>
@@ -82,16 +82,8 @@ export default {
     }, 
     data () {
       return {
-        picker: new Date().toISOString().substr(0, 10),
-        formInfo:{
-        category: '',
-        description: '',
-        minPrice: 0,
-        title: '',
-        },
         errorMessages: '',
         name: '',
-        image: null,
         formHasErrors: false,
         items: [
         'Arts and crafts',
@@ -103,12 +95,23 @@ export default {
       }
     }, methods:{
         async post(){
-            console.log(this.formInfo)
+            console.log("jhgghfjghmnhj"+ this.formInfo.image)
            let response = await fetch(API_URL +'auctions/addAuction', {
                 method: 'POST',
                 body: JSON.stringify(this.formInfo),
                 headers: { "Content-Type": "application/json" }
             });
+        }
+    }, computed:{
+        formInfo(){
+            return{
+        deadline: new Date().toISOString().substr(0, 10),
+        category: '',
+        description: '',
+        min_price: 0,
+        title: '',
+        image: this.$store.getters.getUploadedImage
+            }
         }
     }
 }
