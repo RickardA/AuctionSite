@@ -3,13 +3,14 @@ import './plugins/vuetify'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import VueResource from 'vue-resource'
 
 Vue.config.productionTip = false
 
 //Vuetify
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
-Vue.use(Vuetify)
+Vue.use(Vuetify, VueResource)
 
 //Fontawesome
 import { library } from '@fortawesome/fontawesome-svg-core'
