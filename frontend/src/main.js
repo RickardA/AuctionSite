@@ -17,10 +17,12 @@ Vue.prototype.axios = axios
 
 //Fontawesome
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faArrowUp } from '@fortawesome/free-solid-svg-icons'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { fab } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faArrowUp)
+library.add(fas)
+library.add(fab)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
