@@ -1,20 +1,24 @@
 package com.example.auction.Controllers;
 
 import com.example.auction.Datamodels.User;
-import com.example.auction.Repositories.AuctionRepository;
 import com.example.auction.Services.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/auctions/")
-public class AuctionController {
+@RequestMapping("/api/user/")
+public class UserController {
+
     @Autowired
-    AuctionRepository repo;
+    MyUserDetailsService service;
 
     @GetMapping
-    Iterable getPosts(){
-        return repo.findAll();
+    String test(){
+        return "Hello World";
     }
 
+    @PostMapping
+    boolean registerUser(@RequestBody User user){
+        return service.addUser(user);
+    }
 }

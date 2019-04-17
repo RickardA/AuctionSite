@@ -3,10 +3,12 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Auctions from './views/Auctions.vue'
 import Auction from './views/Auction.vue'
+import ErrorPage  from './views/ErrorPage.vue'
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -22,6 +24,11 @@ export default new Router({
       path: '/auction',
       name: 'auction',
       component: Auction
+    },
+    {
+      path: '/error',
+      name: 'errorPage',
+      component: ErrorPage
     },
     {
       path: '/about',
