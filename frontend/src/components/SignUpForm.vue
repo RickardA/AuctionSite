@@ -33,6 +33,22 @@
             </v-flex>
           </v-layout>
           <small style="color:red">*indicates required field</small>
+      <v-alert
+      :value="responseError"
+      color="error"
+      icon="warning"
+      outline
+    >
+      There's already an account registered with this email
+    </v-alert>
+    <v-alert
+      :value="responseSuccess"
+      color="success"
+      icon="check_circle"
+      outline
+    >
+      Account registered
+    </v-alert>
         </v-container>
       </v-card-text>
       <v-card-actions>
@@ -50,6 +66,8 @@ export default {
   methods: {
     submitForm() {
       if (this.$refs.form.validate()) {
+        this.responseSuccess = false;
+        this.responseError = false;
         let user = {
           firstName: this.firstName,
           lastName: this.lastName,
@@ -67,11 +85,16 @@ export default {
         body: JSON.stringify(user),
         headers: { "Content-Type": "application/json" }
       });
-      this.response = await this.response.text();
+      this.response = await this.response.json();
+      this.responseSuccess = this.response;
+      this.responseError = !this.response;
+      console.log(this.response);
     }
   },
   data: () => ({
     response: null,
+    responseSuccess: false,
+    responseError: false,
     firstName: "",
     nameRules: [
       v => !!v || "Name is required",
