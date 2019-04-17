@@ -7,7 +7,7 @@
     <v-spacer></v-spacer>
     <v-toolbar-items class="hidden-sm-and-down">
       <v-btn flat to="/auctions">Auctions</v-btn>
-      <v-btn v-if="isLoggedIn" flat @click="togglePopup">Login/Register</v-btn>
+      <v-btn v-if="!isLoggedIn" flat @click="togglePopup">Login/Register</v-btn>
       <v-btn v-else flat @click="signOut">Sign Out</v-btn>
       <v-btn flat>Link Three</v-btn>
     </v-toolbar-items>
@@ -27,9 +27,13 @@ export default {
       this.$store.commit("togglePopup", true);
     },
     async signOut() {
-      let response = await fetch(API_URL + "logout");
-      response = await response.json();
-      console.log(response);
+      let response = await fetch(API_URL + "logout", {
+        method: "POST"
+      });
+      let successfulLogin = !response.url.includes("error");
+      if (successfulLogin === true) {
+          this.$store.commit('toggleLogin',false)
+      }
     }
   },
   computed: {
