@@ -25,7 +25,7 @@
               <v-text-field
                 label="Password*"
                 type="password"
-                :counter="10"
+                :counter="10/20"
                 v-model="password"
                 :rules="passwordRules"
                 required
