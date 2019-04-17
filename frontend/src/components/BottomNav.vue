@@ -6,23 +6,25 @@
                 color="white"
                 class="hidden-md-and-up"
         >
-            <router-link to="/"><v-btn
+            <v-btn
                     color="teal"
                     flat
+                    to="/"
                     value="recent"
             >
                 <span class="pt-1">Home</span>
                 <font-awesome-icon icon="home" size="2x"></font-awesome-icon>
-            </v-btn></router-link>
+            </v-btn>
 
-            <router-link to="/auctions"><v-btn
+            <v-btn
                     color="teal"
                     flat
+                    to="/auctions"
                     value="favorites"
             >
                 <span class="pt-1">Auctions</span>
                 <font-awesome-icon icon="gavel" size="2x"></font-awesome-icon>
-            </v-btn></router-link>
+            </v-btn>
 
             <v-btn
                     color="teal"
