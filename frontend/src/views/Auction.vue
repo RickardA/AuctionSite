@@ -92,7 +92,7 @@ export default {
      this.loading = false;
     },
     isAuction(auction) {
-      return auction.itemID === this.choosenAuctionID;
+      return auction.itemID == this.choosenAuctionID;
     }
     },
     mounted: function() {
