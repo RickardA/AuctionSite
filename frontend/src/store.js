@@ -6,21 +6,7 @@ Vue.use(Vuex)
 const API_URL = "http://localhost:8080/api/";
 export default new Vuex.Store({
   state: {
-    auctions: [
-      {
-        'itemID' : '12375463252345234092349041',
-        'title' : 'Shy Rabbit',
-        'min_price' : '20',
-        'currentBid':'123',
-        'status': 'Ongoing',
-        'description': 'This is a very nice rabbit',
-        'sellerID': '1235234',
-        'deadline': '2019-04-23 23:59',
-        'category': 'Animals',
-        'image':'https://cdn.vuetifyjs.com/images/cards/desert.jpg'
-    },
-
-  ],
+    auctions: null,
   showPopup: false,
   isLoggedIn: false,
   },
@@ -48,9 +34,7 @@ export default new Vuex.Store({
   },
   actions: {
     async getAuctionsFromDB() {
-      console.log('printing from getAuctionsFromDB')
       let auctions = await (await fetch(API_URL + 'auctions/')).json();
-      console.log(auctions)
       this.commit('setAuctions', auctions);
     },
   }

@@ -27,7 +27,7 @@ export default {
     name:'Auctions',
     computed:{
     auctions(){
-        return this.$store.dispatch("getAuctionsFromDB");
+        return this.$store.getters.getAuctions;
     }
   },
   components:{
@@ -38,7 +38,7 @@ export default {
     scrollToTop(){
       window.scrollTo(top);
     }
-  }
+  },
 }
 </script>
 
