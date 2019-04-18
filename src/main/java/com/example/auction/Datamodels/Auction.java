@@ -1,6 +1,7 @@
 package com.example.auction.Datamodels;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 import java.awt.*;
@@ -9,6 +10,7 @@ import java.sql.Date;
 @Entity
 public class Auction {
     @Id
+    @GeneratedValue
     private Long itemID;
     private String title;
     private double min_price;

@@ -13,6 +13,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.*;
 
+import javax.imageio.ImageIO;
+import javax.xml.bind.DatatypeConverter;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/auctions/")
 public class AuctionController {
@@ -32,7 +40,19 @@ public class AuctionController {
 
     @PostMapping(value = "addAuction")
     public boolean addAuction(@RequestBody Auction auction){
-        System.out.println("trhgrgergergergergergergergregergergergergerergerg " +auction.getImage());
-        return false;
+        String imageID = UUID.randomUUID().toString();
+        auction.setImageURL("http://localhost:8080/static/img/"+imageID+".png");
+        repo.save(auction);
+        String image = auction.getImage();
+        byte[] imagedata = DatatypeConverter.parseBase64Binary(image.substring(image.indexOf(",") + 1));
+        BufferedImage bufferedImage = null;
+        try {
+            bufferedImage = ImageIO.read(new ByteArrayInputStream(imagedata));
+            ImageIO.write(bufferedImage, "png", new File(System.getProperty("user.dir")+"\\src\\main\\resources\\static\\uploads\\"+imageID+".png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
+
 }
