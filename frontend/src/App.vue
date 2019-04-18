@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <NavBar/>
-    <Popup />
+    <Popup/>
     <main>
       <router-view/>
     </main>

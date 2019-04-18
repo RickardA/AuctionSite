@@ -5,6 +5,7 @@
         <AuctionCard v-for="auction in auctions" v-bind:key="auction.itemID" :auctionObject="auction"></AuctionCard>
           </v-layout>
           <v-btn
+        id="scroll-button"
         fab
         fixed
         bottom
@@ -36,7 +37,11 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
+    #scroll-button{
+        margin-bottom: 50px;
+    }
 
 </style>
 
