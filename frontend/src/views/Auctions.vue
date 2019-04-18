@@ -27,7 +27,7 @@ export default {
     name:'Auctions',
     computed:{
     auctions(){
-        return this.$store.getters.getAuctions;
+        return this.$store.dispatch("getAuctionsFromDB");
     }
   },
   components:{
