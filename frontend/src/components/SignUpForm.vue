@@ -65,21 +65,19 @@ export default {
   name: "signUpForm",
   methods: {
     submitForm() {
+      this.responseSuccess = false;
+      this.responseError = false;
       if (this.$refs.form.validate()) {
-        this.responseSuccess = false;
-        this.responseError = false;
         let user = {
           firstName: this.firstName,
           lastName: this.lastName,
           mail: this.email,
           password: this.password
         }
-        console.log(user);
         this.registerUser(user);
       }
     },
     async registerUser(user) {
-      console.log("printing from addUseerToDB");
       this.response = await fetch(API_URL + "user/", {
         method: "POST",
         body: JSON.stringify(user),
@@ -88,7 +86,9 @@ export default {
       this.response = await this.response.json();
       this.responseSuccess = this.response;
       this.responseError = !this.response;
-      console.log(this.response);
+      if(this.response == true){
+          this.$refs.form.reset();
+      }
     }
   },
   data: () => ({

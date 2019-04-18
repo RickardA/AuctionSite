@@ -202,6 +202,7 @@ export default new Vuex.Store({
 }
   ],
   showPopup: false,
+  isLoggedIn: false,
   },
   mutations: {
     setPosts(state,auctions){
@@ -209,6 +210,9 @@ export default new Vuex.Store({
     },
     togglePopup(state,popupState){
       state.showPopup = popupState;
+    },
+    toggleLogin(state,isLoggedIn){
+      state.isLoggedIn = isLoggedIn;
     }
   },
   getters:{
@@ -217,6 +221,9 @@ export default new Vuex.Store({
     },
     getPopupState: state => {
       return state.showPopup;
+    },
+    getLoginState: state => {
+      return state.isLoggedIn;
     }
   },
   actions: {
