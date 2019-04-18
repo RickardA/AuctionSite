@@ -28,29 +28,33 @@ public class AuctionController {
     AuctionRepository repo;
 
     @GetMapping
-    Iterable getPosts(){
+    Iterable getPosts() {
         return repo.findAll();
     }
 
     @PostMapping(value = "addImage")
-    public ResponseEntity create(@RequestParam("file") MultipartFile file){
+    public ResponseEntity create(@RequestParam("file") MultipartFile file) {
         System.out.println(file);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
     @PostMapping(value = "addAuction")
-    public boolean addAuction(@RequestBody Auction auction){
+    public boolean addAuction(@RequestBody Auction auction) {
         String imageID = UUID.randomUUID().toString();
-        auction.setImageURL("http://localhost:8080/static/img/"+imageID+".png");
+        if (auction.getImage() != null) {
+            auction.setImageURL("http://localhost:8080/static/img/" + imageID + ".png");
+        }
         repo.save(auction);
         String image = auction.getImage();
-        byte[] imagedata = DatatypeConverter.parseBase64Binary(image.substring(image.indexOf(",") + 1));
-        BufferedImage bufferedImage = null;
-        try {
-            bufferedImage = ImageIO.read(new ByteArrayInputStream(imagedata));
-            ImageIO.write(bufferedImage, "png", new File(System.getProperty("user.dir")+"\\src\\main\\resources\\static\\uploads\\"+imageID+".png"));
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (image != null) {
+            byte[] imagedata = DatatypeConverter.parseBase64Binary(image.substring(image.indexOf(",") + 1));
+            BufferedImage bufferedImage = null;
+            try {
+                bufferedImage = ImageIO.read(new ByteArrayInputStream(imagedata));
+                ImageIO.write(bufferedImage, "png", new File(System.getProperty("user.dir") + "\\src\\main\\resources\\static\\uploads\\" + imageID + ".png"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return true;
     }

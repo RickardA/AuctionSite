@@ -204,6 +204,11 @@ export default new Vuex.Store({
   showPopup: false,
   isLoggedIn: false,
   uploadedImage: null,
+  category: null,
+  title: null, 
+  description: null, 
+  min_price: null, 
+
   },
   mutations: {
     setPosts(state,auctions){
@@ -217,6 +222,18 @@ export default new Vuex.Store({
     },
     setUploadedImage(state, img){
       state.uploadedImage = img;
+    },
+    setCategory(state, category){
+      state.category = category; 
+    },
+    setTitle(state, title){
+      state.title = title;
+    },
+    setDescription(state, description){
+      state.description = description
+    },
+    setMinPrice(state, min_price){
+      state.min_price = min_price; 
     }
   },
   getters:{
@@ -231,6 +248,18 @@ export default new Vuex.Store({
     },
     getUploadedImage: state =>{
       return state.uploadedImage;
+    },
+    getTitle: state =>{
+      return state.title;
+    },
+    getCategory: state =>{
+      return state.category; 
+    },
+    getDescription: state =>{
+      return state.description;
+    },
+    getMinPrice: state =>{
+      return state.min_price;
     }
   },
   actions: {

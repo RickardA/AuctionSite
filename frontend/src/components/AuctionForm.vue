@@ -3,21 +3,21 @@
 <v-layout justify-center>
     <v-flex xs12 sm10 md8 lg6>
       <v-card ref="form">
+          <h1 id="headtitle">Upload new item</h1>
         <v-card-text>
-            <h1 id="headtitle">Upload new item</h1>
           <v-text-field
+            type="text"
             ref="title"
             v-model="formInfo.title"
-            :rules="[() => !!name || 'This field is required']"
+            :rules="[() => !!formInfo.title || 'This field is required']"
             :error-messages="errorMessages"
             label="Title of item"
             placeholder="Title"
-            required
-          ></v-text-field>
+            required></v-text-field>
            <v-autocomplete
             ref="category"
-            v-model="formInfo.category"
-            :rules="[() => !!category || 'This field is required']"
+            v-model.lazy="formInfo.category"
+            :rules="[() => !!formInfo.category || 'This field is required']"
             :items="items"
             label="Choose category"
             placeholder="Select..."
@@ -33,15 +33,22 @@
     ></v-textarea>
           <v-text-field
             ref="minPrice"
-            v-model="formInfo.min_price"
+            v-model.number="formInfo.min_price"
             label="Minimum price"
             placeholder="Min price"
             required
           ></v-text-field>
           <h2>Pick last date of auction</h2>
-           <div>
-
-    <v-date-picker v-model="formInfo.deadline"></v-date-picker>
+          <div>
+    <v-layout row wrap>
+      <v-flex xs12 sm3>
+        <v-checkbox v-model="landscape" hide-details label="Landscape"></v-checkbox>
+      </v-flex>
+      <v-flex xs12 sm3>
+        <v-checkbox v-model="reactive" hide-details label="Reactive"></v-checkbox>
+      </v-flex>
+    </v-layout>
+    <v-date-picker v-model="deadline" :landscape="landscape" :reactive="reactive"></v-date-picker>
   </div>
    <Imageupload />
         </v-card-text>
@@ -82,6 +89,9 @@ export default {
     }, 
     data () {
       return {
+        deadline: new Date().toISOString().substr(0, 10),
+        landscape: false,
+        reactive: false,
         errorMessages: '',
         name: '',
         formHasErrors: false,
@@ -95,22 +105,22 @@ export default {
       }
     }, methods:{
         async post(){
-            console.log("jhgghfjghmnhj"+ this.formInfo.image)
-           let response = await fetch(API_URL +'auctions/addAuction', {
+            console.log(this.deadline)
+            const image = this.$store.getters.getUploadedImage;
+            const deadline = this.deadline;
+            let response = await fetch(API_URL +'auctions/addAuction', {
                 method: 'POST',
-                body: JSON.stringify(this.formInfo),
+                body: JSON.stringify({ ...this.formInfo, image, deadline }),
                 headers: { "Content-Type": "application/json" }
             });
         }
     }, computed:{
-        formInfo(){
-            return{
-        deadline: new Date().toISOString().substr(0, 10),
-        category: '',
-        description: '',
-        min_price: 0,
-        title: '',
-        image: this.$store.getters.getUploadedImage
+        formInfo() {
+            return {
+                category: '',
+                description: '',
+                min_price: 0,
+                title: ''
             }
         }
     }

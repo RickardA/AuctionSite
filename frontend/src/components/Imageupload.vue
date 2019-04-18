@@ -20,11 +20,8 @@
                 reader.readAsDataURL(image);
                 reader.onload = e =>{
                     this.previewImage = e.target.result;
-                    console.log(this.previewImage);
                     this.$store.commit('setUploadedImage', this.previewImage);
                 };
-                console.log(image)
-               
             }
         }
      }  // missing closure added
