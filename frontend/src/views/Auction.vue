@@ -88,12 +88,9 @@ export default {
       console.log(this.choosenAuctionID);
     },
     getAuction() {
-     this.auction = this.$store.getters.getAuctions.find(this.isAuction);
+     this.auction = this.$store.dispatch("getChoosenAuction");
      this.loading = false;
     },
-    isAuction(auction) {
-      return auction.itemID == this.choosenAuctionID;
-    }
     },
     mounted: function() {
     this.getUrlQuery();

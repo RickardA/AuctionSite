@@ -27,6 +27,7 @@ export default {
     Footer
   },
   created() {
+    console.log("hej hopp")
     this.$store.dispatch("getAuctionsFromDB");
   },
   methods:{

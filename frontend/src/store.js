@@ -37,5 +37,13 @@ export default new Vuex.Store({
       let auctions = await (await fetch(API_URL + 'auctions/')).json();
       this.commit('setAuctions', auctions);
     },
+    async getChoosenAuction(auctionID){
+      if(this.getters.getAuctions === null){
+        await this.dispatch('getAuctionsFromDB');
+        return this.getters.getAuctions.find(s => s == auctionID);
+      }else{
+        return this.getters.getAuctions.find(s => s == auctionID);
+      }
+    },
   }
 })
