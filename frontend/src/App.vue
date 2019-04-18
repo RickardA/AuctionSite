@@ -27,7 +27,7 @@ export default {
     Footer
   },
   created() {
-    //this.$store.dispatch("getAuctionsFromDB");
+    // this.$store.dispatch("getAuctionsFromDB");
   },
   methods:{
     togglePopup(){
