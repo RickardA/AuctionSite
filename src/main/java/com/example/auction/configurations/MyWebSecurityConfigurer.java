@@ -5,6 +5,7 @@ import com.example.auction.Services.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -25,6 +26,7 @@ public class MyWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and()
                 .authorizeRequests()
+                .antMatchers(HttpMethod.GET,"/api/**").permitAll()
                 .antMatchers("/api/**").hasRole("USER")
                 .and().formLogin().permitAll().defaultSuccessUrl("/", true)
                 .and().logout().permitAll().logoutSuccessUrl("/")
@@ -35,7 +37,6 @@ public class MyWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/assets/**");
-        web.ignoring().antMatchers("/api/user/");
     }
 
     @Override
