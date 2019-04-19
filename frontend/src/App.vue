@@ -28,6 +28,7 @@ export default {
   },
   created() {
     console.log("hej hopp")
+    this.$store.dispatch("authenticateUser");
     this.$store.dispatch("getAuctionsFromDB");
   },
   methods:{

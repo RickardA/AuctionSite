@@ -37,6 +37,15 @@ export default new Vuex.Store({
       let auctions = await (await fetch(API_URL + 'auctions/')).json();
       this.commit('setAuctions', auctions);
     },
+    async authenticateUser(){
+      let response = await (await fetch(API_URL + 'user/authenticate')).json();
+      if(response === true){
+        this.commit("toggleLogin",true);
+      }else{
+        this.commit("toggleLogin",false);
+      }
+      
+    },
     async getChoosenAuction(auctionID){
       if(this.getters.getAuctions === null){
         await this.dispatch('getAuctionsFromDB');
