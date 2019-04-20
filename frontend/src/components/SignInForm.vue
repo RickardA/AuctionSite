@@ -72,6 +72,7 @@ export default {
         body: this.transformRequest(user),
         headers: { "Content-Type": "application/x-www-form-urlencoded" }
       });
+      console.log(response);
       let successfulLogin = !response.url.includes("error");
       if (successfulLogin === true) {
         this.showErrorMessage(false);

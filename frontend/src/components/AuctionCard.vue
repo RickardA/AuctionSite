@@ -16,13 +16,7 @@
         </v-card-title>
         </div>
         <v-card-actions>
-            <!-- Replace with bid component
-          <v-text-field
-            label="Amount"
-            type="number"
-          ></v-text-field>
-          <v-btn flat color="purple">Place Bid</v-btn>
-          !-->
+          <Bid :auctionObject="auctionObject" />
           <v-spacer></v-spacer>
           <v-btn icon @click="show = !show">
             <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
@@ -38,8 +32,12 @@
 </template>
 
 <script>
+import Bid from './Bid'
 export default {
     name:'AuctionCard',
+    components:{
+      Bid,
+    },
      data: () => ({
       show: false,
     }),
