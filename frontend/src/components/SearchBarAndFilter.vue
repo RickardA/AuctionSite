@@ -10,7 +10,7 @@
                         v-model="userInput"
                 ></v-text-field>
                 <v-btn
-                        :to="/auctions/ + userInput">GO!</v-btn>
+                        :to="'/auctions/search?title=' + userInput">GO!</v-btn>
             </v-layout>
         </v-flex>
 
