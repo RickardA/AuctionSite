@@ -35,6 +35,8 @@ public class MyUserDetailsService implements UserDetailsService {
         }
     }
 
+
+
     @Override
     public UserDetails loadUserByUsername(String mail) throws UsernameNotFoundException {
         User user = repository.findDistinctFirstByMailIgnoreCase(mail);

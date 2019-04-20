@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auctions/")
 public class AuctionController {
     @Autowired
-    AuctionRepository repo;
+    private AuctionRepository repo;
 
     @GetMapping
-    Iterable getPosts(){
+    private Iterable getPosts(){
         return repo.findAll();
     }
 

@@ -1,35 +1,37 @@
 package com.example.auction.Datamodels;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class Bid {
 
     @Id
-    private Long bidID;
-    private Long buyerID;
-    private Long itemID;
-    private double current_price;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long bidID = 0;
+    private long buyerID = 0;
+    private long itemID = 0;
+    private double amount = 0;
 
     public Bid(){
 
     }
-    public Bid(Long bidID, Long buyerID, Long itemID, double current_price) {
-        this.bidID = bidID;
+    public Bid(long buyerID, long itemID, double amount) {
         this.buyerID = buyerID;
         this.itemID = itemID;
-        this.current_price = current_price;
+        this.amount = amount;
     }
 
-    public Long getBidID(){
+    public long getBidID(){
         return bidID;
     }
     public void setBidID(Long bidID){
         this.bidID = bidID;
     }
 
-    public Long getBuyerID() {
+    public long getBuyerID() {
         return buyerID;
     }
 
@@ -37,7 +39,7 @@ public class Bid {
         this.buyerID = buyerID;
     }
 
-    public Long getItemID() {
+    public long getItemID() {
         return itemID;
     }
 
@@ -45,11 +47,11 @@ public class Bid {
         this.itemID = itemID;
     }
 
-    public double getCurrent_price() {
-        return current_price;
+    public double getAmount() {
+        return amount;
     }
 
-    public void setCurrent_price(double current_price) {
-        this.current_price = current_price;
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 }
