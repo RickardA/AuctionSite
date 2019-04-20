@@ -46,12 +46,12 @@ export default new Vuex.Store({
       }
       
     },
-    async getChoosenAuction(auctionID){
+    async getChoosenAuction(state,auctionID){
       if(this.getters.getAuctions === null){
         await this.dispatch('getAuctionsFromDB');
-        return this.getters.getAuctions.find(s => s == auctionID);
+        return this.getters.getAuctions.find(s => s.itemID == auctionID);
       }else{
-        return this.getters.getAuctions.find(s => s == auctionID);
+        return this.getters.getAuctions.find(s => s.itemID == auctionID);
       }
     },
   }

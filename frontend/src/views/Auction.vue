@@ -29,14 +29,8 @@
          <p>Auction ends in: 5 days 21 hours</p>
          <p>Number of bids: 51</p>
       
-         
-          <v-text-field
-            label="Place bid"
-            placeholder="$"
-            solo
-          ></v-text-field>
-        
-         <v-btn color="success">Place bid</v-btn>         
+         <p>asd{{auction.title}}</p>
+          <Bid :auctionObject="auction"/>    
       </v-card-text>
    </v-card>
    </v-flex>
@@ -72,8 +66,12 @@
 </template>
 
 <script>
+import Bid from '../components/Bid'
 export default {
     name:'auction',
+    components:{
+       Bid,
+    },
     data: () => ( {
             choosenAuctionID: '',
             auction:null,
@@ -85,10 +83,9 @@ export default {
       let url = window.location.href;
       url = url.substr(url.lastIndexOf("?"));
       this.choosenAuctionID = url.replace("?", "");
-      console.log(this.choosenAuctionID);
     },
-    getAuction() {
-     this.auction = this.$store.dispatch("getChoosenAuction");
+    async getAuction() {
+     this.auction = await this.$store.dispatch("getChoosenAuction",this.choosenAuctionID);
      this.loading = false;
     },
     },
