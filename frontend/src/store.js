@@ -9,6 +9,7 @@ export default new Vuex.Store({
     auctions: null,
   showPopup: false,
   isLoggedIn: false,
+  userName: '',
   },
   mutations: {
     setAuctions(state,auctions){
@@ -19,6 +20,9 @@ export default new Vuex.Store({
     },
     toggleLogin(state,isLoggedIn){
       state.isLoggedIn = isLoggedIn;
+    },
+    setUserName(state,userName){
+      state.userName = userName;
     }
   },
   getters:{
@@ -30,6 +34,9 @@ export default new Vuex.Store({
     },
     getLoginState: state => {
       return state.isLoggedIn;
+    },
+    getUserName: state => {
+      return state.userName;
     }
   },
   actions: {
@@ -53,6 +60,10 @@ export default new Vuex.Store({
       }else{
         return this.getters.getAuctions.find(s => s.itemID == auctionID);
       }
+    },
+    async getUserCredentials(){
+      let response = await (await fetch(API_URL + "user/credentials")).text();
+      this.commit('setUserName',response);
     },
   }
 })

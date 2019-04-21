@@ -77,6 +77,7 @@ export default {
       if (successfulLogin === true) {
         this.showErrorMessage(false);
         this.setUserLoggedIn();
+        this.$store.dispatch('getUserCredentials');
         this.$refs.form.reset();
       } else if (successfulLogin === false) {
         this.showErrorMessage(true);

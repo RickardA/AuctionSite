@@ -19,22 +19,25 @@ const API_URL = "http://localhost:8080/";
 export default {
     name: 'bid',
     data: () => ({
-        bid: {
-            buyerID: 123,
-            itemID: 43,
-            amount: null,
-        },
         amountRules: [
       v => !!v || "You must enter an amount",
     ],
     }),
+    computed: {
+        bid() {
+            return {
+            buyerID: this.$store.getters.getUserName,
+            itemID: this.auctionObject.itemID,
+            amount: null,
+        }},
+    },
     props: {
         auctionObject: null,
     },
     methods:{
         async placeBid(){
             if (this.$refs.form.validate()) {
-            console.log("placing bid on " + this.auctionObject.itemID + " with the amount of " + this.amount);
+            console.log(this.bid);
                 let response = await fetch(API_URL + 'api/bids/bid/',{
                 method: "POST",
                 body: JSON.stringify(this.bid),
