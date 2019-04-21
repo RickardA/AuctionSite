@@ -33,10 +33,10 @@ public class UserController {
         return service.authenticateUser();
     }
 
-    @RequestMapping("/mapping")
+    @RequestMapping("/credentials")
     public String myMethod(ModelMap model){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User userDetails = (User) auth.getPrincipal();
-        return userDetails.getFirstName();
+        System.out.println("Logged in user is " + auth.getName());
+        return auth.getName();
     }
 }
