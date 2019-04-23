@@ -19,6 +19,7 @@ export default {
     name: 'bid',
     data: () => ({
         amount: null,
+        bid: null,
         amountRules: [
       v => !!v || "You must enter an amount",
     ],
@@ -29,13 +30,13 @@ export default {
     methods:{
         async placeBid(){
             if (this.$refs.form.validate()) {
-                let bid = {
+                 this.bid = {
                     buyerID: this.$store.getters.getUserName,
                     itemID: this.auctionObject.itemID,
                     amount: this.amount
                 }
-            console.log("placing bid on " + this.auctionObject.itemID + " with the amount of " + this.amount);
-                let response = await fetch('/api/bids/bid/',{
+            console.log(this.bid);
+                let response = await fetch('/api/bids/',{
                 method: "POST",
                 body: JSON.stringify(this.bid),
                 headers: { "Content-Type": "application/json" }

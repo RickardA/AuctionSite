@@ -47,10 +47,10 @@ export default new Vuex.Store({
       let response = await (await fetch('/api/user/authenticate')).json();
       if(response === true){
         this.commit("toggleLogin",true);
+        this.dispatch('getUserCredentials')
       }else{
         this.commit("toggleLogin",false);
       }
-      
     },
     async getChoosenAuction(state,auctionID){
       if(this.getters.getAuctions === null){

@@ -16,7 +16,7 @@ public class BidController {
         return repo.findAll();
     }
 
-    @PostMapping("bid/")
+    @PostMapping
     private void placeBid(@RequestBody Bid placedBid){
         System.out.println("bid is being placed " + placedBid.getAmount());
         repo.save(placedBid);
