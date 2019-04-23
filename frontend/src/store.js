@@ -3,7 +3,6 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-const API_URL = "http://localhost:8080/api/";
 export default new Vuex.Store({
   state: {
     auctions: null,
@@ -41,11 +40,11 @@ export default new Vuex.Store({
   },
   actions: {
     async getAuctionsFromDB() {
-      let auctions = await (await fetch(API_URL + 'auctions/')).json();
+      let auctions = await (await fetch('/api/auctions/')).json();
       this.commit('setAuctions', auctions);
     },
     async authenticateUser(){
-      let response = await (await fetch(API_URL + 'user/authenticate')).json();
+      let response = await (await fetch('/api/user/authenticate')).json();
       if(response === true){
         this.commit("toggleLogin",true);
       }else{
@@ -62,7 +61,7 @@ export default new Vuex.Store({
       }
     },
     async getUserCredentials(){
-      let response = await (await fetch(API_URL + "user/credentials")).text();
+      let response = await (await fetch("/api/user/credentials")).text();
       this.commit('setUserName',response);
     },
   }

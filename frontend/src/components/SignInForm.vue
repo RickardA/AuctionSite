@@ -39,7 +39,6 @@
 </template>
 
 <script>
-const API_URL = "http://localhost:8080/";
 export default {
   name: "signInForm",
   data: () => ({
@@ -67,7 +66,7 @@ export default {
       }
     },
     async makeSignInRequest(user) {
-      let response = await fetch(API_URL + "login", {
+      let response = await fetch("/login", {
         method: "POST",
         body: this.transformRequest(user),
         headers: { "Content-Type": "application/x-www-form-urlencoded" }

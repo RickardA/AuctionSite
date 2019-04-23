@@ -16,7 +16,6 @@
 
 <script>
 import Popup from "../components/Popup";
-const API_URL = "http://localhost:8080/";
 export default {
   name: "NavBar",
   components: {
@@ -27,7 +26,7 @@ export default {
       this.$store.commit("togglePopup", true);
     },
     async signOut() {
-      let response = await fetch(API_URL + "logout", {
+      let response = await fetch("/logout", {
         method: "POST"
       });
       let successfulLogin = !response.url.includes("error");

@@ -5,7 +5,7 @@
           <v-text-field
             label="Amount"
             type="number"
-            v-model="bid.amount"
+            v-model="amount"
             :rules="amountRules"
             required
           ></v-text-field>
@@ -15,30 +15,27 @@
 </template>
 
 <script>
-const API_URL = "http://localhost:8080/";
 export default {
     name: 'bid',
     data: () => ({
+        amount: null,
         amountRules: [
       v => !!v || "You must enter an amount",
     ],
     }),
-    computed: {
-        bid() {
-            return {
-            buyerID: this.$store.getters.getUserName,
-            itemID: this.auctionObject.itemID,
-            amount: null,
-        }},
-    },
     props: {
         auctionObject: null,
     },
     methods:{
         async placeBid(){
             if (this.$refs.form.validate()) {
-            console.log(this.bid);
-                let response = await fetch(API_URL + 'api/bids/bid/',{
+                let bid = {
+                    buyerID: this.$store.getters.getUserName,
+                    itemID: this.auctionObject.itemID,
+                    amount: this.amount
+                }
+            console.log("placing bid on " + this.auctionObject.itemID + " with the amount of " + this.amount);
+                let response = await fetch('/api/bids/bid/',{
                 method: "POST",
                 body: JSON.stringify(this.bid),
                 headers: { "Content-Type": "application/json" }
