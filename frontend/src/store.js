@@ -14,6 +14,7 @@ export default new Vuex.Store({
   title: null,
   description: null,
   min_price: null,
+  image: null
 
   },
   mutations: {
@@ -28,6 +29,9 @@ export default new Vuex.Store({
     },
     setUserName(state,userName){
       state.userName = userName;
+    },
+    setUploadedImage(state, image){
+      state.image = image;
     }
   },
   getters:{
@@ -42,6 +46,9 @@ export default new Vuex.Store({
     },
     getUserName: state => {
       return state.userName;
+    },
+    getUploadedImage: state => {
+      return state.image;
     }
   },
   actions: {
@@ -56,7 +63,7 @@ export default new Vuex.Store({
       }else{
         this.commit("toggleLogin",false);
       }
-
+      
     },
     async getChoosenAuction(state,auctionID){
       if(this.getters.getAuctions === null){
@@ -67,7 +74,7 @@ export default new Vuex.Store({
       }
     },
     async getUserCredentials(){
-      let response = await (await fetch("/api/user/credentials")).text();
+          let response = await (await fetch("/api/user/credentials")).text();
       this.commit('setUserName',response);
     },
   }

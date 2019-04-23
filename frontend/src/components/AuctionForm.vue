@@ -81,7 +81,6 @@
   </Form>
   </template>
 <script>
-const API_URL = "http://localhost:8080/api/"
 import Imageupload from '../components/Imageupload.vue'
 export default {
     components:{
@@ -89,6 +88,7 @@ export default {
     }, 
     data () {
       return {
+        showSON: false,
         deadline: new Date().toISOString().substr(0, 10),
         landscape: false,
         reactive: false,
@@ -108,7 +108,7 @@ export default {
             console.log(this.deadline)
             const image = this.$store.getters.getUploadedImage;
             const deadline = this.deadline;
-            let response = await fetch(API_URL +'auctions/addAuction', {
+            let response = await fetch('/api/auctions/addAuction', {
                 method: 'POST',
                 body: JSON.stringify({ ...this.formInfo, image, deadline }),
                 headers: { "Content-Type": "application/json" }

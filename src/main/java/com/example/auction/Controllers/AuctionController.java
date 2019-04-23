@@ -1,6 +1,8 @@
 package com.example.auction.Controllers;
 
 import com.example.auction.Datamodels.User;
+import com.example.auction.Datamodels.Auction;
+import com.example.auction.Datamodels.User;
 import com.example.auction.Repositories.AuctionRepository;
 import com.example.auction.Services.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,7 @@ public class AuctionController {
     private AuctionRepository repo;
 
     @GetMapping
-    private Iterable getPosts(){
+    private Iterable getPosts() {
         return repo.findAll();
     }
 
@@ -50,12 +52,11 @@ public class AuctionController {
             BufferedImage bufferedImage = null;
             try {
                 bufferedImage = ImageIO.read(new ByteArrayInputStream(imagedata));
-                ImageIO.write(bufferedImage, "png", new File(System.getProperty("user.dir") + "\\src\\main\\resources\\static\\uploads\\" + imageID + ".png"));
+                ImageIO.write(bufferedImage, "png", new File(System.getProperty("user.dir") + "\\src\\main\\resources\\img\\" + imageID + ".png"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         return true;
     }
-
 }
