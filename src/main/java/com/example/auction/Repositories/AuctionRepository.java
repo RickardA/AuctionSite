@@ -1,6 +1,7 @@
 package com.example.auction.Repositories;
 
 import com.example.auction.Datamodels.Auction;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,4 +14,11 @@ public interface AuctionRepository extends CrudRepository<Auction, Long> {
     List<Auction> findAll();
 
     List<Auction> findByTitleIsContaining(String title);
+
+    @Query(value = "SELECT * FROM auction ORDER BY itemid DESC LIMIT 3", nativeQuery = true)
+    List<Auction> findLatestThree();
+
+    @Query(value = "SELECT * FROM auction ORDER BY deadline ASC LIMIT 3", nativeQuery = true)
+    List<Auction> findThreeNearestDeadline();
+
 }

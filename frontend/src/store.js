@@ -10,6 +10,8 @@ export default new Vuex.Store({
   isLoggedIn: false,
   userName: '',
     filteredAuctions: null,
+    threeLatestAuctions: null,
+    threeAuctionsNearDeadline: null,
   },
   mutations: {
     setAuctions(state,auctions){
@@ -17,6 +19,12 @@ export default new Vuex.Store({
     },
     setFilteredAuctions(state, filteredAuctions){
       state.filteredAuctions = filteredAuctions;
+    },
+    setThreeLatestAuctions(state, threeLatestAuctions){
+      state.threeLatestAuctions = threeLatestAuctions;
+    },
+    setThreeAuctionsNearDeadline(state, threeAuctionsNearDeadline){
+      state.threeAuctionsNearDeadline = threeAuctionsNearDeadline;
     },
     togglePopup(state,popupState){
       state.showPopup = popupState;
@@ -33,7 +41,13 @@ export default new Vuex.Store({
       return state.auctions;
     },
     getFilteredAuctions: state => {
-      return state.filteredAuctions
+      return state.filteredAuctions;
+    },
+    getThreeLatestAuctions: state => {
+      return state.threeLatestAuctions;
+    },
+    getThreeAuctionsNearDeadline: state => {
+      return state.threeAuctionsNearDeadline;
     },
     getPopupState: state => {
       return state.showPopup;
@@ -51,10 +65,17 @@ export default new Vuex.Store({
       this.commit('setAuctions', auctions);
     },
     async getFilteredAuctionsFromDB(state, userinput){
-      // console.log(userinput)
       let filteredAuctions = await (await fetch('/api/auctions/search?title=' + userinput)).json();
       console.log(filteredAuctions)
       this.commit('setFilteredAuctions', filteredAuctions)
+    },
+    async getThreeLatestAuctionsFromDB(){
+      let threeLatestAuctions = await (await fetch('/api/auctions/threelatest')).json();
+      this.commit('setThreeLatestAuctions', threeLatestAuctions)
+    },
+    async getThreeAuctionsNearDeadlineFromDB(){
+      let threeAuctionsNearDeadline = await (await fetch('/api/auctions/threenearest')).json();
+      this.commit('setThreeAuctionsNearDeadline', threeAuctionsNearDeadline)
     },
     async authenticateUser(){
       let response = await (await fetch('/api/user/authenticate')).json();

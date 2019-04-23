@@ -1,5 +1,5 @@
 <template>
-    <div class="content">
+    <div class="searchbar-and-filter">
         <v-flex md6 offset-md3 class="pr-2 pl-2">
             <v-layout row wrap>
 

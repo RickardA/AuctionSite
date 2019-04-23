@@ -3,6 +3,7 @@ package com.example.auction.Controllers;
 import com.example.auction.Datamodels.Auction;
 import com.example.auction.Repositories.AuctionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +22,16 @@ public class AuctionController {
     @GetMapping("/search")
     List<Auction> getSearchedAuctions(@RequestParam String title){
         return repo.findByTitleIsContaining(title);
+    }
+
+    @GetMapping("/threelatest")
+    private Iterable getThreeLatestAuctions(){
+        return repo.findLatestThree();
+    }
+
+    @GetMapping("/threenearest")
+    private Iterable getThreeNearestDeadline(){
+        return repo.findThreeNearestDeadline();
     }
 
 }

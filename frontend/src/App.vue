@@ -2,9 +2,9 @@
   <v-app>
     <NavBar/>
     <Popup/>
-    <main>
+    <v-content class="content">
       <router-view/>
-    </main>
+    </v-content>
     <BottomNav/>
     <Footer />
   </v-app>
@@ -30,6 +30,8 @@ export default {
     console.log("hej hopp")
     this.$store.dispatch("authenticateUser");
     this.$store.dispatch("getAuctionsFromDB");
+    this.$store.dispatch("getThreeLatestAuctionsFromDB")
+    this.$store.dispatch("getThreeAuctionsNearDeadlineFromDB")
   },
   methods:{
     togglePopup(){
@@ -38,3 +40,12 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+
+  .content{
+    margin-top: 10vh;
+    margin-bottom: 5vh;
+  }
+
+</style>
