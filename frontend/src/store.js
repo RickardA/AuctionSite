@@ -7,12 +7,16 @@ const API_URL = "http://localhost:8080/api/";
 export default new Vuex.Store({
   state: {
     auctions: null,
-  showPopup: false,
-  isLoggedIn: false,
+    filteredAuctions: null,
+    showPopup: false,
+    isLoggedIn: false,
   },
   mutations: {
     setAuctions(state,auctions){
       state.auctions = auctions;
+    },
+    setFilteredAuctions(state, filteredAuctions){
+      state.filteredAuctions = filteredAuctions;
     },
     togglePopup(state,popupState){
       state.showPopup = popupState;
@@ -25,6 +29,9 @@ export default new Vuex.Store({
     getAuctions: state => {
       return state.auctions;
     },
+    getFilteredAuctions: state => {
+      return state.filteredAuctions
+    },
     getPopupState: state => {
       return state.showPopup;
     },
@@ -36,6 +43,12 @@ export default new Vuex.Store({
     async getAuctionsFromDB() {
       let auctions = await (await fetch(API_URL + 'auctions/')).json();
       this.commit('setAuctions', auctions);
+    },
+    async getFilteredAuctionsFromDB(searchResult, userinput){
+      console.log(userinput)
+      let filteredAuctions = await (await fetch(API_URL + 'auctions/search?title=' + userinput)).json();
+      console.log(filteredAuctions)
+      this.commit('setFilteredAuctions', filteredAuctions)
     },
     async authenticateUser(){
       let response = await (await fetch(API_URL + 'user/authenticate')).json();

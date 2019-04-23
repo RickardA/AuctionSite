@@ -8,9 +8,9 @@
                         prepend-inner-icon="search"
                         solo
                         v-model="userInput"
+                        @keyup.enter="goToSearch(userInput)"
                 ></v-text-field>
-                <v-btn
-                        :to="'/auctions/search?title=' + userInput">GO!</v-btn>
+                <v-btn @click="goToSearch(userInput)">GO!</v-btn>
             </v-layout>
         </v-flex>
 
@@ -40,6 +40,13 @@
                 toggle_one: 0
             }
         },
+        methods:{
+            goToSearch(searchTitle){
+                console.log(searchTitle)
+                this.$router.push('/auctions/search?title=' + searchTitle)
+                this.$store.dispatch('getFilteredAuctionsFromDB', searchTitle)
+            }
+        }
     }
 </script>
 
