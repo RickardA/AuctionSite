@@ -3,215 +3,21 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-const API_URL = "http://localhost:8080/api/";
 export default new Vuex.Store({
   state: {
-    auctions: [
-      {
-        itemID: '12375463252345234092349041',
-        title: 'Shy Rabbit',
-        min_price: '20',
-        currentBid:'123',
-        status: 'Ongoing',
-        description: 'This is a very nice rabbit',
-        sellerID: '1235234',
-        deadline: '2019-04-23 23:59',
-        category: 'Animals',
-        image:'https://cdn.vuetifyjs.com/images/cards/desert.jpg'
-    },
-    {
-      itemID: '1236545432430020345032134241',
-      title: 'Shy Rabbit',
-      min_price: '20',
-      currentBid:'123',
-      status: 'Ongoing',
-      description: 'This is a very nice rabbit',
-      sellerID: '1235234',
-      deadline: '2019-04-23 23:59',
-      category: 'Animals',
-      image:'https://cdn.vuetifyjs.com/images/cards/desert.jpg'
-  },
-  {
-    itemID: '1233766574564876845584241',
-    title: 'Shy Rabbit',
-    min_price: '20',
-    currentBid:'123',
-    status: 'Ongoing',
-    description: 'This is a very nice rabbit',
-    sellerID: '1235234',
-    deadline: '2019-04-23 23:59',
-    category: 'Animals',
-    image:'https://cdn.vuetifyjs.com/images/cards/desert.jpg'
-},
-{
-  itemID: '121234534255645353441243433241',
-  title: 'Shy Rabbit',
-  min_price: '20',
-  currentBid:'123',
-  status: 'Ongoing',
-  description: 'This is a very nice rabbit',
-  sellerID: '1235234',
-  deadline: '2019-04-23 23:59',
-  category: 'Animals',
-  image:'https://cdn.vuetifyjs.com/images/cards/desert.jpg'
-},
-{
-  itemID: '1236433454364535353241',
-  title: 'Shy Rabbit',
-  min_price: '20',
-  currentBid:'123',
-  status: 'Ongoing',
-  description: 'This is a very nice rabbit',
-  sellerID: '1235234',
-  deadline: '2019-04-23 23:59',
-  category: 'Animals',
-  image:'https://cdn.vuetifyjs.com/images/cards/desert.jpg'
-},
-{
-  itemID: '1237645763453123241',
-  title: 'Shy Rabbit',
-  min_price: '20',
-  currentBid:'123',
-  status: 'Ongoing',
-  description: 'This is a very nice rabbit',
-  sellerID: '1235234',
-  deadline: '2019-04-23 23:59',
-  category: 'Animals',
-  image:'https://cdn.vuetifyjs.com/images/cards/desert.jpg'
-},
-{
-  itemID: '123332456457654345235241',
-  title: 'Shy Rabbit',
-  min_price: '20',
-  currentBid:'123',
-  status: 'Ongoing',
-  description: 'This is a very nice rabbit',
-  sellerID: '1235234',
-  deadline: '2019-04-23 23:59',
-  category: 'Animals',
-  image:'https://cdn.vuetifyjs.com/images/cards/desert.jpg'
-},
-{
-  itemID: '12332358387902532441',
-  title: 'Shy Rabbit',
-  min_price: '20',
-  currentBid:'123',
-  status: 'Ongoing',
-  description: 'This is a very nice rabbit',
-  sellerID: '1235234',
-  deadline: '2019-04-23 23:59',
-  category: 'Animals',
-  image:'https://cdn.vuetifyjs.com/images/cards/desert.jpg'
-  
-},
-{
-  itemID: '12339087654323456786545435232341',
-  title: 'Shy Rabbit',
-  min_price: '20',
-  currentBid:'123',
-  status: 'Ongoing',
-  description: 'This is a very nice rabbit',
-  sellerID: '1235234',
-  deadline: '2019-04-23 23:59',
-  category: 'Animals',
-  image:'https://cdn.vuetifyjs.com/images/cards/desert.jpg'
-},
-{
-  itemID: '1233122345678654322341',
-  title: 'Shy Rabbit',
-  min_price: '20',
-  currentBid:'123',
-  status: 'Ongoing',
-  description: 'This is a very nice rabbit',
-  sellerID: '1235234',
-  deadline: '2019-04-23 23:59',
-  category: 'Animals',
-  image:'https://cdn.vuetifyjs.com/images/cards/desert.jpg'
-},
-{
-  itemID: '12332376858756463441',
-  title: 'Shy Rabbit',
-  min_price: '20',
-  currentBid:'123',
-  status: 'Ongoing',
-  description: 'This is a very nice rabbit',
-  sellerID: '1235234',
-  deadline: '2019-04-23 23:59',
-  category: 'Animals',
-  image:'https://cdn.vuetifyjs.com/images/cards/desert.jpg'
-},
-{
-  itemID: '1233243534341',
-  title: 'Shy Rabbit',
-  min_price: '20',
-  currentBid:'123',
-  status: 'Ongoing',
-  description: 'This is a very nice rabbit',
-  sellerID: '1235234',
-  deadline: '2019-04-23 23:59',
-  category: 'Animals',
-  image:'https://cdn.vuetifyjs.com/images/cards/desert.jpg'
-},
-{
-  itemID: '12332398798741',
-  title: 'Shy Rabbit',
-  min_price: '20',
-  currentBid:'123',
-  status: 'Ongoing',
-  description: 'This is a very nice rabbit',
-  sellerID: '1235234',
-  deadline: '2019-04-23 23:59',
-  category: 'Animals',
-  image:'https://cdn.vuetifyjs.com/images/cards/desert.jpg'
-},
-{
-  itemID: '1233212123341',
-  title: 'Shy Rabbit',
-  min_price: '20',
-  currentBid:'123',
-  status: 'Ongoing',
-  description: 'This is a very nice rabbit',
-  sellerID: '1235234',
-  deadline: '2019-04-23 23:59',
-  category: 'Animals',
-  image:'https://cdn.vuetifyjs.com/images/cards/desert.jpg'
-},
-{
-  itemID: '123765432341',
-  title: 'Shy Rabbit',
-  min_price: '20',
-  currentBid:'123',
-  status: 'Ongoing',
-  description: 'This is a very nice rabbit',
-  sellerID: '1235234',
-  deadline: '2019-04-23 23:59',
-  category: 'Animals',
-  image:'https://cdn.vuetifyjs.com/images/cards/desert.jpg'
-},
-{
-  itemID: '1233234234561',
-  title: 'Shy Rabbit',
-  min_price: '20',
-  currentBid:'123',
-  status: 'Ongoing',
-  description: 'This is a very nice rabbit',
-  sellerID: '1235234',
-  deadline: '2019-04-23 23:59',
-  category: 'Animals',
-  image:'https://cdn.vuetifyjs.com/images/cards/desert.jpg'
-}
-  ],
+    auctions: null,
   showPopup: false,
   isLoggedIn: false,
+  userName: '',
   uploadedImage: null,
   category: null,
-  title: null, 
-  description: null, 
-  min_price: null, 
+  title: null,
+  description: null,
+  min_price: null,
 
   },
   mutations: {
-    setPosts(state,auctions){
+    setAuctions(state,auctions){
       state.auctions = auctions;
     },
     togglePopup(state,popupState){
@@ -220,20 +26,8 @@ export default new Vuex.Store({
     toggleLogin(state,isLoggedIn){
       state.isLoggedIn = isLoggedIn;
     },
-    setUploadedImage(state, img){
-      state.uploadedImage = img;
-    },
-    setCategory(state, category){
-      state.category = category; 
-    },
-    setTitle(state, title){
-      state.title = title;
-    },
-    setDescription(state, description){
-      state.description = description
-    },
-    setMinPrice(state, min_price){
-      state.min_price = min_price; 
+    setUserName(state,userName){
+      state.userName = userName;
     }
   },
   getters:{
@@ -246,27 +40,35 @@ export default new Vuex.Store({
     getLoginState: state => {
       return state.isLoggedIn;
     },
-    getUploadedImage: state =>{
-      return state.uploadedImage;
-    },
-    getTitle: state =>{
-      return state.title;
-    },
-    getCategory: state =>{
-      return state.category; 
-    },
-    getDescription: state =>{
-      return state.description;
-    },
-    getMinPrice: state =>{
-      return state.min_price;
+    getUserName: state => {
+      return state.userName;
     }
   },
   actions: {
     async getAuctionsFromDB() {
-      console.log('printing from getAuctionsFromDB')
-      let auctions = await (await fetch(API_URL + 'auctions/')).json();
+      let auctions = await (await fetch('/api/auctions/')).json();
       this.commit('setAuctions', auctions);
+    },
+    async authenticateUser(){
+      let response = await (await fetch('/api/user/authenticate')).json();
+      if(response === true){
+        this.commit("toggleLogin",true);
+      }else{
+        this.commit("toggleLogin",false);
+      }
+
+    },
+    async getChoosenAuction(state,auctionID){
+      if(this.getters.getAuctions === null){
+        await this.dispatch('getAuctionsFromDB');
+        return this.getters.getAuctions.find(s => s.itemID == auctionID);
+      }else{
+        return this.getters.getAuctions.find(s => s.itemID == auctionID);
+      }
+    },
+    async getUserCredentials(){
+      let response = await (await fetch("/api/user/credentials")).text();
+      this.commit('setUserName',response);
     },
   }
 })

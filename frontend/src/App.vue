@@ -27,7 +27,9 @@ export default {
     Footer
   },
   created() {
-    //this.$store.dispatch("getAuctionsFromDB");
+    console.log("hej hopp")
+    this.$store.dispatch("authenticateUser");
+    this.$store.dispatch("getAuctionsFromDB");
   },
   methods:{
     togglePopup(){

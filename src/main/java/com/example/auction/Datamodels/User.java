@@ -9,32 +9,20 @@ import javax.persistence.Id;
 @Entity
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private String userID;
+    private String mail;
     private String firstName;
     private String lastName;
-    private String mail;
     private String password;
 
     public User(){
 
     }
 
-    public User(String userID, String firstName, String lastName, String mail, String password) {
-        this.userID = userID;
+    public User(String firstName, String lastName, String mail, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.mail = mail;
         this.password = password;
-    }
-
-    public String getUserID() {
-        return userID;
-    }
-
-    public long getId() {
-        return id;
     }
 
     public String getFirstName() {

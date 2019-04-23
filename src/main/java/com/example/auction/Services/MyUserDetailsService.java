@@ -5,6 +5,9 @@ import com.example.auction.Datamodels.User;
 import com.example.auction.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,11 +26,13 @@ public class MyUserDetailsService implements UserDetailsService {
     private UserRepository repository;
 
 
-    @PostConstruct
-    private void createDefaultUsers(){
-       /* if (repository.findDistinctFirstByMailIgnoreCase("user") == null) {
-            addUser("user","user","mail@mail.com", "password");
-        }*/
+    public boolean authenticateUser(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            return true;
+        }else{
+            return false;
+        }
     }
 
     @Override
@@ -41,8 +46,7 @@ public class MyUserDetailsService implements UserDetailsService {
 
     public boolean addUser(User user){
         if(repository.findDistinctFirstByMailIgnoreCase(user.getMail()) == null) {
-            String userID = UUID.randomUUID().toString();
-            User u = new User(userID, user.getFirstName(), user.getLastName(), user.getMail(), encoder.encode(user.getPassword()));
+            User u = new User(user.getFirstName(), user.getLastName(), user.getMail(), encoder.encode(user.getPassword()));
             try {
                 repository.save(u);
             } catch (Exception ex) {

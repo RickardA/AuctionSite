@@ -39,7 +39,6 @@
 </template>
 
 <script>
-const API_URL = "http://localhost:8080/";
 export default {
   name: "signInForm",
   data: () => ({
@@ -67,15 +66,17 @@ export default {
       }
     },
     async makeSignInRequest(user) {
-      let response = await fetch(API_URL + "login", {
+      let response = await fetch("/login", {
         method: "POST",
         body: this.transformRequest(user),
         headers: { "Content-Type": "application/x-www-form-urlencoded" }
       });
+      console.log(response);
       let successfulLogin = !response.url.includes("error");
       if (successfulLogin === true) {
         this.showErrorMessage(false);
         this.setUserLoggedIn();
+        this.$store.dispatch('getUserCredentials');
         this.$refs.form.reset();
       } else if (successfulLogin === false) {
         this.showErrorMessage(true);

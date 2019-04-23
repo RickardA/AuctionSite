@@ -1,6 +1,5 @@
 package com.example.auction.Controllers;
 
-import com.example.auction.Datamodels.Auction;
 import com.example.auction.Datamodels.User;
 import com.example.auction.Repositories.AuctionRepository;
 import com.example.auction.Services.MyUserDetailsService;
@@ -25,10 +24,10 @@ import java.util.UUID;
 @RequestMapping("/api/auctions/")
 public class AuctionController {
     @Autowired
-    AuctionRepository repo;
+    private AuctionRepository repo;
 
     @GetMapping
-    Iterable getPosts() {
+    private Iterable getPosts(){
         return repo.findAll();
     }
 
