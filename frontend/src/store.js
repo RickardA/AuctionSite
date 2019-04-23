@@ -9,6 +9,7 @@ export default new Vuex.Store({
   showPopup: false,
   isLoggedIn: false,
   userName: '',
+  doneLoading: false,
   },
   mutations: {
     setAuctions(state,auctions){
@@ -22,6 +23,9 @@ export default new Vuex.Store({
     },
     setUserName(state,userName){
       state.userName = userName;
+    },
+    toggleDoneLoading(state,loading){
+      state.doneLoading = loading;
     }
   },
   getters:{
@@ -36,12 +40,16 @@ export default new Vuex.Store({
     },
     getUserName: state => {
       return state.userName;
+    },
+    getDoneLoader: state => {
+      return state.doneLoading;
     }
   },
   actions: {
     async getAuctionsFromDB() {
       let auctions = await (await fetch('/api/auctions/')).json();
-      this.commit('setAuctions', auctions);
+      await this.commit('setAuctions', auctions);
+      this.commit('toggleDoneLoading',true)
     },
     async authenticateUser(){
       let response = await (await fetch('/api/user/authenticate')).json();
@@ -64,5 +72,19 @@ export default new Vuex.Store({
       let response = await (await fetch("/api/user/credentials")).text();
       this.commit('setUserName',response);
     },
+
+    async updateAuction(state, auctionID){
+      console.log("updating bid")
+      await this.dispatch('sleep',500);
+      if(this.getters.getAuctions.find(s => s.itemID == auctionID)){
+      let response = await (await fetch('/api/bids/bid?auctionID='+auctionID)).json();
+      this.getters.getAuctions.find(s => s.itemID == auctionID).bids = response;
+    }else{
+      console.log("error");
+    }
+    },
+    sleep(state,ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
   }
 })

@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface AuctionRepository extends CrudRepository<Auction, Long> {
-    Auction findByItemID(Long itemID);
+    Auction findByItemID(long itemID);
     List<Auction> findAll();
 }

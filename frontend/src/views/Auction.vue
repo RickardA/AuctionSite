@@ -25,7 +25,8 @@
    <v-flex xs4 sm6>
    <v-card class="bid-card">
       <v-card-text>
-         <p>Highest bid: $500</p>
+         <p v-if="this.auction.bids.length > 0">Highest bid: ${{auction.bids[0].amount}}</p>
+         <p v-else>Highest bid: $0</p>
          <p>Auction ends in: 5 days 21 hours</p>
          <p>Number of bids: 51</p>
       
@@ -77,6 +78,9 @@ export default {
             auction:null,
             loading:true,
     }),
+    computed:{
+      
+    },
     methods: {
     getUrlQuery() {
       this.urlQuery = {};
@@ -86,8 +90,13 @@ export default {
     },
     async getAuction() {
      this.auction = await this.$store.dispatch("getChoosenAuction",this.choosenAuctionID);
+     await this.getBids();
      this.loading = false;
     },
+    async getBids(){
+        await this.$store.dispatch("updateAuction",this.auction.itemID);
+        console.log(this.auction.bids);
+      }
     },
     mounted: function() {
     this.getUrlQuery();

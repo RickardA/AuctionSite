@@ -1,5 +1,6 @@
 package com.example.auction.Controllers;
 
+import com.example.auction.Datamodels.Auction;
 import com.example.auction.Datamodels.Bid;
 import com.example.auction.Repositories.BidRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,5 +21,10 @@ public class BidController {
     private void placeBid(@RequestBody Bid placedBid){
         System.out.println("bid is being placed " + placedBid.getAmount());
         repo.save(placedBid);
+    }
+
+    @GetMapping("bid")
+    private Iterable getBidByID(@RequestParam long auctionID){
+        return repo.findByItemID(auctionID);
     }
 }
