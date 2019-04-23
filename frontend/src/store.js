@@ -3,13 +3,13 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-const API_URL = "http://localhost:8080/api/";
 export default new Vuex.Store({
   state: {
     auctions: null,
+  showPopup: false,
+  isLoggedIn: false,
+  userName: '',
     filteredAuctions: null,
-    showPopup: false,
-    isLoggedIn: false,
   },
   mutations: {
     setAuctions(state,auctions){
@@ -23,6 +23,9 @@ export default new Vuex.Store({
     },
     toggleLogin(state,isLoggedIn){
       state.isLoggedIn = isLoggedIn;
+    },
+    setUserName(state,userName){
+      state.userName = userName;
     }
   },
   getters:{
@@ -37,11 +40,14 @@ export default new Vuex.Store({
     },
     getLoginState: state => {
       return state.isLoggedIn;
+    },
+    getUserName: state => {
+      return state.userName;
     }
   },
   actions: {
     async getAuctionsFromDB() {
-      let auctions = await (await fetch(API_URL + 'auctions/')).json();
+      let auctions = await (await fetch('/api/auctions/')).json();
       this.commit('setAuctions', auctions);
     },
     async getFilteredAuctionsFromDB(searchResult, userinput){
@@ -51,7 +57,7 @@ export default new Vuex.Store({
       this.commit('setFilteredAuctions', filteredAuctions)
     },
     async authenticateUser(){
-      let response = await (await fetch(API_URL + 'user/authenticate')).json();
+      let response = await (await fetch('/api/user/authenticate')).json();
       if(response === true){
         this.commit("toggleLogin",true);
       }else{
@@ -66,6 +72,10 @@ export default new Vuex.Store({
       }else{
         return this.getters.getAuctions.find(s => s.itemID == auctionID);
       }
+    },
+    async getUserCredentials(){
+      let response = await (await fetch("/api/user/credentials")).text();
+      this.commit('setUserName',response);
     },
   }
 })

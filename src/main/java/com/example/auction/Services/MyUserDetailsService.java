@@ -46,8 +46,7 @@ public class MyUserDetailsService implements UserDetailsService {
 
     public boolean addUser(User user){
         if(repository.findDistinctFirstByMailIgnoreCase(user.getMail()) == null) {
-            String userID = UUID.randomUUID().toString();
-            User u = new User(userID, user.getFirstName(), user.getLastName(), user.getMail(), encoder.encode(user.getPassword()));
+            User u = new User(user.getFirstName(), user.getLastName(), user.getMail(), encoder.encode(user.getPassword()));
             try {
                 repository.save(u);
             } catch (Exception ex) {

@@ -60,7 +60,6 @@
 </template>
 
 <script>
-const API_URL = "http://localhost:8080/api/";
 export default {
   name: "signUpForm",
   methods: {
@@ -78,7 +77,7 @@ export default {
       }
     },
     async registerUser(user) {
-      this.response = await fetch(API_URL + "user/", {
+      this.response = await fetch("/api/user/", {
         method: "POST",
         body: JSON.stringify(user),
         headers: { "Content-Type": "application/json" }
