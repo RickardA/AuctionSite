@@ -42,11 +42,21 @@
         },
         methods:{
             goToSearch(searchTitle){
-                console.log(searchTitle)
                 this.$router.push('/auctions/search?title=' + searchTitle)
-                this.$store.dispatch('getFilteredAuctionsFromDB', searchTitle)
+            },
+            getUrlQuery() {
+                let url = window.location.href;
+                url = url.substr(url.lastIndexOf("="));
+                url = url.replace("=", "");
+                return url;
+            },
+        },
+            mounted: function(){
+            if(window.location.href.includes("search")){
+                this.$store.dispatch('getFilteredAuctionsFromDB', this.getUrlQuery())
             }
-        }
+            }
+
     }
 </script>
 

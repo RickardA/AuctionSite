@@ -20,7 +20,7 @@ public class AuctionController {
 
     @GetMapping("/search")
     List<Auction> getSearchedAuctions(@RequestParam String title){
-        return repo.findByTitleLike(title);
+        return repo.findByTitleIsContaining(title);
     }
 
 }

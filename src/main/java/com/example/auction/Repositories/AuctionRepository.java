@@ -12,5 +12,5 @@ public interface AuctionRepository extends CrudRepository<Auction, Long> {
     Auction findByItemID(Long itemID);
     List<Auction> findAll();
 
-    List<Auction> findByTitleLike(String title);
+    List<Auction> findByTitleIsContaining(String title);
 }
