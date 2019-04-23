@@ -1,27 +1,27 @@
 <template>
    <div>
-      <img :src="previewImage" class="uploading-image" />
-      <input type="file" accept="image/jpeg" @change=uploadImage>
+      <img :src="this.imageInfo.src" class="uploading-image" />
+      <input type="file" accept="image/jpeg" @change=uploadImage ref="fileUpload">
    </div>
 </template>
 
 <script>
     export default {
         name:'imageUpload',
-        data(){
-            return{
-               previewImage:null
-            }
-        },
         methods:{
             uploadImage(e){
                 const image = e.target.files[0];
                 const reader = new FileReader();
                 reader.readAsDataURL(image);
-                reader.onload = e =>{
-                    this.previewImage = e.target.result;
-                    this.$store.commit('setUploadedImage', this.previewImage);
+                reader.onload = e => {
+                    this.$store.commit('setUploadedImage', e.target.result);
                 };
+            }
+        }, computed:{
+            imageInfo(){
+                return{
+                    src: this.$store.getters.getUploadedImage
+                }
             }
         }
      }  // missing closure added

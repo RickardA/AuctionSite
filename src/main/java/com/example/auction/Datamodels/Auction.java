@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotBlank;
 import java.awt.*;
 import java.sql.Date;
 
@@ -12,12 +13,17 @@ public class Auction {
     @Id
     @GeneratedValue
     private Long itemID;
+    //@NotBlank(message = "Title is mandatory")
     private String title;
+    //@NotBlank(message = "Minimum price is mandatory")
     private double min_price;
     private String status;
+    //@NotBlank(message = "Description is mandatory")
     private String description;
     private Long sellerID;
+    //@NotBlank(message = "Deadline is mandatory")
     private Date deadline;
+    //@NotBlank(message = "Category is mandatory")
     private String category;
     @Transient
     private String image;

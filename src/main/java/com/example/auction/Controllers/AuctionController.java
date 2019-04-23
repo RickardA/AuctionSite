@@ -43,7 +43,7 @@ public class AuctionController {
     public boolean addAuction(@RequestBody Auction auction) {
         String imageID = UUID.randomUUID().toString();
         if (auction.getImage() != null) {
-            auction.setImageURL("http://localhost:8080/static/img/" + imageID + ".png");
+            auction.setImageURL("http://localhost:8080/img/" + imageID + ".png");
         }
         repo.save(auction);
         String image = auction.getImage();
@@ -52,7 +52,7 @@ public class AuctionController {
             BufferedImage bufferedImage = null;
             try {
                 bufferedImage = ImageIO.read(new ByteArrayInputStream(imagedata));
-                ImageIO.write(bufferedImage, "png", new File(System.getProperty("user.dir") + "\\src\\main\\resources\\img\\" + imageID + ".png"));
+                ImageIO.write(bufferedImage, "png", new File(System.getProperty("user.dir") + "\\src\\main\\resources\\static\\img\\" + imageID + ".png"));
             } catch (IOException e) {
                 e.printStackTrace();
             }

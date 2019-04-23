@@ -1,5 +1,5 @@
 <template>
-<Form>
+<v-form ref="form">
 <v-layout justify-center>
     <v-flex xs12 sm10 md8 lg6>
       <v-card ref="form">
@@ -40,17 +40,9 @@
           ></v-text-field>
           <h2>Pick last date of auction</h2>
           <div>
-    <v-layout row wrap>
-      <v-flex xs12 sm3>
-        <v-checkbox v-model="landscape" hide-details label="Landscape"></v-checkbox>
-      </v-flex>
-      <v-flex xs12 sm3>
-        <v-checkbox v-model="reactive" hide-details label="Reactive"></v-checkbox>
-      </v-flex>
-    </v-layout>
-    <v-date-picker v-model="deadline" :landscape="landscape" :reactive="reactive"></v-date-picker>
+    <v-date-picker v-model="deadline"></v-date-picker>
   </div>
-   <Imageupload />
+   <Imageupload ref="imageUpload" />
         </v-card-text>
         <v-divider class="mt-5"></v-divider>
         <v-card-actions>
@@ -73,12 +65,18 @@
               <span>Refresh form</span>
             </v-tooltip>
           </v-slide-x-reverse-transition>
-          <button color="primary" v-on:click.prevent="post">Upload item</button>
+          <button color="primary" v-on:click.prevent="post" >Upload item</button>
         </v-card-actions>
+         <v-alert v-if="message != ''"
+      :value="true"
+      type="info"
+    >
+      {{ message }}
+    </v-alert>
       </v-card>
     </v-flex>
   </v-layout>
-  </Form>
+  </v-form>
   </template>
 <script>
 import Imageupload from '../components/Imageupload.vue'
@@ -88,24 +86,22 @@ export default {
     }, 
     data () {
       return {
-        showSON: false,
         deadline: new Date().toISOString().substr(0, 10),
-        landscape: false,
-        reactive: false,
         errorMessages: '',
         name: '',
         formHasErrors: false,
+        message: '',
         items: [
         'Arts and crafts',
         'Clothes',
         'Outdoors',
         'Electronics',
         'Something else'
-      ]
+      ],
       }
     }, methods:{
         async post(){
-            console.log(this.deadline)
+          if (this.validateInputs()){
             const image = this.$store.getters.getUploadedImage;
             const deadline = this.deadline;
             let response = await fetch('/api/auctions/addAuction', {
@@ -113,6 +109,20 @@ export default {
                 body: JSON.stringify({ ...this.formInfo, image, deadline }),
                 headers: { "Content-Type": "application/json" }
             });
+            this.changeText("New auction created");
+            setTimeout(()=> this.changeText(''), 5000);
+            this.$refs.imageUpload.$refs.fileUpload.value = '';
+            this.$store.commit('setUploadedImage', null);
+            this.$refs.form.reset();
+          } else{
+            this.changeText("Please fill in all fields")
+          }
+        },
+        changeText(newText){
+          this.message = newText;
+        },
+        validateInputs() {
+         return this.formInfo.category && this.formInfo.title && this.formInfo.description && this.formInfo.min_price > 0;
         }
     }, computed:{
         formInfo() {
@@ -126,9 +136,10 @@ export default {
     }
 }
 </script>
-<style>
+<style <style scoped>
 #headtitle{
     margin-bottom: 3px; 
     text-align: center; 
 }
 </style>
+

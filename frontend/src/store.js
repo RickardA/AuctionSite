@@ -14,7 +14,8 @@ export default new Vuex.Store({
   title: null,
   description: null,
   min_price: null,
-  image: null
+  image: null,
+  infoText: ''
 
   },
   mutations: {
@@ -32,6 +33,9 @@ export default new Vuex.Store({
     },
     setUploadedImage(state, image){
       state.image = image;
+    },
+    setInfoText(state, text){
+      state.infoText = text; 
     }
   },
   getters:{
@@ -49,6 +53,9 @@ export default new Vuex.Store({
     },
     getUploadedImage: state => {
       return state.image;
+    },
+    getInfoText: state => {
+      return state.infoText; 
     }
   },
   actions: {
