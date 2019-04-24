@@ -12,7 +12,7 @@
             <div class="headline">{{auctionObject.title}}</div>
             <span v-if="showBid" class="grey--text">Current Bid: ${{auctionObject.bids[0].amount}}</span>
             <span v-else class="grey--text">Current Bid: $0</span><br>
-            <span class="grey--text">Auction ends: {{auctionObject.deadline.slice(0,auctionObject.deadline.indexOf(".")).replace("T"," ")}}</span>
+            <span class="grey--text">Auction ends: {{auctionObject.deadline}}</span>
           </div>
         </v-card-title>
         </div>
@@ -57,6 +57,7 @@ export default {
     },
     created(){
         this.getBids();
+        console.log(this.auctionObject.deadline)
     }
 }
 </script>
