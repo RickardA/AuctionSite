@@ -74,7 +74,6 @@ export default new Vuex.Store({
     },
 
     async updateAuction(state, auctionID){
-      console.log("updating bid")
       await this.dispatch('sleep',500);
       if(this.getters.getAuctions.find(s => s.itemID == auctionID)){
       let response = await (await fetch('/api/bids/bid?auctionID='+auctionID)).json();
