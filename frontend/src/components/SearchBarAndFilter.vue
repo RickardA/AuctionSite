@@ -1,5 +1,5 @@
 <template>
-    <div class="content">
+    <div class="searchbar-and-filter">
         <v-flex md6 offset-md3 class="pr-2 pl-2">
             <v-layout row wrap>
 
@@ -8,9 +8,9 @@
                         prepend-inner-icon="search"
                         solo
                         v-model="userInput"
+                        @keyup.enter="goToSearch(userInput)"
                 ></v-text-field>
-                <v-btn
-                        :to="/auctions/ + userInput">GO!</v-btn>
+                <v-btn @click="goToSearch(userInput)">GO!</v-btn>
             </v-layout>
         </v-flex>
 
@@ -40,6 +40,23 @@
                 toggle_one: 0
             }
         },
+        methods:{
+            goToSearch(searchTitle){
+                this.$router.push('/auctions/search?title=' + searchTitle)
+            },
+            getUrlQuery() {
+                let url = window.location.href;
+                url = url.substr(url.lastIndexOf("="));
+                url = url.replace("=", "");
+                return url;
+            },
+        },
+            mounted: function(){
+            if(window.location.href.includes("search")){
+                this.$store.dispatch('getFilteredAuctionsFromDB', this.getUrlQuery())
+            }
+            }
+
     }
 </script>
 

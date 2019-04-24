@@ -1,5 +1,5 @@
 <template>
-    <div id="content" class="">
+    <div>
     <SearchBarAndFilter/>
     <v-flex sm10 offset-sm1 offset-xs mt-2>
         <h1>All Auctions</h1>
@@ -46,10 +46,6 @@ export default {
 
     #scroll-button{
         margin-bottom: 50px;
-    }
-
-    #content{
-        margin-top: 12vh;
     }
 </style>
 

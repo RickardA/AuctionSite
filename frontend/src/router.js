@@ -5,6 +5,7 @@ import Auctions from './views/Auctions.vue'
 import Auction from './views/Auction.vue'
 import ErrorPage  from './views/ErrorPage.vue'
 import newAuction from './views/newAuction.vue'
+import SearchResults from './views/SearchResults.vue'
 
 Vue.use(Router)
 
@@ -43,6 +44,11 @@ export default new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
-    }
+    },
+    {
+      path: '/auctions/search',
+      name: 'searchResults',
+      component: SearchResults
+    },
   ]
 })

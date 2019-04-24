@@ -3,7 +3,7 @@
     <v-toolbar-side-icon to="/">
       <v-icon>home</v-icon>
     </v-toolbar-side-icon>
-    <v-toolbar-title>KOOL AUCTIONS COmPANY</v-toolbar-title>
+    <v-toolbar-title>Bukowsk-ish</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-toolbar-items class="hidden-sm-and-down">
       <v-btn flat to="/auctions">Auctions</v-btn>
