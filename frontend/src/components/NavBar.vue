@@ -7,13 +7,13 @@
     <v-spacer></v-spacer>
     <v-toolbar-items class="hidden-sm-and-down">
       <v-btn flat to="/auctions"><span class="pr-1">Auctions</span>
-        <font-awesome-icon icon="gavel" size=""></font-awesome-icon></v-btn>
+        <font-awesome-icon icon="gavel"></font-awesome-icon></v-btn>
       <v-btn to="/newauction" v-if="isLoggedIn" flat><span class="pr-1">New Auction</span>
-        <font-awesome-icon icon="plus-circle" size=""></font-awesome-icon></v-btn>
+        <font-awesome-icon icon="plus-circle"></font-awesome-icon></v-btn>
       <v-btn v-if="!isLoggedIn" flat @click="togglePopup"><span class="pr-1">Login/Register</span>
-        <font-awesome-icon icon="user" size=""></font-awesome-icon></v-btn>
+        <font-awesome-icon icon="user"></font-awesome-icon></v-btn>
       <v-btn id="sign-out" v-else flat @click="signOut"><span class="pr-1">Sign out</span>
-        <font-awesome-icon icon="sign-out-alt" size=""></font-awesome-icon></v-btn>
+        <font-awesome-icon icon="sign-out-alt"></font-awesome-icon></v-btn>
 
     </v-toolbar-items>
   </v-toolbar>
