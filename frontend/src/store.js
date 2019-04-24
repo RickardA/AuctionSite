@@ -6,55 +6,55 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     auctions: null,
-  showPopup: false,
-  isLoggedIn: false,
-  userName: '',
-  doneLoading: false,
-  uploadedImage: null,
-  category: null,
-  title: null,
-  description: null,
-  min_price: null,
-  image: null,
-  infoText: '',
+    showPopup: false,
+    isLoggedIn: false,
+    userName: '',
+    doneLoading: false,
+    uploadedImage: null,
+    category: null,
+    title: null,
+    description: null,
+    min_price: null,
+    image: null,
+    infoText: '',
 
     filteredAuctions: null,
     threeLatestAuctions: null,
     threeAuctionsNearDeadline: null,
   },
   mutations: {
-    setAuctions(state,auctions){
+    setAuctions(state, auctions) {
       state.auctions = auctions;
     },
-    setFilteredAuctions(state, filteredAuctions){
+    setFilteredAuctions(state, filteredAuctions) {
       state.filteredAuctions = filteredAuctions;
     },
-    setThreeLatestAuctions(state, threeLatestAuctions){
+    setThreeLatestAuctions(state, threeLatestAuctions) {
       state.threeLatestAuctions = threeLatestAuctions;
     },
-    setThreeAuctionsNearDeadline(state, threeAuctionsNearDeadline){
+    setThreeAuctionsNearDeadline(state, threeAuctionsNearDeadline) {
       state.threeAuctionsNearDeadline = threeAuctionsNearDeadline;
     },
-    togglePopup(state,popupState){
+    togglePopup(state, popupState) {
       state.showPopup = popupState;
     },
-    toggleLogin(state,isLoggedIn){
+    toggleLogin(state, isLoggedIn) {
       state.isLoggedIn = isLoggedIn;
     },
-    setUserName(state,userName){
+    setUserName(state, userName) {
       state.userName = userName;
     },
-    toggleDoneLoading(state,loading){
+    toggleDoneLoading(state, loading) {
       state.doneLoading = loading;
     },
-    setUploadedImage(state, image){
+    setUploadedImage(state, image) {
       state.image = image;
     },
-    setInfoText(state, text){
+    setInfoText(state, text) {
       state.infoText = text;
     }
   },
-  getters:{
+  getters: {
     getAuctions: state => {
       return state.auctions;
     },
@@ -90,52 +90,58 @@ export default new Vuex.Store({
     async getAuctionsFromDB() {
       let auctions = await (await fetch('/api/auctions/')).json();
       await this.commit('setAuctions', auctions);
-      this.commit('toggleDoneLoading',true)
+      this.commit('toggleDoneLoading', true)
     },
-    async getFilteredAuctionsFromDB(state, userinput){
+    async getFilteredAuctionsFromDB(state, userinput) {
       let filteredAuctions = await (await fetch('/api/auctions/search?title=' + userinput)).json();
       this.commit('setFilteredAuctions', filteredAuctions)
     },
-    async getThreeLatestAuctionsFromDB(){
+    async getThreeLatestAuctionsFromDB() {
       let threeLatestAuctions = await (await fetch('/api/auctions/threelatest')).json();
       this.commit('setThreeLatestAuctions', threeLatestAuctions)
     },
-    async getThreeAuctionsNearDeadlineFromDB(){
+    async getThreeAuctionsNearDeadlineFromDB() {
       let threeAuctionsNearDeadline = await (await fetch('/api/auctions/threenearest')).json();
       this.commit('setThreeAuctionsNearDeadline', threeAuctionsNearDeadline)
     },
-    async authenticateUser(){
+    async authenticateUser() {
       let response = await (await fetch('/api/user/authenticate')).json();
-      if(response === true){
-        this.commit("toggleLogin",true);
+      if (response === true) {
+        this.commit("toggleLogin", true);
         this.dispatch('getUserCredentials')
-      }else{
-        this.commit("toggleLogin",false);
+      } else {
+        this.commit("toggleLogin", false);
       }
     },
-    async getChoosenAuction(state,auctionID){
-      if(this.getters.getAuctions === null){
+    async getChoosenAuction(state, auctionID) {
+      if (this.getters.getAuctions === null) {
         await this.dispatch('getAuctionsFromDB');
         return this.getters.getAuctions.find(s => s.itemID == auctionID);
-      }else{
+      } else {
         return this.getters.getAuctions.find(s => s.itemID == auctionID);
       }
     },
-    async getUserCredentials(){
+    async getUserCredentials() {
       let response = await (await fetch("/api/user/credentials")).text();
-      this.commit('setUserName',response);
+      this.commit('setUserName', response);
     },
 
-    async updateAuction(state, auctionID){
-      await this.dispatch('sleep',500);
-      if(this.getters.getAuctions.find(s => s.itemID == auctionID)){
-      let response = await (await fetch('/api/bids/bid?auctionID='+auctionID)).json();
-      this.getters.getAuctions.find(s => s.itemID == auctionID).bids = response;
-    }else{
-      console.log("error");
-    }
+    async updateAuction(state, auctionID) {
+      await this.dispatch('sleep', 500);
+      if (this.getters.getAuctions.find(s => s.itemID == auctionID)) {
+        let response = await (await fetch('/api/bids/bid?auctionID=' + auctionID)).json();
+        this.getters.getAuctions.find(s => s.itemID == auctionID).bids = response;
+        if (this.getters.getThreeLatestAuctions.find(s => s.itemID == auctionID) != undefined) {
+          this.getters.getThreeLatestAuctions.find(s => s.itemID == auctionID).bids = response;
+        }
+        if (this.getters.getThreeAuctionsNearDeadline.find(s => s.itemID == auctionID) != undefined) {
+          this.getters.getThreeAuctionsNearDeadline.find(s => s.itemID == auctionID).bids = response
+        }
+      } else {
+        console.log("error");
+      }
     },
-    sleep(state,ms) {
+    sleep(state, ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
     }
   }

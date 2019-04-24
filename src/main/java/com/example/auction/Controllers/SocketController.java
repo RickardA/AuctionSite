@@ -21,8 +21,10 @@ public class SocketController extends TextWebSocketHandler {
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
         System.out.println("recieved message is: "+ message.getPayload());
+    }
 
-        socketService.sendToAll("Hello world");
+    public void sendMessage(String message){
+        socketService.sendToAll(message);
     }
 
     @Override
