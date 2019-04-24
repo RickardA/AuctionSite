@@ -3,7 +3,7 @@
       <v-card>
         <div @click="routeToAuction" class="hover">
         <v-img
-          :src="auctionObject.image"
+          :src="auctionObject.imageURL"
           height="200px"
         >
         </v-img>

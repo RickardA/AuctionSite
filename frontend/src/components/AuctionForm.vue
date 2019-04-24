@@ -79,7 +79,7 @@
   </v-form>
   </template>
 <script>
-import Imageupload from '../components/Imageupload.vue'
+import Imageupload from '../components/Imageupload'
 export default {
     components:{
         Imageupload
