@@ -23,8 +23,9 @@
    <v-flex xs4 sm6>
    <v-card class="bid-card">
       <v-card-text>
-         <p v-if="this.auction.bids.length > 0">Highest bid: ${{auction.bids[0].amount}}</p>
-         <p v-else>Highest bid: $0</p>
+         <p> Starting at: ${{auction.min_price}} </p>
+         <p v-if="this.auction.bids.length > 0">Current bid: ${{auction.bids[0].amount}}</p>
+         <p v-else>Current bid: $0</p>
          <p>Auction ends: {{auction.deadline.slice(0,auction.deadline.indexOf(".")).replace("T"," ")}}</p>
           <Bid :auctionObject="auction"/>    
       </v-card-text>
