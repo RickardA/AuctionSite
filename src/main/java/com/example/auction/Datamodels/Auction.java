@@ -4,6 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Transient;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
 @Entity
@@ -11,17 +14,18 @@ public class Auction {
     @Id
     @GeneratedValue
     private Long itemID;
-    //@NotBlank(message = "Title is mandatory")
+    @NotBlank(message = "Title is mandatory")
     private String title;
-    //@NotBlank(message = "Minimum price is mandatory")
+    @DecimalMin(value = "1", message = "Minimum price should be at least $1")
     private double min_price;
     private String status;
-    //@NotBlank(message = "Description is mandatory")
+    @NotBlank(message = "Description is mandatory")
     private String description;
+    @NotBlank(message ="sellerID is mandatory")
     private String sellerID;
-    //@NotBlank(message = "Deadline is mandatory")
+    @NotNull(message = "Deadline is mandatory")
     private Date deadline;
-    //@NotBlank(message = "Category is mandatory")
+    @NotBlank(message = "Category is mandatory")
     private String category;
     @Transient
     private String image;

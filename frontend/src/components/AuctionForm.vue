@@ -107,21 +107,26 @@ export default {
       }
     }, methods:{
         async post(){
-          if (this.validateInputs()){
+          if (this.validateInputs() || true){
             const image = this.$store.getters.getUploadedImage;
             const deadline = this.deadline;
             const sellerID = this.$store.getters.getUserName;
             const status = this.status;
-            let response = await fetch('/api/auctions/addAuction', {
-                method: 'POST',
-                body: JSON.stringify({ ...this.formInfo, image, deadline ,sellerID, status}),
-                headers: { "Content-Type": "application/json" }
+
+            const response = await fetch('/api/auctions/addAuction', {
+              method: 'POST',
+              body: JSON.stringify({...this.formInfo, image, deadline, sellerID, status}),
+              headers: { "Content-Type": "application/json" }
             });
-            this.changeText("New auction created");
-            setTimeout(()=> this.changeText(''), 5000);
-            this.$refs.imageUpload.$refs.fileUpload.value = '';
-            this.$store.commit('setUploadedImage', null);
-            this.$refs.form.reset();
+            if(response.status === 200){
+              this.handleSuccess();
+            } else{
+              const err = await response.json();
+               const errors = Object.values(err).reduce((result, message) => {
+                  return result + (result.length ? ' & ' : '') + message;
+                }, '') 
+                this.changeText(errors)
+            }
           } else{
             this.changeText("Please fill in all fields")
           }
@@ -138,6 +143,13 @@ export default {
           var yyyy = date.getFullYear();
 
           return yyyy + '-' + mm + '-' + dd;
+          },
+          handleSuccess(){
+            this.changeText("New auction created");
+                setTimeout(()=> this.changeText(''), 5000);
+                this.$refs.imageUpload.$refs.fileUpload.value = '';
+                this.$store.commit('setUploadedImage', null);
+                this.$refs.form.reset();
           } 
     }, computed:{
         formInfo() {
