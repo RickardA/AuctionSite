@@ -41,7 +41,7 @@
           ></v-text-field>
           <h2>Pick last date of auction</h2>
           <div>
-    <v-date-picker v-model="deadline" min="2019-04-24" max="2019-05-24"></v-date-picker>
+    <v-date-picker v-model="deadline" :min="minDate" :max="maxDate"></v-date-picker>
   </div>
    <Imageupload ref="imageUpload" />
         </v-card-text>
@@ -86,12 +86,17 @@ export default {
         Imageupload
     }, 
     data () {
+      const nextMonth = new Date();
+      nextMonth.setMonth(nextMonth.getMonth() + 1)
       return {
         deadline: new Date().toISOString().substr(0, 10),
         errorMessages: '',
         name: '',
         formHasErrors: false,
         message: '',
+        minDate: this.allowedDate(new Date()),
+        maxDate: this.allowedDate(nextMonth),
+        status: 'ONGOING',
         items: [
         'Arts and crafts',
         'Clothes',
@@ -106,9 +111,10 @@ export default {
             const image = this.$store.getters.getUploadedImage;
             const deadline = this.deadline;
             const sellerID = this.$store.getters.getUserName;
+            const status = this.status;
             let response = await fetch('/api/auctions/addAuction', {
                 method: 'POST',
-                body: JSON.stringify({ ...this.formInfo, image, deadline ,sellerID}),
+                body: JSON.stringify({ ...this.formInfo, image, deadline ,sellerID, status}),
                 headers: { "Content-Type": "application/json" }
             });
             this.changeText("New auction created");
@@ -126,15 +132,13 @@ export default {
         validateInputs() {
          return this.formInfo.category && this.formInfo.title && this.formInfo.description && this.formInfo.min_price > 0;
         },
-        /*allowedDate(){
-          var today = new Date();
-          var dd = String(today.getDate()).padStart(2, '0');
-          var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-          var yyyy = today.getFullYear();
+        allowedDate(date){
+          var dd = String(date.getDate()).padStart(2, '0');
+          var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+          var yyyy = date.getFullYear();
 
-          today = yyyy + '-' + mm + '-' + dd;
-          return date = document.write(today);
-          }*/
+          return yyyy + '-' + mm + '-' + dd;
+          } 
     }, computed:{
         formInfo() {
             return {
