@@ -30,7 +30,6 @@ export default {
     console.log("hej hopp")
     this.$store.dispatch("authenticateUser");
     this.$store.dispatch("getAuctionsFromDB");
-    this.$store.dispatch("updateAuction",1);
   },
   methods:{
     togglePopup(){

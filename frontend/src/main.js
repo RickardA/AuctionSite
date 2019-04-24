@@ -63,5 +63,6 @@ function sendSomething() {
 }
  
 function showSomething(message) {
+  
     console.log(message)
 }
