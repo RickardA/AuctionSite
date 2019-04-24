@@ -1,10 +1,12 @@
 <template>
     <div>
     <SearchBarAndFilter/>
+    <v-container justify-center="true"> 
     <h1>Search results</h1>
-    <v-layout row wrap>
+    <v-layout row justify-center wrap>
         <AuctionCard v-for="auction in filteredAuctions" v-bind:key="auction.itemID" :auctionObject="auction"></AuctionCard>
     </v-layout>
+    </v-container>
     </div>
 </template>
 
