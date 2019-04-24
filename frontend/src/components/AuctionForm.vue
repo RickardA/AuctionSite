@@ -41,7 +41,7 @@
           ></v-text-field>
           <h2>Pick last date of auction</h2>
           <div>
-    <v-date-picker v-model="deadline"></v-date-picker>
+    <v-date-picker v-model="deadline" min="2019-04-24" max="2019-05-24"></v-date-picker>
   </div>
    <Imageupload ref="imageUpload" />
         </v-card-text>
@@ -125,7 +125,16 @@ export default {
         },
         validateInputs() {
          return this.formInfo.category && this.formInfo.title && this.formInfo.description && this.formInfo.min_price > 0;
-        }
+        },
+        /*allowedDate(){
+          var today = new Date();
+          var dd = String(today.getDate()).padStart(2, '0');
+          var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+          var yyyy = today.getFullYear();
+
+          today = yyyy + '-' + mm + '-' + dd;
+          return date = document.write(today);
+          }*/
     }, computed:{
         formInfo() {
             return {
