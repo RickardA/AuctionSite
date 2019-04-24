@@ -1,5 +1,5 @@
 <template>
-    <v-flex mt-2 sm3>
+    <v-flex mt-2 mr-1>
       <v-card>
         <div @click="routeToAuction" class="hover">
         <v-img
