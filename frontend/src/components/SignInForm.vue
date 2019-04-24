@@ -32,7 +32,17 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" @click="submitSignIn" flat>Sign In</v-btn>
+        <v-btn 
+        color="blue darken-1"
+        @click="submitSignIn" 
+        flat>
+        <template v-if="!loading"> Sign In</template>
+         <v-progress-circular
+      indeterminate
+      color="primary"
+      v-else
+    ></v-progress-circular>
+        </v-btn>
       </v-card-actions>
     </v-form>
   </v-flex>
@@ -45,6 +55,7 @@ export default {
     displayError: false,
     email: "",
     password: "",
+    loading: false,
     passwordRules: [
       v => !!v || "Password is required",
       v => (v && v.length >= 10) || "Password must be 10 characters or more"
@@ -58,6 +69,7 @@ export default {
     submitSignIn() {
       this.showErrorMessage(false);
       if (this.$refs.form.validate()) {
+        this.loading = true;
         let user = {
           username: this.email,
           password: this.password
@@ -71,8 +83,8 @@ export default {
         body: this.transformRequest(user),
         headers: { "Content-Type": "application/x-www-form-urlencoded" }
       });
-      console.log(response);
-      let successfulLogin = !response.url.includes("error");
+      let successfulLogin = response.ok;
+      this.loading = false;
       if (successfulLogin === true) {
         this.showErrorMessage(false);
         this.setUserLoggedIn();

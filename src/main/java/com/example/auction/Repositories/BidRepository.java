@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface BidRepository extends CrudRepository<Bid, Long> {
-    Bid findByItemID(Long itemID);
+    List<Bid> findByItemID(Long itemID);
     List<Bid> findAll();
 }

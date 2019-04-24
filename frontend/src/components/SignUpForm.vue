@@ -42,6 +42,14 @@
       There's already an account registered with this email
     </v-alert>
     <v-alert
+      :value="responseErrorServer"
+      color="error"
+      icon="warning"
+      outline
+    >
+      Something went wrong, please try again!
+    </v-alert>
+    <v-alert
       :value="responseSuccess"
       color="success"
       icon="check_circle"
@@ -53,7 +61,17 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" @click="submitForm" flat>Submit</v-btn>
+        <v-btn 
+        color="blue darken-1" 
+        @click="submitForm" 
+        flat>
+        <template v-if="!loading"> Submit</template>
+         <v-progress-circular
+      indeterminate
+      color="primary"
+      v-else
+    ></v-progress-circular>
+        </v-btn>
       </v-card-actions>
     </v-form>
   </v-flex>
@@ -66,7 +84,9 @@ export default {
     submitForm() {
       this.responseSuccess = false;
       this.responseError = false;
+      this.responseErrorServer = false;
       if (this.$refs.form.validate()) {
+        this.loading = true;
         let user = {
           firstName: this.firstName,
           lastName: this.lastName,
@@ -82,18 +102,26 @@ export default {
         body: JSON.stringify(user),
         headers: { "Content-Type": "application/json" }
       });
+
+    if(this.response.ok){
       this.response = await this.response.json();
       this.responseSuccess = this.response;
       this.responseError = !this.response;
+      this.loading = false;
       if(this.response == true){
           this.$refs.form.reset();
       }
+    }else{
+      this.responseErrorServer = true;
+    }
     }
   },
   data: () => ({
     response: null,
     responseSuccess: false,
     responseError: false,
+    responseErrorServer: false,
+    loading:false,
     firstName: "",
     nameRules: [
       v => !!v || "Name is required",
@@ -114,6 +142,8 @@ export default {
 };
 </script>
 
-<style>
+<style lang="stylus" scoped>
+  .v-progress-circular
+    margin: 1rem
 </style>
 
