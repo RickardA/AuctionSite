@@ -3,13 +3,18 @@
     <v-toolbar-side-icon to="/">
       <v-icon>home</v-icon>
     </v-toolbar-side-icon>
-    <v-toolbar-title>Bukowsk-ish</v-toolbar-title>
+    <v-toolbar-title id="title">Bukowsk<span id="title2">-ish</span></v-toolbar-title>
     <v-spacer></v-spacer>
     <v-toolbar-items class="hidden-sm-and-down">
-      <v-btn flat to="/auctions">Auctions</v-btn>
-      <v-btn v-if="!isLoggedIn" flat @click="togglePopup">Login/Register</v-btn>
-      <v-btn v-else flat @click="signOut">Sign Out</v-btn>
-      <v-btn to="/newauction" v-if="isLoggedIn" flat>New Auction</v-btn>
+      <v-btn flat to="/auctions"><span class="pr-1">Auctions</span>
+        <font-awesome-icon icon="gavel" size=""></font-awesome-icon></v-btn>
+      <v-btn to="/newauction" v-if="isLoggedIn" flat><span class="pr-1">New Auction</span>
+        <font-awesome-icon icon="plus-circle" size=""></font-awesome-icon></v-btn>
+      <v-btn v-if="!isLoggedIn" flat @click="togglePopup"><span class="pr-1">Login/Register</span>
+        <font-awesome-icon icon="user" size=""></font-awesome-icon></v-btn>
+      <v-btn id="sign-out" v-else flat @click="signOut"><span class="pr-1">Sign out</span>
+        <font-awesome-icon icon="sign-out-alt" size=""></font-awesome-icon></v-btn>
+
     </v-toolbar-items>
   </v-toolbar>
 </template>
@@ -49,4 +54,18 @@ a {
   text-decoration: none;
   color: rgba(0, 0, 0, 0.87);
 }
+
+  #sign-out{
+    color: #7f1530;
+  }
+
+  #title{
+    font-size: 170%;
+  }
+
+  #title2{
+    color: #0d51c4;
+  }
+
+
 </style>

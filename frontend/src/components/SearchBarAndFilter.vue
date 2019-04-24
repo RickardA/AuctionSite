@@ -5,6 +5,7 @@
 
                 <v-text-field
                         label="Search"
+                        class="my-input"
                         prepend-inner-icon="search"
                         solo
                         v-model="userInput"
