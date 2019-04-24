@@ -53,8 +53,10 @@ export default {
       },
       async getBids(){
         await this.$store.dispatch("updateAuction",this.auctionObject.itemID);
+        if(this.auctionObject.hasOwnProperty("bids")){
         this.showBid = this.auctionObject.bids.length > 0 ? true:false;
-      }
+        }
+      },
     },
     created(){
         this.getBids();
