@@ -10,6 +10,7 @@
         <v-card-title primary-title>
           <div>
             <div class="headline">{{auctionObject.title}}</div>
+            <span  class="grey--text"> Starting at: ${{auctionObject.min_price}} </span><br>
             <span v-if="showBid" class="grey--text">Current Bid: ${{auctionObject.bids[0].amount}}</span>
             <span v-else class="grey--text">Current Bid: $0</span><br>
             <span class="grey--text">Auction ends: {{auctionObject.deadline}}</span>
