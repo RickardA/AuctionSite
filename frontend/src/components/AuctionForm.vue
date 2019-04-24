@@ -35,6 +35,7 @@
             ref="minPrice"
             v-model.number="formInfo.min_price"
             label="Minimum price"
+            type="number"
             placeholder="Min price"
             required
           ></v-text-field>
@@ -104,9 +105,11 @@ export default {
           if (this.validateInputs()){
             const image = this.$store.getters.getUploadedImage;
             const deadline = this.deadline;
+            const sellerID = this.$store.getters.getUserName;
+            console.log(sellerID);
             let response = await fetch('/api/auctions/addAuction', {
                 method: 'POST',
-                body: JSON.stringify({ ...this.formInfo, image, deadline }),
+                body: JSON.stringify({ ...this.formInfo, image, deadline ,sellerID}),
                 headers: { "Content-Type": "application/json" }
             });
             this.changeText("New auction created");

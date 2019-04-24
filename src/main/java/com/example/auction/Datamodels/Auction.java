@@ -20,7 +20,7 @@ public class Auction {
     private String status;
     //@NotBlank(message = "Description is mandatory")
     private String description;
-    private Long sellerID;
+    private String sellerID;
     //@NotBlank(message = "Deadline is mandatory")
     private Date deadline;
     //@NotBlank(message = "Category is mandatory")
@@ -30,7 +30,7 @@ public class Auction {
     private String imageURL;
     public Auction(){}
 
-    public Auction(Long itemID, String title, double min_price, String status, String description, Long sellerID, Date deadline, String category, String image) {
+    public Auction(Long itemID, String title, double min_price, String status, String description, String sellerID, Date deadline, String category, String image) {
         this.itemID = itemID;
         this.title = title;
         this.min_price = min_price;
@@ -82,11 +82,11 @@ public class Auction {
         this.description = description;
     }
 
-    public Long getSellerID() {
+    public String getSellerID() {
         return sellerID;
     }
 
-    public void setSellerID(Long sellerID) {
+    public void setSellerID(String sellerID) {
         this.sellerID = sellerID;
     }
 
