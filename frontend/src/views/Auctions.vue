@@ -39,6 +39,9 @@ export default {
       window.scrollTo(top);
     }
   },
+  created(){
+    this.$store.dispatch("getAuctionsFromDB");
+  }
 }
 </script>
 

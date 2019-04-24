@@ -10,7 +10,7 @@
    <v-flex xs4 sm6>
    <v-card v-bind:class="{ [`elevation-${8}`]: true } ">
       <v-img
-              :src="require('../assets/logo.png')"
+              :src="auction.imageURL"
               :aspect-ratio="16/9"
               class="my-5"
               contain

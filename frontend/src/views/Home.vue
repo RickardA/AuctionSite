@@ -32,6 +32,10 @@
     },
     components: {
       AuctionCard
-    }
+    },
+     created(){
+       this.$store.dispatch("getThreeLatestAuctionsFromDB")
+      this.$store.dispatch("getThreeAuctionsNearDeadlineFromDB")
+  }
   }
 </script>
