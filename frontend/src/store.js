@@ -16,7 +16,7 @@ export default new Vuex.Store({
   description: null,
   min_price: null,
   image: null,
-  infoText: ''
+  infoText: '',
 
     filteredAuctions: null,
     threeLatestAuctions: null,
