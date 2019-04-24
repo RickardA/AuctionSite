@@ -43,6 +43,8 @@
         methods:{
             goToSearch(searchTitle){
                 this.$router.push('/auctions/search?title=' + searchTitle)
+                    this.$store.dispatch('getFilteredAuctionsFromDB', this.getUrlQuery())
+                
             },
             getUrlQuery() {
                 let url = window.location.href;
