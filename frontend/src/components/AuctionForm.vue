@@ -106,7 +106,6 @@ export default {
             const image = this.$store.getters.getUploadedImage;
             const deadline = this.deadline;
             const sellerID = this.$store.getters.getUserName;
-            console.log(sellerID);
             let response = await fetch('/api/auctions/addAuction', {
                 method: 'POST',
                 body: JSON.stringify({ ...this.formInfo, image, deadline ,sellerID}),

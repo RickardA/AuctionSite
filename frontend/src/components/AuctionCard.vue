@@ -57,7 +57,6 @@ export default {
     },
     created(){
         this.getBids();
-        console.log(this.auctionObject.deadline)
     }
 }
 </script>

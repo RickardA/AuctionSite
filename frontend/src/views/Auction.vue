@@ -80,7 +80,6 @@ export default {
     },
     async getBids(){
         await this.$store.dispatch("updateAuction",this.auction.itemID);
-        console.log(this.auction.bids);
       }
     },
     mounted: function() {

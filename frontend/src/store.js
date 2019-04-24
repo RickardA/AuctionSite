@@ -94,7 +94,6 @@ export default new Vuex.Store({
     },
     async getFilteredAuctionsFromDB(state, userinput){
       let filteredAuctions = await (await fetch('/api/auctions/search?title=' + userinput)).json();
-      console.log(filteredAuctions)
       this.commit('setFilteredAuctions', filteredAuctions)
     },
     async getThreeLatestAuctionsFromDB(){

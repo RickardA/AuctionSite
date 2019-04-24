@@ -35,7 +35,6 @@ export default {
       if (this.$refs.form.validate()) {
         if (this.$store.getters.getLoginState) {
           this.createBid();
-          console.log(this.bid);
           let response = await fetch("/api/bids/", {
             method: "POST",
             body: JSON.stringify(this.bid),
