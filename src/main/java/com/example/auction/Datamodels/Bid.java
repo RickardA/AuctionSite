@@ -11,14 +11,14 @@ public class Bid {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long bidID = 0;
-    private long buyerID = 0;
+    private String buyerID = "";
     private long itemID = 0;
     private double amount = 0;
 
     public Bid(){
 
     }
-    public Bid(long buyerID, long itemID, double amount) {
+    public Bid(String buyerID, long itemID, double amount) {
         this.buyerID = buyerID;
         this.itemID = itemID;
         this.amount = amount;
@@ -31,11 +31,11 @@ public class Bid {
         this.bidID = bidID;
     }
 
-    public long getBuyerID() {
+    public String getBuyerID() {
         return buyerID;
     }
 
-    public void setBuyerID(Long buyerID) {
+    public void setBuyerID(String buyerID) {
         this.buyerID = buyerID;
     }
 

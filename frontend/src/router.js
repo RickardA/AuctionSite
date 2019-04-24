@@ -4,6 +4,7 @@ import Home from './views/Home.vue'
 import Auctions from './views/Auctions.vue'
 import Auction from './views/Auction.vue'
 import ErrorPage  from './views/ErrorPage.vue'
+import newAuction from './views/newAuction.vue'
 import SearchResults from './views/SearchResults.vue'
 
 Vue.use(Router)
@@ -25,6 +26,11 @@ export default new Router({
       path: '/auction',
       name: 'auction',
       component: Auction
+    },
+    {
+      path:'/newauction',
+      name: 'newAuction',
+      component: newAuction
     },
     {
       path: '/error',

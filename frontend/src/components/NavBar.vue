@@ -9,7 +9,7 @@
       <v-btn flat to="/auctions">Auctions</v-btn>
       <v-btn v-if="!isLoggedIn" flat @click="togglePopup">Login/Register</v-btn>
       <v-btn v-else flat @click="signOut">Sign Out</v-btn>
-      <v-btn flat>Link Three</v-btn>
+      <v-btn to="/newauction" v-if="isLoggedIn" flat>New Auction</v-btn>
     </v-toolbar-items>
   </v-toolbar>
 </template>
@@ -29,6 +29,7 @@ export default {
       let response = await fetch("/logout", {
         method: "POST"
       });
+      this.$router.push("/");
       let successfulLogin = !response.url.includes("error");
       if (successfulLogin === true) {
           this.$store.commit('toggleLogin',false)

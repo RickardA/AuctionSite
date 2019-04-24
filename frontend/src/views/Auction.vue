@@ -3,7 +3,6 @@
    Loading...
 </div>
 <div v-else>
-   <div>this is just an exaample the id of the clicked auction is {{auction.itemID}}, title is {{auction.title}}</div>
       <v-container class="container">
    <v-card>
       <div class="flex display-4">{{auction.title}}</div>
@@ -19,17 +18,14 @@
               width="100%"
 
       ></v-img>
-      
    </v-card>
    </v-flex>
    <v-flex xs4 sm6>
    <v-card class="bid-card">
       <v-card-text>
-         <p>Highest bid: $500</p>
-         <p>Auction ends in: 5 days 21 hours</p>
-         <p>Number of bids: 51</p>
-      
-         <p>asd{{auction.title}}</p>
+         <p v-if="this.auction.bids.length > 0">Highest bid: ${{auction.bids[0].amount}}</p>
+         <p v-else>Highest bid: $0</p>
+         <p>Auction ends: {{auction.deadline.slice(0,auction.deadline.indexOf(".")).replace("T"," ")}}</p>
           <Bid :auctionObject="auction"/>    
       </v-card-text>
    </v-card>
@@ -41,17 +37,7 @@
       
 <v-card class="item-information">
    <v-card-text>
-
-<p>info</p>
-<p>info</p>
-<p>info</p>
-<p>info</p>
-<p>info</p>
-<p>info</p>
-<p>info</p>
-
-
-      
+<p>{{auction.description}}</p>
    </v-card-text>
 </v-card>
    </v-flex>
@@ -77,6 +63,9 @@ export default {
             auction:null,
             loading:true,
     }),
+    computed:{
+      
+    },
     methods: {
     getUrlQuery() {
       this.urlQuery = {};
@@ -86,8 +75,13 @@ export default {
     },
     async getAuction() {
      this.auction = await this.$store.dispatch("getChoosenAuction",this.choosenAuctionID);
+     await this.getBids();
      this.loading = false;
     },
+    async getBids(){
+        await this.$store.dispatch("updateAuction",this.auction.itemID);
+        console.log(this.auction.bids);
+      }
     },
     mounted: function() {
     this.getUrlQuery();
