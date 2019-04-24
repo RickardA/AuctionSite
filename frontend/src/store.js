@@ -130,13 +130,14 @@ export default new Vuex.Store({
       await this.dispatch('sleep', 500);
       if (this.getters.getAuctions.find(s => s.itemID == auctionID)) {
         let response = await (await fetch('/api/bids/bid?auctionID=' + auctionID)).json();
-        this.getters.getAuctions.find(s => s.itemID == auctionID).bids = response;
+        Vue.set(this.getters.getAuctions.find(s => s.itemID == auctionID), 'bids', response)
         if (this.getters.getThreeLatestAuctions.find(s => s.itemID == auctionID) != undefined) {
-          this.getters.getThreeLatestAuctions.find(s => s.itemID == auctionID).bids = response;
+          Vue.set(this.getters.getThreeLatestAuctions.find(s => s.itemID == auctionID), 'bids', response)
         }
         if (this.getters.getThreeAuctionsNearDeadline.find(s => s.itemID == auctionID) != undefined) {
-          this.getters.getThreeAuctionsNearDeadline.find(s => s.itemID == auctionID).bids = response
+          Vue.set(this.getters.getThreeAuctionsNearDeadline.find(s => s.itemID == auctionID), 'bids', response)
         }
+        console.log(this.getters.getAuctions.find(s => s.itemID == auctionID));
       } else {
         console.log("error");
       }
