@@ -26,7 +26,7 @@
          <p> Starting at: ${{auction.min_price}} </p>
          <p v-if="this.auction.bids.length > 0">Current bid: ${{auction.bids[0].amount}}</p>
          <p v-else>Current bid: $0</p>
-         <p>Auction ends: {{auction.deadline.slice(0,auction.deadline.indexOf(".")).replace("T"," ")}}</p>
+         <p>Auction ends: {{auction.deadline}}</p>
           <Bid :auctionObject="auction"/>    
       </v-card-text>
    </v-card>
