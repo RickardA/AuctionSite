@@ -41,6 +41,7 @@ export default {
             body: JSON.stringify(this.bid),
             headers: { "Content-Type": "application/json" }
           });
+          this.$refs.form.reset();
         } else {
           this.dialog = true;
         }
