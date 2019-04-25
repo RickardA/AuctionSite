@@ -7,6 +7,8 @@ import com.example.auction.Datamodels.User;
 import com.example.auction.Repositories.AuctionRepository;
 import com.example.auction.Services.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +37,11 @@ public class AuctionController {
     @GetMapping
     private Iterable getPosts() {
         return repo.findAll();
+    }
+
+    @GetMapping("/test")
+    private Page<Auction> getAuctions(Pageable page){
+        return repo.findAll(page);
     }
 
     @GetMapping("/search")
