@@ -120,12 +120,14 @@ export default {
             });
             if(response.status === 200){
               this.handleSuccess();
-            } else{
+            } else if(response.status === 400){
               const err = await response.json();
                const errors = Object.values(err).reduce((result, message) => {
                   return result + (result.length ? ' & ' : '') + message;
                 }, '') 
                 this.changeText(errors)
+            } else{
+              this.changeText("Something went wrong")
             }
           } else{
             this.changeText("Please fill in all fields")
