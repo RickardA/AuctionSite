@@ -34,12 +34,12 @@ public class AuctionController {
     @Autowired
     private AuctionRepository repo;
 
-    @GetMapping
-    private Iterable getPosts() {
-        return repo.findAll();
-    }
+//    @GetMapping
+//    private Iterable getPosts() {
+//        return repo.findAll();
+//    }
 
-    @GetMapping("/test")
+    @GetMapping
     private Page<Auction> getAuctions(Pageable page){
         return repo.findAll(page);
     }

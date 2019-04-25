@@ -97,8 +97,9 @@ export default new Vuex.Store({
   },
   actions: {
     async getAuctionsFromDB() {
-      let auctions = await (await fetch('/api/auctions/')).json();
-      await this.commit('setAuctions', auctions);
+      let auctions = await (await fetch('/api/auctions/?page=0&size=3')).json();
+      console.log(auctions.content)
+      await this.commit('setAuctions', auctions.content);
       this.commit('toggleDoneLoading', true)
     },
     async getFilteredAuctionsFromDB(state, userinput) {

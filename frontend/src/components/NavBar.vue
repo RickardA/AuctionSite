@@ -6,7 +6,7 @@
     <v-toolbar-title id="title">Bukowsk<span id="title2">-ish</span></v-toolbar-title>
     <v-spacer></v-spacer>
     <v-toolbar-items class="hidden-sm-and-down">
-      <v-btn flat to="/auctions"><span class="pr-1">Auctions</span>
+      <v-btn flat to="/auctions/?p=1"><span class="pr-1">Auctions</span>
         <font-awesome-icon icon="gavel"></font-awesome-icon></v-btn>
       <v-btn to="/newauction" v-if="isLoggedIn" flat><span class="pr-1">New Auction</span>
         <font-awesome-icon icon="plus-circle"></font-awesome-icon></v-btn>

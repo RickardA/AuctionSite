@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface AuctionRepository extends CrudRepository<Auction, Long>, JpaRepository<Auction, Long   > {
+public interface AuctionRepository extends CrudRepository<Auction, Long>, JpaRepository<Auction, Long> {
     Auction findByItemID(long itemID);
 
     Page<Auction> findAll(Pageable pageable);

@@ -53,7 +53,7 @@ export default {
 
   .content{
     margin-top: 10vh;
-    margin-bottom: 5vh;
+    margin-bottom: 1vh;
   }
 
   .errorMessage{

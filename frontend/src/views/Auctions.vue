@@ -6,6 +6,7 @@
           <v-layout row justify-center wrap>
         <AuctionCard v-for="auction in auctions" v-bind:key="auction.itemID" :auctionObject="auction"></AuctionCard>
           </v-layout>
+        <Pagination class="pt-3"/>
           <v-btn
         id="scroll-button"
         fab
@@ -23,6 +24,7 @@
 <script>
 import AuctionCard from '../components/AuctionCard';
 import SearchBarAndFilter from '../components/SearchBarAndFilter';
+import Pagination from '../components/Pagination';
 export default {
     name:'Auctions',
     computed:{
@@ -32,7 +34,8 @@ export default {
   },
   components:{
       AuctionCard,
-      SearchBarAndFilter
+      SearchBarAndFilter,
+      Pagination
   },
   methods:{
     scrollToTop(){
