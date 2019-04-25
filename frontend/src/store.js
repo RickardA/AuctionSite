@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    auctions: null,
+    auctions: Array,
     showPopup: false,
     isLoggedIn: false,
     userName: '',
@@ -17,6 +17,7 @@ export default new Vuex.Store({
     min_price: null,
     image: null,
     infoText: '',
+    isConnectedToServer: false,
 
     filteredAuctions: null,
     threeLatestAuctions: null,
@@ -27,12 +28,14 @@ export default new Vuex.Store({
       state.auctions = auctions;
     },
     setFilteredAuctions(state, filteredAuctions) {
-      state.filteredAuctions = filteredAuctions;
+      state.auctions = filteredAuctions;
     },
     setThreeLatestAuctions(state, threeLatestAuctions) {
+      this.getters.getAuctions.push(threeLatestAuctions);
       state.threeLatestAuctions = threeLatestAuctions;
     },
     setThreeAuctionsNearDeadline(state, threeAuctionsNearDeadline) {
+      this.getters.getAuctions.push(threeAuctionsNearDeadline);
       state.threeAuctionsNearDeadline = threeAuctionsNearDeadline;
     },
     togglePopup(state, popupState) {
@@ -52,6 +55,9 @@ export default new Vuex.Store({
     },
     setInfoText(state, text) {
       state.infoText = text;
+    },
+    setIsConnectedToServer(state, connected) {
+      state.isConnectedToServer = connected;
     }
   },
   getters: {
@@ -84,6 +90,9 @@ export default new Vuex.Store({
     },
     getInfoText: state => {
       return state.infoText;
+    },
+    getIsConnectedToServer: state => {
+      return state.isConnectedToServer;
     }
   },
   actions: {
@@ -114,7 +123,7 @@ export default new Vuex.Store({
       }
     },
     async getChoosenAuction(state, auctionID) {
-      if (this.getters.getAuctions === null) {
+      if (this.getters.getAuctions === undefined || this.getters.getAuctions.length === 1 || this.getters.getAuctions.length === 0) {
         await this.dispatch('getAuctionsFromDB');
         return this.getters.getAuctions.find(s => s.itemID == auctionID);
       } else {
@@ -126,24 +135,31 @@ export default new Vuex.Store({
       this.commit('setUserName', response);
     },
 
-    async updateAuction(state, auctionID) {
-      await this.dispatch('sleep', 500);
-      if (this.getters.getAuctions.find(s => s.itemID == auctionID)) {
-        let response = await (await fetch('/api/bids/bid?auctionID=' + auctionID)).json();
-        Vue.set(this.getters.getAuctions.find(s => s.itemID == auctionID), 'bids', response)
-        if (this.getters.getThreeLatestAuctions.find(s => s.itemID == auctionID) != undefined) {
-          Vue.set(this.getters.getThreeLatestAuctions.find(s => s.itemID == auctionID), 'bids', response)
+    async getBidsForAuction(state) {
+      let arrayOfAuctionIDS = [];
+      for(let auction of this.getters.getAuctions) {
+        arrayOfAuctionIDS.push(auction.itemID);
+      };
+      let responseBids = await (await fetch('/api/bids/bid?auctionID=' + arrayOfAuctionIDS)).json();
+      this.dispatch('setBidToAuction',responseBids);
+    },
+    setBidToAuction(state,bids){
+      let grouped = Vue._.mapValues(Vue._.groupBy(bids, 'itemID'),v => _.sortBy(v, "amount").reverse());
+      let emptyAuction = [{amount: 0}];
+      for(let auction of this.getters.getAuctions){
+        Vue.set(this.getters.getAuctions.find(s => s.itemID == auction.itemID),'bids',grouped[auction.itemID])
+        if(this.getters.getAuctions.find(s => s.itemID == auction.itemID).bids === undefined){
+          Vue.set(this.getters.getAuctions.find(s => s.itemID == auction.itemID),'bids',emptyAuction)
         }
-        if (this.getters.getThreeAuctionsNearDeadline.find(s => s.itemID == auctionID) != undefined) {
-          Vue.set(this.getters.getThreeAuctionsNearDeadline.find(s => s.itemID == auctionID), 'bids', response)
-        }
-        console.log(this.getters.getAuctions.find(s => s.itemID == auctionID));
-      } else {
-        console.log("error");
+      }
+    },
+    updateBidOnAuction(state,bidObject){
+      if (this.getters.getAuctions.find(s => s.itemID == bidObject.itemID)) {
+        this.getters.getAuctions.find(s => s.itemID == bidObject.itemID).bids.unshift(bidObject);
       }
     },
     sleep(state, ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
     }
-  }
+  },
 })
