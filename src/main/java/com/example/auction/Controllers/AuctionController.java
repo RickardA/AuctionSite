@@ -1,15 +1,11 @@
 package com.example.auction.Controllers;
 
 import com.example.auction.Datamodels.Auction;
-import com.example.auction.Datamodels.User;
-import com.example.auction.Datamodels.Auction;
-import com.example.auction.Datamodels.User;
 import com.example.auction.Repositories.AuctionRepository;
-import com.example.auction.Services.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -34,6 +29,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/auctions")
 public class AuctionController {
+
     @Autowired
     private AuctionRepository repo;
 
@@ -69,7 +65,8 @@ public class AuctionController {
         if (auction.getImage() != null) {
             auction.setImageURL("http://localhost:8080/img/" + imageID + ".png");
         }
-        repo.save(auction);
+        Auction savedAuction = repo.save(auction);
+        repo.updateStatus(savedAuction.getItemID(), savedAuction.getDeadline());
         String image = auction.getImage();
         if (image != null) {
             byte[] imagedata = DatatypeConverter.parseBase64Binary(image.substring(image.indexOf(",") + 1));
@@ -96,4 +93,11 @@ public class AuctionController {
         });
         return errors;
     }
+
+    /*CREATE EVENT update_status
+    ON SCHEDULE NOW()
+    DO
+    UPDATE `auction`.`status` SET `status`= 'SOLD'
+     WHERE itemid = auction.getitemid()*/
+
 }
