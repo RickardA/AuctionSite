@@ -66,7 +66,7 @@ public class AuctionController {
             auction.setImageURL("http://localhost:8080/img/" + imageID + ".png");
         }
         Auction savedAuction = repo.save(auction);
-        repo.updateStatus(savedAuction.getItemID(), savedAuction.getDeadline());
+        repo.updateStatus(savedAuction.getItemID());
         String image = auction.getImage();
         if (image != null) {
             byte[] imagedata = DatatypeConverter.parseBase64Binary(image.substring(image.indexOf(",") + 1));
@@ -93,11 +93,5 @@ public class AuctionController {
         });
         return errors;
     }
-
-    /*CREATE EVENT update_status
-    ON SCHEDULE NOW()
-    DO
-    UPDATE `auction`.`status` SET `status`= 'SOLD'
-     WHERE itemid = auction.getitemid()*/
 
 }

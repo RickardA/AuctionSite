@@ -30,11 +30,9 @@ public interface AuctionRepository extends CrudRepository<Auction, Long> {
     List<Auction> findThreeNearestDeadline();
 
     @Modifying
-    @Query(value = "CREATE EVENT update_status ON SCHEDULE timeout DO UPDATE auction set status = 'SOLD' WHERE itemid = thatid", nativeQuery = true)
-    void updateStatus(@Param(values) Long thatid, Date timeout);
+    @Query(value = "CREATE EVENT update_status ON SCHEDULE EVERY 1 DAY DO UPDATE auction set status = 'SOLD' WHERE itemid = thatid", nativeQuery = true)
+    void updateStatus(@Param("thatid") Long thatid);
 
     UUID uuid = UUID.randomUUID();
-    String randomUUIDString = uuid.toString();
-
-    String[] values = {"thatid", "timeout", randomUUIDString};
+    String randomui = uuid.toString();
 }
