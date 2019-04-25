@@ -42,6 +42,7 @@ function connect() {
     }
     ws.onopen = (e) => {
         store.commit('setIsConnectedToServer',true);
+        store.dispatch('getBidsForAuction');
         console.log("Connected!")
     };
  
@@ -79,6 +80,5 @@ function showSomething(recievedObject) {
 }
 
 store.watch((state) => state.auctions, (oldValue, newValue) => {
-  console.log('auctions is changing')
   store.dispatch('getBidsForAuction');
 })

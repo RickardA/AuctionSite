@@ -27,7 +27,7 @@
         return this.$store.getters.getAuctions;
       }
     },
-    data:() => ({
+    data:()=> ({
       threeLatestAuctions: [],
       threeAuctionsNearDeadline: [],
     }),
@@ -35,14 +35,13 @@
       AuctionCard
     },
      async created(){
-      await this.$store.dispatch("getThreeLatestAuctionsFromDB")
-      await this.$store.dispatch("getThreeAuctionsNearDeadlineFromDB")
-        for(let auction of this.$store.getters.getThreeAuctionsNearDeadline){
-          this.threeAuctionsNearDeadline.push(this.auctions.find(s => s.itemID == auction.itemID));
-        }
-        for(let auction of this.$store.getters.getThreeLatestAuctions){
-          this.threeLatestAuctions.push(this.auctions.find(s => s.itemID == auction.itemID));
-        }
+       await this.$store.dispatch("getStartPageAuctions")
+       for(let auction of this.$store.getters.getThreeLatestAuctions){
+         this.threeLatestAuctions.push(this.auctions.find(s => s.itemID == auction.itemID))
+       }
+       for(let auction of this.$store.getters.getThreeAuctionsNearDeadline){
+         this.threeAuctionsNearDeadline.push(this.auctions.find(s => s.itemID == auction.itemID))
+       }
   }
   }
 </script>

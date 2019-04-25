@@ -31,11 +31,9 @@ export default new Vuex.Store({
       state.auctions = filteredAuctions;
     },
     setThreeLatestAuctions(state, threeLatestAuctions) {
-      this.getters.getAuctions.push(threeLatestAuctions);
       state.threeLatestAuctions = threeLatestAuctions;
     },
     setThreeAuctionsNearDeadline(state, threeAuctionsNearDeadline) {
-      this.getters.getAuctions.push(threeAuctionsNearDeadline);
       state.threeAuctionsNearDeadline = threeAuctionsNearDeadline;
     },
     togglePopup(state, popupState) {
@@ -106,13 +104,16 @@ export default new Vuex.Store({
       let filteredAuctions = await (await fetch('/api/auctions/search?title=' + userinput)).json();
       this.commit('setFilteredAuctions', filteredAuctions)
     },
-    async getThreeLatestAuctionsFromDB() {
-      let threeLatestAuctions = await (await fetch('/api/auctions/threelatest')).json();
-      this.commit('setThreeLatestAuctions', threeLatestAuctions)
-    },
-    async getThreeAuctionsNearDeadlineFromDB() {
+    async getStartPageAuctions() {
       let threeAuctionsNearDeadline = await (await fetch('/api/auctions/threenearest')).json();
       this.commit('setThreeAuctionsNearDeadline', threeAuctionsNearDeadline)
+      let threeLatestAuctions = await (await fetch('/api/auctions/threelatest')).json();
+      this.commit('setThreeLatestAuctions', threeLatestAuctions)
+      let temp = [];
+      temp.push(...threeAuctionsNearDeadline)
+      temp.push(...threeLatestAuctions);
+      temp = Vue._.uniqBy(temp, 'itemID');
+      this.commit('setAuctions',temp);
     },
     async authenticateUser() {
       let response = await (await fetch('/api/user/authenticate')).json();
