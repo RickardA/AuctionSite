@@ -66,7 +66,7 @@ public class AuctionController {
             auction.setImageURL("http://localhost:8080/img/" + imageID + ".png");
         }
         Auction savedAuction = repo.save(auction);
-        repo.updateStatus(savedAuction.getItemID());
+        repo.updateStatus(savedAuction.getItemID(), savedAuction.getDeadline().toString());
         String image = auction.getImage();
         if (image != null) {
             byte[] imagedata = DatatypeConverter.parseBase64Binary(image.substring(image.indexOf(",") + 1));

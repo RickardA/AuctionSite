@@ -87,14 +87,16 @@ export default {
     }, 
     data () {
       const nextMonth = new Date();
+      const nextDay = new Date();
       nextMonth.setMonth(nextMonth.getMonth() + 1)
+      nextDay.setDate(nextDay.getDate() + 1)
       return {
         deadline: new Date().toISOString().substr(0, 10),
         errorMessages: '',
         name: '',
         formHasErrors: false,
         message: '',
-        minDate: this.allowedDate(new Date()),
+        minDate: this.allowedDate(nextDay),
         maxDate: this.allowedDate(nextMonth),
         status: 'ONGOING',
         items: [
