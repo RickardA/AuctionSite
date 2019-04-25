@@ -2,6 +2,13 @@
   <v-app>
     <NavBar/>
     <Popup/>
+      <v-alert
+      v-if="!isConnected"
+      type="error"
+      class="errorMessage"
+    >
+      This is a error alert.
+    </v-alert>
     <v-content class="content">
       <router-view/>
     </v-content>
@@ -28,15 +35,17 @@ export default {
   },
   created() {
     this.$store.dispatch("authenticateUser");
-    this.$store.dispatch("getAuctionsFromDB");
-    this.$store.dispatch("getThreeLatestAuctionsFromDB")
-    this.$store.dispatch("getThreeAuctionsNearDeadlineFromDB")
   },
   methods:{
     togglePopup(){
       this.$store.commit('togglePopup',true);
     }
   },
+  computed:{
+    isConnected(){
+      return this.$store.getters.getIsConnectedToServer;
+    }
+  }     
 }
 </script>
 
@@ -45,6 +54,14 @@ export default {
   .content{
     margin-top: 10vh;
     margin-bottom: 5vh;
+  }
+
+  .errorMessage{
+    position: fixed;
+    width: 100%;
+    height: 50px;
+    z-index: 20;
+    margin-top: 9.1vh;
   }
 
 </style>

@@ -18,7 +18,7 @@
         name: "SearchResults",
         computed:{
             filteredAuctions(){
-                return this.$store.getters.getFilteredAuctions;
+                return this.$store.getters.getAuctions;
             }
         },
         components: {
