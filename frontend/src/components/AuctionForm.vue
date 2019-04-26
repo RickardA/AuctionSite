@@ -40,8 +40,9 @@
             required
           ></v-text-field>
           <h2>Pick last date of auction</h2>
-          <div>
-    <v-date-picker v-model="deadline" :min="minDate" :max="maxDate"></v-date-picker>
+          <div id="time">
+    <v-date-picker id="calendar" v-model="deadline" :min="minDate" :max="maxDate"></v-date-picker>
+    <v-time-picker id="clock" v-model="picker"></v-time-picker>
   </div>
    <Imageupload ref="imageUpload" />
         </v-card-text>
@@ -171,6 +172,13 @@ export default {
 #headtitle{
     margin-bottom: 3px; 
     text-align: center; 
+}
+#time{
+  display:flex;
+  flex-direction: row;
+}
+#calendar{
+  margin-right: 10px; 
 }
 </style>
 

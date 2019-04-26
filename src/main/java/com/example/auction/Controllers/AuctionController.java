@@ -29,6 +29,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/auctions")
 public class AuctionController {
+    public static String s = "hej";
 
     @Autowired
     private AuctionRepository repo;
@@ -66,6 +67,8 @@ public class AuctionController {
             auction.setImageURL("http://localhost:8080/img/" + imageID + ".png");
         }
         Auction savedAuction = repo.save(auction);
+        String eventID = "a" + savedAuction.getItemID();
+        s = "a" + savedAuction.getItemID();
         repo.updateStatus(savedAuction.getItemID(), savedAuction.getDeadline().toString());
         String image = auction.getImage();
         if (image != null) {

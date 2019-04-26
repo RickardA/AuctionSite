@@ -20,6 +20,7 @@ import java.util.UUID;
 public interface AuctionRepository extends CrudRepository<Auction, Long> {
     Auction findByItemID(long itemID);
     List<Auction> findAll();
+    public static String s = "hej";
 
     List<Auction> findByTitleIsContaining(String title);
 
@@ -30,9 +31,7 @@ public interface AuctionRepository extends CrudRepository<Auction, Long> {
     List<Auction> findThreeNearestDeadline();
 
     @Modifying
-    @Query(value = "CREATE EVENT update_status ON SCHEDULE AT :timeout DO UPDATE auction set status = 'SOLD' WHERE itemid = :thatid", nativeQuery = true)
+    @Query(value = "CREATE EVENT "+ s +" ON SCHEDULE AT :timeout DO UPDATE auction set status = 'SOLD' WHERE itemid = :thatid", nativeQuery = true)
     void updateStatus(@Param("thatid") Long itemid, @Param("timeout") String deadline);
 
-    UUID uuid = UUID.randomUUID();
-    String randomui = uuid.toString();
 }
