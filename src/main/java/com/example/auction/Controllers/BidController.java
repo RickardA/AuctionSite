@@ -3,6 +3,7 @@ package com.example.auction.Controllers;
 import com.example.auction.Datamodels.Auction;
 import com.example.auction.Datamodels.Bid;
 import com.example.auction.Datamodels.Wrapper;
+import com.example.auction.Repositories.AuctionRepository;
 import com.example.auction.Repositories.BidRepository;
 import com.example.auction.Services.SocketService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class BidController {
     private BidRepository repo;
 
     @Autowired
+    private AuctionRepository auctionRepository;
+
+    @Autowired
     private SocketService socketController;
 
     @GetMapping
@@ -27,7 +31,10 @@ public class BidController {
     @PostMapping
     private boolean placeBid(@RequestBody Bid placedBid){
         List<Bid> bids = repo.findByItemID(placedBid.getItemID());
-        if(bids.isEmpty() || placedBid.getAmount() > bids.get(0).getAmount()) {
+        Auction auction = auctionRepository.findByItemID(placedBid.getItemID());
+        System.out.println(auction.getStatus());
+        System.out.println(!auction.getStatus().contains("SOLD"));
+        if((bids.isEmpty() || placedBid.getAmount() > bids.get(0).getAmount()) && !auction.getStatus().contains("SOLD") && !auction.getSellerID().equals(placedBid.getBuyerID())) {
             Bid bid = repo.save(placedBid);
             Wrapper wrapper = new Wrapper("BID", bid);
             socketController.sendToAll(wrapper, Wrapper.class);
