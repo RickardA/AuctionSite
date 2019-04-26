@@ -31,7 +31,7 @@ export default {
     Popup,
     NavBar,
     BottomNav,
-    Footer
+    Footer,
   },
   created() {
     this.$store.dispatch("authenticateUser");

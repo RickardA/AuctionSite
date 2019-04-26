@@ -25,6 +25,7 @@
 import AuctionCard from '../components/AuctionCard';
 import SearchBarAndFilter from '../components/SearchBarAndFilter';
 import Pagination from '../components/Pagination';
+
 export default {
     name:'Auctions',
     computed:{
@@ -35,7 +36,7 @@ export default {
   components:{
       AuctionCard,
       SearchBarAndFilter,
-      Pagination
+      Pagination,
   },
   methods:{
     scrollToTop(){
@@ -43,7 +44,7 @@ export default {
     }
   },
   created(){
-    this.$store.dispatch("getAuctionsFromDB");
+        this.$store.dispatch("getAuctionsFromDB", this.$router.currentRoute.query.valueOf().p);
   }
 }
 </script>

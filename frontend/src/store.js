@@ -18,7 +18,7 @@ export default new Vuex.Store({
     image: null,
     infoText: '',
     isConnectedToServer: false,
-
+    totalPages: null,
     filteredAuctions: null,
     threeLatestAuctions: null,
     threeAuctionsNearDeadline: null,
@@ -26,6 +26,9 @@ export default new Vuex.Store({
   mutations: {
     setAuctions(state, auctions) {
       state.auctions = auctions;
+    },
+    setTotalAuctionPages(state, totalPages){
+      state.totalPages = totalPages
     },
     setFilteredAuctions(state, filteredAuctions) {
       state.auctions = filteredAuctions;
@@ -62,6 +65,9 @@ export default new Vuex.Store({
     getAuctions: state => {
       return state.auctions;
     },
+    getTotalAuctionPages: state => {
+      return state.totalPages;
+    },
     getFilteredAuctions: state => {
       return state.filteredAuctions;
     },
@@ -94,10 +100,10 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async getAuctionsFromDB() {
-      let auctions = await (await fetch('/api/auctions/?page=0&size=3')).json();
-      console.log(auctions.content)
+    async getAuctionsFromDB(state, page) {
+      let auctions = await (await fetch('/api/auctions/?page='+(page-1)+'&size=3')).json();
       await this.commit('setAuctions', auctions.content);
+      await this.commit('setTotalAuctionPages', auctions.totalPages)
       this.commit('toggleDoneLoading', true)
     },
     async getFilteredAuctionsFromDB(state, userinput) {
