@@ -42,6 +42,7 @@ function connect() {
     }
     ws.onopen = (e) => {
         store.commit('setIsConnectedToServer',true);
+        store.dispatch("authenticateUser");
         store.dispatch('getBidsForAuction');
         console.log("Connected!")
     };

@@ -11,7 +11,8 @@ import java.util.Set;
 
 @Repository
 public interface BidRepository extends CrudRepository<Bid, Long> {
-    List<Bid> findByItemID(Long itemID);
+    @Query(value = "SELECT * FROM bid WHERE itemID = :itemID ORDER BY amount DESC", nativeQuery = true)
+    List<Bid> findByItemID(@Param("itemID") Long itemID);
     List<Bid> findAll();
 
     @Query(value = "SELECT * FROM bid WHERE itemID IN :auctionIDS",nativeQuery = true)

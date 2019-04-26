@@ -25,11 +25,16 @@ public class BidController {
     }
 
     @PostMapping
-    private void placeBid(@RequestBody Bid placedBid){
-        System.out.println("bid is being placed " + placedBid.getItemID());
-        Bid bid = repo.save(placedBid);
-        Wrapper wrapper = new Wrapper("BID",bid);
-        socketController.sendToAll(wrapper,Wrapper.class);
+    private boolean placeBid(@RequestBody Bid placedBid){
+        List<Bid> bids = repo.findByItemID(placedBid.getItemID());
+        if(bids.isEmpty() || placedBid.getAmount() > bids.get(0).getAmount()) {
+            Bid bid = repo.save(placedBid);
+            Wrapper wrapper = new Wrapper("BID", bid);
+            socketController.sendToAll(wrapper, Wrapper.class);
+            return true;
+        }else{
+            return false;
+        }
     }
 
     @GetMapping("bid")

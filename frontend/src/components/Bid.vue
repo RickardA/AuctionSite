@@ -52,7 +52,14 @@ export default {
               body: JSON.stringify(this.bid),
               headers: { "Content-Type": "application/json" }
             });
-            this.$refs.form.reset();
+            response = await response.json();
+            if(response === true){
+              this.$refs.form.reset();
+            }else{
+              this.$store.dispatch('getBidsForAuction');
+              this.modalText = "Someting went wrong when placing a bid, please try again";
+              this.dialog = true;
+            }
           } else {
             this.modalText = "You must place a bid higher than the current and higher than starting price!";
             this.dialog = true;
