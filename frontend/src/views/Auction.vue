@@ -1,49 +1,55 @@
 <template>
-  <div v-if="loading">Loading...</div>
-  <div v-else>
-    <v-container class="container">
-      <v-card>
-        <div class="flex display-4">{{auction.title}}</div>
-        <v-layout row wrap class="top-cards">
-          <v-flex xs4 sm6>
-            <v-card v-bind:class="{ [`elevation-${8}`]: true } ">
-              <v-img
-                :src="auction.imageURL"
-                :aspect-ratio="16/9"
-                class="my-5"
-                contain
-                height="30vh"
-                width="100%"
-              ></v-img>
-            </v-card>
-          </v-flex>
-          <v-flex xs4 sm6>
-            <v-card class="bid-card">
-              <v-card-text>
-                <p>Starting at: ${{auction.min_price}}</p>
-                <p
-                  v-if="this.auction.bids !== undefined"
-                >Current bid: ${{auction.bids[0].amount}}</p>
-                <p v-else>Current bid: $0</p>
-                <p>Auction ends: {{auction.deadline}}</p>
-                <Bid :auctionObject="auction"/>
-              </v-card-text>
-            </v-card>
-          </v-flex>
-        </v-layout>
-        <div class="flex display-2">Object information</div>
-        <v-layout row wrap>
-          <v-flex xs12 sm12>
-            <v-card class="item-information">
-              <v-card-text>
-                <p>{{auction.description}}</p>
-              </v-card-text>
-            </v-card>
-          </v-flex>
-        </v-layout>
-      </v-card>
-    </v-container>
-  </div>
+<div  v-if="loading">
+   Loading...
+</div>
+<div v-else>
+      <v-container class="container">
+   <v-card>
+      <div class="flex display-4">{{auction.title}}</div>
+   <v-layout row wrap class="top-cards">
+   <v-flex xs4 sm6>
+   <v-card v-bind:class="{ [`elevation-${8}`]: true } ">
+     <!--  <v-img
+              :src="auction.imageURL"
+              :aspect-ratio="16/9"
+              class="my-5"
+              contain
+              height="30vh"
+              width="100%"
+
+      ></v-img> -->
+   </v-card>
+   </v-flex>
+   <v-flex xs4 sm6>
+   <v-card class="bid-card">
+      <v-card-text>
+         <p> Starting at: ${{auction.min_price}} </p>
+         <p v-if="this.auction.bids.length > 0">Current bid: ${{auction.bids[auction.bids.length-1].amount}}</p>
+         <p v-else>Current bid: $0</p>
+         <p>Auction ends: {{auction.deadline}}</p>
+          <Bid :auctionObject="auction"/>    
+      </v-card-text>
+   </v-card>
+   </v-flex>
+   </v-layout>
+   <div class="flex display-2">Object information</div>
+   <v-layout row wrap>
+   <v-flex xs12 sm12 >
+      
+<v-card class="item-information">
+   <v-card-text>
+<p>{{auction.description}}</p>
+   </v-card-text>
+</v-card>
+   </v-flex>
+
+</v-layout>
+
+   </v-card>
+   </v-container>
+</div>
+
+
 </template>
 
 <script>

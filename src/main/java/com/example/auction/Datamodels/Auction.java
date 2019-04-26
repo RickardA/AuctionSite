@@ -4,31 +4,36 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Transient;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 public class Auction {
     @Id
     @GeneratedValue
     private Long itemID;
-    //@NotBlank(message = "Title is mandatory")
+    @NotBlank(message = "Title is mandatory")
     private String title;
-    //@NotBlank(message = "Minimum price is mandatory")
+    @DecimalMin(value = "1", message = "Minimum price should be at least $1")
     private double min_price;
     private String status;
-    //@NotBlank(message = "Description is mandatory")
+    @NotBlank(message = "Description is mandatory")
     private String description;
+    @NotBlank(message ="sellerID is mandatory")
     private String sellerID;
-    //@NotBlank(message = "Deadline is mandatory")
+    @NotNull(message = "Deadline is mandatory")
     private Date deadline;
-    //@NotBlank(message = "Category is mandatory")
+    @NotBlank(message = "Category is mandatory")
     private String category;
     @Transient
-    private String image;
-    private String imageURL;
+    private List<Image> images;
+    private Long primaryID;
     public Auction(){}
 
-    public Auction(Long itemID, String title, double min_price, String status, String description, String sellerID, Date deadline, String category, String image) {
+    public Auction(Long itemID, String title, double min_price, String status, String description, String sellerID, Date deadline, String category, List<Image> images) {
         this.itemID = itemID;
         this.title = title;
         this.min_price = min_price;
@@ -37,7 +42,7 @@ public class Auction {
         this.sellerID = sellerID;
         this.deadline = deadline;
         this.category = category;
-        this.image = image;
+        this.images = images;
     }
 
     public Long getItemID() {
@@ -104,19 +109,19 @@ public class Auction {
         this.category = category;
     }
 
-    public String getImage() {
-        return image;
+    public List<Image> getImages() {
+        return images;
     }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
-    public String getImageURL() {
-        return imageURL;
+    public void setImages(List<Image> images) {
+        this.images = images;
     }
 
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
+    public Long getPrimaryID() {
+        return primaryID;
     }
 
+    public void setPrimaryID(Long primaryID) {
+        this.primaryID = primaryID;
+    }
 }

@@ -40,14 +40,14 @@
             required
           ></v-text-field>
           <h2>Pick last date of auction</h2>
-          <div>
-    <v-date-picker v-model="deadline" min="2019-04-24" max="2019-05-24"></v-date-picker>
+          <div id="time">
+    <v-date-picker id="calendar" v-model="deadline" :min="minDate" :max="maxDate"></v-date-picker>
+    <v-time-picker id="clock" v-model="picker"></v-time-picker>
   </div>
    <Imageupload ref="imageUpload" />
         </v-card-text>
         <v-divider class="mt-5"></v-divider>
         <v-card-actions>
-          <v-btn flat>Cancel</v-btn>
           <v-spacer></v-spacer>
           <v-slide-x-reverse-transition>
             <v-tooltip
@@ -66,7 +66,7 @@
               <span>Refresh form</span>
             </v-tooltip>
           </v-slide-x-reverse-transition>
-          <button color="primary" v-on:click.prevent="post" >Upload item</button>
+          <button color="primary" v-on:click.prevent="post">Upload item</button>
         </v-card-actions>
          <v-alert v-if="message != ''"
       :value="true"
@@ -86,12 +86,19 @@ export default {
         Imageupload
     }, 
     data () {
+      const nextMonth = new Date();
+      const nextDay = new Date();
+      nextMonth.setMonth(nextMonth.getMonth() + 1)
+      nextDay.setDate(nextDay.getDate() + 1)
       return {
         deadline: new Date().toISOString().substr(0, 10),
         errorMessages: '',
         name: '',
         formHasErrors: false,
         message: '',
+        minDate: this.allowedDate(nextDay),
+        maxDate: this.allowedDate(nextMonth),
+        status: 'ONGOING',
         items: [
         'Arts and crafts',
         'Clothes',
@@ -103,19 +110,28 @@ export default {
     }, methods:{
         async post(){
           if (this.validateInputs()){
-            const image = this.$store.getters.getUploadedImage;
+            const images = this.$store.getters.getUploadedImage;
             const deadline = this.deadline;
             const sellerID = this.$store.getters.getUserName;
-            let response = await fetch('/api/auctions/addAuction', {
-                method: 'POST',
-                body: JSON.stringify({ ...this.formInfo, image, deadline ,sellerID}),
-                headers: { "Content-Type": "application/json" }
+            const status = this.status;
+            console.log(deadline)
+            console.log(images)
+            const response = await fetch('/api/auctions/addAuction', {
+              method: 'POST',
+              body: JSON.stringify({...this.formInfo, images, deadline, sellerID, status}),
+              headers: { "Content-Type": "application/json" }
             });
-            this.changeText("New auction created");
-            setTimeout(()=> this.changeText(''), 5000);
-            this.$refs.imageUpload.$refs.fileUpload.value = '';
-            this.$store.commit('setUploadedImage', null);
-            this.$refs.form.reset();
+            if(response.status === 200){
+              this.handleSuccess();
+            } else if(response.status === 400){
+              const err = await response.json();
+               const errors = Object.values(err).reduce((result, message) => {
+                  return result + (result.length ? ' & ' : '') + message;
+                }, '') 
+                this.changeText(errors)
+            } else{
+              this.changeText("Something went wrong")
+            }
           } else{
             this.changeText("Please fill in all fields")
           }
@@ -126,15 +142,20 @@ export default {
         validateInputs() {
          return this.formInfo.category && this.formInfo.title && this.formInfo.description && this.formInfo.min_price > 0;
         },
-        /*allowedDate(){
-          var today = new Date();
-          var dd = String(today.getDate()).padStart(2, '0');
-          var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-          var yyyy = today.getFullYear();
+        allowedDate(date){
+          var dd = String(date.getDate()).padStart(2, '0');
+          var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+          var yyyy = date.getFullYear();
 
-          today = yyyy + '-' + mm + '-' + dd;
-          return date = document.write(today);
-          }*/
+          return yyyy + '-' + mm + '-' + dd;
+          },
+          handleSuccess(){
+            this.changeText("New auction created");
+                setTimeout(()=> this.changeText(''), 5000);
+                this.$refs.imageUpload.$refs.fileUpload.value = '';
+                this.$store.commit('setUploadedImage', null);
+                this.$refs.form.reset();
+          } 
     }, computed:{
         formInfo() {
             return {
@@ -151,6 +172,13 @@ export default {
 #headtitle{
     margin-bottom: 3px; 
     text-align: center; 
+}
+#time{
+  display:flex;
+  flex-direction: row;
+}
+#calendar{
+  margin-right: 10px; 
 }
 </style>
 
