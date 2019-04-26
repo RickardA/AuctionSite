@@ -1,8 +1,10 @@
 <template>
   <div>
     <v-form ref="form" lazy-validation>
-      <v-text-field label="Amount" type="number" v-model="amount" :rules="amountRules" required></v-text-field>
-      <v-btn color="success" @click="placeBid">Place Bid</v-btn>
+      <p v-if="!isLoggedIn" style="color:red">You must be logged in to place a bid</p>
+      <p v-if="isMyOwnAuction" style="color:red">You can't bid on your own auction</p>
+      <v-text-field label="Amount" :disabled="!isLoggedIn || isMyOwnAuction" type="number" v-model="amount" :rules="amountRules" required></v-text-field>
+      <v-btn color="success" :disabled="!isLoggedIn || isMyOwnAuction" @click="placeBid">Place Bid</v-btn>
     </v-form>
     <v-dialog v-model="dialog" width="500">
       <v-card>
@@ -28,6 +30,14 @@ export default {
     modalText: "",
     amountRules: [v => !!v || "You must enter an amount"]
   }),
+  computed:{
+    isLoggedIn(){
+      return this.$store.getters.getLoginState;
+    },
+    isMyOwnAuction(){
+      return this.$store.getters.getUserName === this.auctionObject.sellerID & this.isLoggedIn === true ? true:false;
+    }
+  },
   props: {
     auctionObject: null
   },
@@ -35,7 +45,7 @@ export default {
     async placeBid() {
       if (this.$refs.form.validate()) {
         if (this.$store.getters.getLoginState) {
-          if (this.auctionObject.hasOwnProperty("bids") || this.amount > this.auctionObject.bids[this.auctionObject.bids.length-1].amount) {
+          if (this.amount > this.auctionObject.bids[0].amount && this.amount >= this.auctionObject.min_price) {
             this.createBid();
             let response = await fetch("/api/bids/", {
               method: "POST",
@@ -44,7 +54,7 @@ export default {
             });
             this.$refs.form.reset();
           } else {
-            this.modalText = "You must place a bid higher then the current!";
+            this.modalText = "You must place a bid higher than the current and higher than starting price!";
             this.dialog = true;
           }
         } else {
