@@ -1,10 +1,11 @@
 <template>
   <div>
     <v-form ref="form" lazy-validation>
-      <p v-if="!isLoggedIn" style="color:red">You must be logged in to place a bid</p>
-      <p v-if="isMyOwnAuction" style="color:red">You can't bid on your own auction</p>
-      <v-text-field label="Amount" :disabled="!isLoggedIn || isMyOwnAuction" type="number" v-model="amount" :rules="amountRules" required></v-text-field>
-      <v-btn color="success" :disabled="!isLoggedIn || isMyOwnAuction" @click="placeBid">Place Bid</v-btn>
+      <p v-if="!isLoggedIn && !hasEnded" style="color:red">You must be logged in to place a bid</p>
+      <p v-if="isMyOwnAuction && !hasEnded" style="color:red">You can't bid on your own auction</p>
+      <p v-if="hasEnded" style="color:red">This auction has ended</p>
+      <v-text-field label="Amount" :disabled="!isLoggedIn || isMyOwnAuction || hasEnded" type="number" v-model="amount" :rules="amountRules" required></v-text-field>
+      <v-btn color="success" :disabled="!isLoggedIn || isMyOwnAuction || hasEnded" @click="placeBid">Place Bid</v-btn>
     </v-form>
     <v-dialog v-model="dialog" width="500">
       <v-card>
@@ -36,6 +37,9 @@ export default {
     },
     isMyOwnAuction(){
       return this.$store.getters.getUserName === this.auctionObject.sellerID & this.isLoggedIn === true ? true:false;
+    },
+    hasEnded(){
+      return this.auctionObject.status.includes("SOLD") ? true:false;
     }
   },
   props: {
