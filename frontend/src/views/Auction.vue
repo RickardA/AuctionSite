@@ -9,7 +9,7 @@
    <v-layout row wrap class="top-cards">
    <v-flex xs4 sm6>
    <v-card v-bind:class="{ [`elevation-${8}`]: true } ">
-      <v-img
+     <!--  <v-img
               :src="auction.imageURL"
               :aspect-ratio="16/9"
               class="my-5"
@@ -17,7 +17,7 @@
               height="30vh"
               width="100%"
 
-      ></v-img>
+      ></v-img> -->
    </v-card>
    </v-flex>
    <v-flex xs4 sm6>

@@ -1,5 +1,6 @@
 package com.example.auction.Controllers;
 
+import com.example.auction.Database.DB;
 import com.example.auction.Datamodels.Auction;
 import com.example.auction.Repositories.AuctionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -62,14 +65,15 @@ public class AuctionController {
 
     @PostMapping(value = "addAuction")
     public ResponseEntity<Auction> addAuction(@Valid @RequestBody Auction auction) {
-        String imageID = UUID.randomUUID().toString();
-        if (auction.getImage() != null) {
-            auction.setImageURL("http://localhost:8080/img/" + imageID + ".png");
-        }
+        /*String imageID = UUID.randomUUID().toString();
+        if (auction.getImages() != null) {
+            auction.setIm("http://localhost:8080/img/" + imageID + ".png");
+        }*/
         Auction savedAuction = repo.save(auction);
+        /*
         String eventID = "a" + savedAuction.getItemID();
         s = "a" + savedAuction.getItemID();
-        repo.updateStatus(savedAuction.getItemID(), savedAuction.getDeadline().toString());
+        DB.updateStatus(eventID, savedAuction.getDeadline(), savedAuction.getItemID());
         String image = auction.getImage();
         if (image != null) {
             byte[] imagedata = DatatypeConverter.parseBase64Binary(image.substring(image.indexOf(",") + 1));
@@ -80,7 +84,7 @@ public class AuctionController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
         return ResponseEntity.ok(auction);
     }
 

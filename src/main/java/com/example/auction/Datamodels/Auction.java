@@ -8,6 +8,7 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 public class Auction {
@@ -28,11 +29,11 @@ public class Auction {
     @NotBlank(message = "Category is mandatory")
     private String category;
     @Transient
-    private String image;
-    private String imageURL;
+    private List<Image> images;
+    private Long primaryID;
     public Auction(){}
 
-    public Auction(Long itemID, String title, double min_price, String status, String description, String sellerID, Date deadline, String category, String image) {
+    public Auction(Long itemID, String title, double min_price, String status, String description, String sellerID, Date deadline, String category, List<Image> images) {
         this.itemID = itemID;
         this.title = title;
         this.min_price = min_price;
@@ -41,7 +42,7 @@ public class Auction {
         this.sellerID = sellerID;
         this.deadline = deadline;
         this.category = category;
-        this.image = image;
+        this.images = images;
     }
 
     public Long getItemID() {
@@ -108,19 +109,19 @@ public class Auction {
         this.category = category;
     }
 
-    public String getImage() {
-        return image;
+    public List<Image> getImages() {
+        return images;
     }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
-    public String getImageURL() {
-        return imageURL;
+    public void setImages(List<Image> images) {
+        this.images = images;
     }
 
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
+    public Long getPrimaryID() {
+        return primaryID;
     }
 
+    public void setPrimaryID(Long primaryID) {
+        this.primaryID = primaryID;
+    }
 }

@@ -48,7 +48,6 @@
         </v-card-text>
         <v-divider class="mt-5"></v-divider>
         <v-card-actions>
-          <v-btn flat>Cancel</v-btn>
           <v-spacer></v-spacer>
           <v-slide-x-reverse-transition>
             <v-tooltip
@@ -67,7 +66,7 @@
               <span>Refresh form</span>
             </v-tooltip>
           </v-slide-x-reverse-transition>
-          <button color="primary" v-on:click.prevent="post" >Upload item</button>
+          <button color="primary" v-on:click.prevent="post">Upload item</button>
         </v-card-actions>
          <v-alert v-if="message != ''"
       :value="true"
@@ -110,15 +109,16 @@ export default {
       }
     }, methods:{
         async post(){
-          if (this.validateInputs() || true){
-            const image = this.$store.getters.getUploadedImage;
+          if (this.validateInputs()){
+            const images = this.$store.getters.getUploadedImage;
             const deadline = this.deadline;
             const sellerID = this.$store.getters.getUserName;
             const status = this.status;
-
+            console.log(deadline)
+            console.log(images)
             const response = await fetch('/api/auctions/addAuction', {
               method: 'POST',
-              body: JSON.stringify({...this.formInfo, image, deadline, sellerID, status}),
+              body: JSON.stringify({...this.formInfo, images, deadline, sellerID, status}),
               headers: { "Content-Type": "application/json" }
             });
             if(response.status === 200){

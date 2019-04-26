@@ -1,7 +1,7 @@
 <template>
    <div>
-      <img :src="this.imageInfo.src" class="uploading-image" />
-      <input type="file" accept="image/jpeg" @change=uploadImage ref="fileUpload">
+      <img :src="this.imageInfo" class="uploading-image" />
+      <input type="file" multiple accept="image/jpeg" @change=uploadImage ref="fileUpload">
    </div>
 </template>
 
@@ -10,18 +10,22 @@
         name:'imageUpload',
         methods:{
             uploadImage(e){
-                const image = e.target.files[0];
+                let index = 0;
+                for(let file of e.target.files){
+                const image = e.target.files[index];
                 const reader = new FileReader();
                 reader.readAsDataURL(image);
                 reader.onload = e => {
                     this.$store.commit('setUploadedImage', e.target.result);
                 };
+                  index++
+            }
             }
         }, computed:{
             imageInfo(){
-                return{
-                    src: this.$store.getters.getUploadedImage
-                }
+                return
+                this.$store.getters.getUploadedImage
+                
             }
         }
      }  // missing closure added

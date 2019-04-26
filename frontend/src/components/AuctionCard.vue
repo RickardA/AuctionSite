@@ -2,11 +2,11 @@
     <v-flex mt-2 mr-2 sm3>
       <v-card>
         <div @click="routeToAuction" class="hover">
-        <v-img
+        <!-- <v-img
           :src="auctionObject.imageURL"
           height="200px"
         >
-        </v-img>
+        </v-img> -->
         <v-card-title primary-title>
           <div>
             <div class="headline">{{auctionObject.title}}</div>

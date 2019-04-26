@@ -15,7 +15,7 @@ export default new Vuex.Store({
     title: null,
     description: null,
     min_price: null,
-    image: null,
+    images: [],
     infoText: '',
 
     filteredAuctions: null,
@@ -48,7 +48,10 @@ export default new Vuex.Store({
       state.doneLoading = loading;
     },
     setUploadedImage(state, image) {
-      state.image = image;
+      let test = {img:image}
+      console.log(test)
+      state.images.push(test);
+      console.log(state.images)
     },
     setInfoText(state, text) {
       state.infoText = text;
@@ -80,7 +83,7 @@ export default new Vuex.Store({
       return state.doneLoading;
     },
     getUploadedImage: state => {
-      return state.image;
+      return state.images;
     },
     getInfoText: state => {
       return state.infoText;

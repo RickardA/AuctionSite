@@ -29,9 +29,4 @@ public interface AuctionRepository extends CrudRepository<Auction, Long> {
 
     @Query(value = "SELECT * FROM auction ORDER BY deadline ASC LIMIT 3", nativeQuery = true)
     List<Auction> findThreeNearestDeadline();
-
-    @Modifying
-    @Query(value = "CREATE EVENT "+ s +" ON SCHEDULE AT :timeout DO UPDATE auction set status = 'SOLD' WHERE itemid = :thatid", nativeQuery = true)
-    void updateStatus(@Param("thatid") Long itemid, @Param("timeout") String deadline);
-
 }
