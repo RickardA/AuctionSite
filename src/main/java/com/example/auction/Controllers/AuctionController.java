@@ -38,7 +38,7 @@ public class AuctionController {
     }
 
     @GetMapping("/search")
-    List<Auction> getSearchedAuctions(@RequestParam String title){
+    private List<Auction> getSearchedAuctions(@RequestParam String title){
         return repo.findByTitleIsContaining(title);
     }
 
@@ -76,6 +76,7 @@ public class AuctionController {
                 e.printStackTrace();
             }
         }
+
         return true;
     }
 }

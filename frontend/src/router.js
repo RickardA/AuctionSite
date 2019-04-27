@@ -6,6 +6,7 @@ import Auction from './views/Auction.vue'
 import ErrorPage  from './views/ErrorPage.vue'
 import newAuction from './views/newAuction.vue'
 import SearchResults from './views/SearchResults.vue'
+import Chat from './views/Chat.vue'
 
 Vue.use(Router)
 
@@ -36,6 +37,11 @@ export default new Router({
       path: '/error',
       name: 'errorPage',
       component: ErrorPage
+    },
+    {
+      path: '/chat',
+      name: 'chat',
+      component: Chat
     },
     {
       path: '/about',
