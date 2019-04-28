@@ -17,6 +17,7 @@ export default new Vuex.Store({
     min_price: null,
     images: [],
     infoText: '',
+    websocket: null,
     isConnectedToServer: false,
 
     filteredAuctions: null,

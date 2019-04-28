@@ -32,22 +32,21 @@ new Vue({
   render: h => h(App)
 }).$mount('#app')
 
-let ws;
 connect();
  
 function connect() {
-    ws = new WebSocket('ws://localhost:8080/socket');
-    ws.onmessage = (e) => {
+    store.state.websocket = new WebSocket('ws://localhost:8080/socket');
+    store.state.websocket.onmessage = (e) => {
       showSomething(e.data);
     }
-    ws.onopen = (e) => {
+    store.state.websocket.onopen = (e) => {
         store.commit('setIsConnectedToServer',true);
         store.dispatch("authenticateUser");
         store.dispatch('getBidsForAuction');
         console.log("Connected!")
     };
  
-    ws.onclose = (e) => {
+    store.state.websocket.onclose = (e) => {
         console.log("Closing websocket...");
         store.commit('setIsConnectedToServer',false);
         setTimeout(function() {
@@ -59,8 +58,8 @@ function connect() {
 }
  
 function disconnect() {
-    if (ws != null) {
-        ws.close();
+    if (store.state.websocket != null) {
+      store.state.websocket.close();
     }
     store.commit('setIsConnectedToServer',false);
     console.log("Disconnected");
@@ -72,14 +71,22 @@ function sendSomething() {
  
 function showSomething(recievedObject) {
   let object = JSON.parse(recievedObject);
+  console.log(object);
   switch(object.type){
     case 'BID':
       console.log("New bid recieved");
       store.dispatch('updateBidOnAuction',object.object)
       break;
+      case 'MESSAGE':
+      console.log(object.object);
+      console.log(bin2String(object.object.message))
   }
 }
 
 store.watch((state) => state.auctions, (oldValue, newValue) => {
   store.dispatch('getBidsForAuction');
 })
+
+function bin2String(array) {
+  return String.fromCharCode.apply(String,array)
+}

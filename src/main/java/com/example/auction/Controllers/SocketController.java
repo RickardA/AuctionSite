@@ -1,6 +1,9 @@
 package com.example.auction.Controllers;
 
+import com.example.auction.Datamodels.Wrapper;
 import com.example.auction.Services.SocketService;
+import com.google.gson.Gson;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -20,7 +23,7 @@ public class SocketController extends TextWebSocketHandler {
 
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
-        System.out.println("recieved message is: "+ message.getPayload());
+        socketService.unpackMessage(session,message);
     }
 
     public void sendMessage(String message){

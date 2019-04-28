@@ -90,6 +90,7 @@ export default {
         this.setUserLoggedIn();
         this.$store.dispatch('getUserCredentials');
         this.$refs.form.reset();
+        this.$store.state.websocket.send(JSON.stringify({type: "CONNECT", object: {mail: this.$store.getters.getUserName}}));
       } else if (successfulLogin === false) {
         this.showErrorMessage(true);
       }

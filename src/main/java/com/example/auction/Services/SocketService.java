@@ -1,18 +1,28 @@
 package com.example.auction.Services;
 
+import com.example.auction.Datamodels.Message;
+import com.example.auction.Datamodels.User;
+import com.example.auction.Datamodels.Wrapper;
+import com.example.auction.Repositories.MessageRepository;
 import com.google.gson.Gson;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 @Service
 public class SocketService {
 
+    @Autowired
+    MessageRepository messageRepository;
+
     private List<WebSocketSession> sessions = new CopyOnWriteArrayList<>();
+    private HashMap<String,WebSocketSession> authenticatedSessions = new HashMap<>();
 
     public void sendToOne(WebSocketSession webSocketSession, String message) throws IOException {
         webSocketSession.sendMessage(new TextMessage(message));
@@ -35,6 +45,40 @@ public class SocketService {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void unpackMessage(WebSocketSession socketSession,TextMessage message){
+        Gson gson = new Gson();
+        Wrapper wrapper = gson.fromJson(message.getPayload(),Wrapper.class);
+        switch (wrapper.getType()){
+            case "CONNECT":
+                User connectingUser = gson.fromJson(wrapper.getObject().toString(),User.class);
+                if(authenticatedSessions.containsKey(connectingUser.getMail())){
+                    authenticatedSessions.replace(connectingUser.getMail(),socketSession);
+                }else{
+                    authenticatedSessions.put(connectingUser.getMail(),socketSession);
+                }
+                break;
+            case "DISCONNECT":
+                User disconnectingUser = gson.fromJson(wrapper.getObject().toString(),User.class);
+                authenticatedSessions.remove(disconnectingUser.getMail());
+                break;
+            case "MESSAGE":
+                Message recievedMessage = gson.fromJson(wrapper.getObject().toString(), Message.class);
+                Wrapper newWrapper = new Wrapper("MESSAGE", recievedMessage);
+                messageRepository.save(recievedMessage);
+                if(authenticatedSessions.containsKey(recievedMessage.getReciever())){
+                    try {
+                        sendToOne(authenticatedSessions.get(recievedMessage.getReciever()),newWrapper,Wrapper.class);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }else{
+                    System.out.println("User is not online");
+                }
+                break;
+        }
+
     }
 
     public void addSession(WebSocketSession session) {

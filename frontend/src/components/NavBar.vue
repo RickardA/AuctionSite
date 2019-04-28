@@ -31,6 +31,7 @@ export default {
       this.$store.commit("togglePopup", true);
     },
     async signOut() {
+      this.$store.state.websocket.send(JSON.stringify({type: "DISCONNECT", object: {mail: this.$store.getters.getUserName}}));
       let response = await fetch("/logout", {
         method: "POST"
       });
