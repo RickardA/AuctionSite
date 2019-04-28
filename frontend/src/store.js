@@ -48,10 +48,18 @@ export default new Vuex.Store({
       state.doneLoading = loading;
     },
     setUploadedImage(state, image) {
-      let test = {img:image}
-      console.log(test)
+      let test = {img:image, isPrimary: (state.images.length < 1).toString()}
       state.images.push(test);
       console.log(state.images)
+    },
+    setCheckedImage(state, index) {
+      state.images = state.images.map((image, idx) => {
+        return { img: image.img, isPrimary: (index ===  idx).toString() }
+      })
+    },
+    removeImage(state, index) {
+      state.images.splice(index, 1);
+      this.commit('setCheckedImage', 0);
     },
     setInfoText(state, text) {
       state.infoText = text;
