@@ -29,7 +29,7 @@ export default {
     methods: {
       sendMessage(){
         console.log(this.chat)
-        let object = JSON.stringify({sender:this.$store.getters.getUserName,reciever:'emilia@gmail.com',message:this.message,itemID:this.chat[0].itemID});
+        let object = JSON.stringify({sender:this.$store.getters.getUserName,reciever:this.$store.getters.getChoosenChat.sellerID,message:this.message,itemID:this.chat[0].itemID});
         this.$store.state.websocket.send(JSON.stringify({type: "MESSAGE",object:object}));
       }
     },

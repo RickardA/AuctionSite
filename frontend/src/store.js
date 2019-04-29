@@ -196,10 +196,15 @@ export default new Vuex.Store({
       this.commit('setAuctionsForChats',recievedAuctions);
       console.log(recievedAuctions);
     },
-    updateMessagesOnChat(state,messageObject){
+    async updateMessagesOnChat(state,messageObject){
+      if(this.getters.getChats === null){
+        await this.dispatch('getUserChats');
+        this.getters.getChats[messageObject.itemID].push(messageObject);
+      }else{
       if (this.getters.getChats[messageObject.itemID]) {
         this.getters.getChats[messageObject.itemID].push(messageObject);
       }
+    }
     }
   },
 })

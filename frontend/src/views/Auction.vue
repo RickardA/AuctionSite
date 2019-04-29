@@ -4,6 +4,7 @@
 </div>
 <div v-else>
       <v-container class="container">
+        <NewChat :auction="auction"/>
    <v-card>
       <div class="flex display-4">{{auction.title}}</div>
    <v-layout row wrap class="top-cards">
@@ -48,16 +49,16 @@
    </v-card>
    </v-container>
 </div>
-
-
 </template>
 
 <script>
 import Bid from "../components/Bid";
+import NewChat from "../components/Chat/NewChat"
 export default {
   name: "auction",
   components: {
-    Bid
+    Bid,
+    NewChat
   },
   data: () => ({
     choosenAuctionID: "",
