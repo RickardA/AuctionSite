@@ -10,6 +10,7 @@
             round
             @click="goToNextPage"
         >Next</v-btn>
+        <p>{{pageNumber}}/{{totalPages}}</p>
     </div>
 </template>
 
@@ -17,24 +18,24 @@
     export default {
         name: "Pagination",
         data: ()=>({
-            pageNumber: 0,
-            totalPages: 0,
+            pageNumber: 1,
+            totalPages: 4,
         }),
         computed:{
-
-
             backDisabled() {
-                return this.pageNumber > 1 ? false : true
+                return this.pageNumber <= 1
             },
-
             nextPageDisabled(){
-                return this.pageNumber < this.totalPages ? false : true
+                return this.pageNumber >= this.totalPages
             }
-
+        },
+        created(){
+            this.pageNumber = parseInt(this.$router.currentRoute.query.valueOf().p);
+            setTimeout(()=>{this.totalPages = this.$store.getters.getTotalAuctionPages}, 1000);
+            // this.totalPages = this.$store.getters.getTotalAuctionPages
         },
         methods:{
             goToPreviousPage(){
-                this.pageNumber = parseInt(this.$router.currentRoute.query.valueOf().p);
                 if(this.pageNumber > 1){
                 this.$router.push('/auctions/?p='+ --this.pageNumber)
                 this.$store.dispatch("getAuctionsFromDB", this.pageNumber)
@@ -42,8 +43,7 @@
             },
             goToNextPage()
                 {
-                    this.totalPages = this.$store.getters.getTotalAuctionPages;
-                    this.pageNumber = parseInt(this.$router.currentRoute.query.valueOf().p);
+                    // this.totalPages = this.$store.getters.getTotalAuctionPages;
                     if(this.pageNumber < this.totalPages){
                     this.$router.push('/auctions/?p=' + ++this.pageNumber)
                     this.$store.dispatch("getAuctionsFromDB", this.pageNumber)

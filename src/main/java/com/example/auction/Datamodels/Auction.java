@@ -30,7 +30,6 @@ public class Auction {
     private String category;
     @Transient
     private List<Image> images;
-    private Long primaryID;
     public Auction(){}
 
     public Auction(Long itemID, String title, double min_price, String status, String description, String sellerID, Date deadline, String category, List<Image> images) {
@@ -117,11 +116,4 @@ public class Auction {
         this.images = images;
     }
 
-    public Long getPrimaryID() {
-        return primaryID;
-    }
-
-    public void setPrimaryID(Long primaryID) {
-        this.primaryID = primaryID;
-    }
 }
