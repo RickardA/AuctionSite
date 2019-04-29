@@ -182,7 +182,7 @@ export default new Vuex.Store({
         arrayOfAuctionIDS.push(auction.itemID);
       };
       let responseImages = await (await fetch('/api/auctions/images?itemId=' + arrayOfAuctionIDS)).json();
-      console.log(responseImages)
+      // console.log(responseImages)
       this.dispatch('setImagesToAuction',responseImages);
     }
     },
