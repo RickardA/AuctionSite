@@ -148,11 +148,13 @@ export default new Vuex.Store({
 
     async getBidsForAuction(state) {
       let arrayOfAuctionIDS = [];
+      if(this.getters.getAuctions.length > 0){
       for(let auction of this.getters.getAuctions) {
         arrayOfAuctionIDS.push(auction.itemID);
       };
       let responseBids = await (await fetch('/api/bids/bid?auctionID=' + arrayOfAuctionIDS)).json();
       this.dispatch('setBidToAuction',responseBids);
+    }
     },
     setBidToAuction(state,bids){
       let grouped = Vue._.mapValues(Vue._.groupBy(bids, 'itemID'),v => _.sortBy(v, "amount").reverse());
