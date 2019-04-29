@@ -41,11 +41,11 @@ public class AuctionController {
 
     @Autowired
     private ImageRepository imageRepo;
-
-//    @GetMapping
-//    private Iterable getPosts() {
-//        return repo.findAll();
-//    }
+    
+    @GetMapping("/images")
+    private List<Image> getImages(Long itemId){
+        return imageRepo.getAllImages(itemId);
+    }
 
     @GetMapping
     private Page<Auction> getAuctions(Pageable page){
