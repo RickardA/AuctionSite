@@ -11,10 +11,6 @@ export default new Vuex.Store({
     userName: '',
     doneLoading: false,
     uploadedImage: null,
-    category: null,
-    title: null,
-    description: null,
-    min_price: null,
     images: [],
     infoText: '',
     isConnectedToServer: false,
@@ -170,7 +166,7 @@ export default new Vuex.Store({
     }
     },
     setBidToAuction(state,bids){
-      let grouped = Vue._.mapValues(Vue._.groupBy(bids, 'itemID'),v => _.sortBy(v, "amount").reverse());
+      let grouped = Vue._.mapValues(Vue._.groupBy(bids, 'itemID'),v => Vue._.sortBy(v, "amount").reverse());
       let emptyAuction = [{amount: 0}];
       for(let auction of this.getters.getAuctions){
         Vue.set(this.getters.getAuctions.find(s => s.itemID == auction.itemID),'bids',grouped[auction.itemID])
@@ -178,6 +174,24 @@ export default new Vuex.Store({
           Vue.set(this.getters.getAuctions.find(s => s.itemID == auction.itemID),'bids',emptyAuction)
         }
       }
+    },
+    async getImagesForAuction(state) {
+      let arrayOfAuctionIDS = [];
+      if(this.getters.getAuctions.length > 0){
+      for(let auction of this.getters.getAuctions) {
+        arrayOfAuctionIDS.push(auction.itemID);
+      };
+      let responseImages = await (await fetch('/api/auctions/images?itemId=' + arrayOfAuctionIDS)).json();
+      console.log(responseImages)
+      this.dispatch('setImagesToAuction',responseImages);
+    }
+    },
+    setImagesToAuction(state,images){
+      let grouped = Vue._.mapValues(Vue._.groupBy(images, 'itemID'),v => Vue._.sortBy(v, "isPrimary").reverse());
+      for(let auction of this.getters.getAuctions){
+        Vue.set(this.getters.getAuctions.find(s => s.itemID == auction.itemID),'images',grouped[auction.itemID])
+        }
+        console.log(this.getters.getAuctions)
     },
     updateBidOnAuction(state,bidObject){
       if (this.getters.getAuctions.find(s => s.itemID == bidObject.itemID)) {
