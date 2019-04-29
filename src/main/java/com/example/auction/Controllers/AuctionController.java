@@ -70,7 +70,6 @@ public class AuctionController {
     public ResponseEntity<Auction> addAuction(@Valid @RequestBody AuctionRequest auctionRequest) {
         Auction savedAuction = repo.save(AuctionMapper.mapAuctionFromRequest(auctionRequest));
         String eventID = "a" + savedAuction.getItemID();
-        s = "a" + savedAuction.getItemID();
         DB.updateStatus(eventID, savedAuction.getDeadline(), savedAuction.getItemID());
 
         List<Image> images = new ArrayList<>();
@@ -78,7 +77,7 @@ public class AuctionController {
             auctionRequest.getImages().forEach(imageReq -> {
                 Image image = new Image();
                 String url = UUID.randomUUID().toString();
-                image.setImgURL(url);
+                image.setImgURL("http://localhost:8080/img/" + url + ".png");
                 image.setIsPrimary("true".equals(imageReq.getIsPrimary()) ? 1 : 0);
                 image.setItemID(savedAuction.getItemID());
                 byte[] imagedata = DatatypeConverter.parseBase64Binary(imageReq.getImg().substring(imageReq.getImg().indexOf(",") + 1));
@@ -95,6 +94,7 @@ public class AuctionController {
 
             images.forEach(image -> imageRepo.save(image));
         }
+
         return ResponseEntity.ok(savedAuction);
     }
 
