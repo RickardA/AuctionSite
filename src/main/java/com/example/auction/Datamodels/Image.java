@@ -10,15 +10,8 @@ public class Image {
     private Long imgID;
     private String imgURL;
     private Long itemID;
-    private int isPrimary;
-
-    public int getIsPrimary() {
-        return isPrimary;
-    }
-
-    public void setIsPrimary(int isPrimary) {
-        this.isPrimary = isPrimary;
-    }
+    @Transient
+    private String img;
 
     public Long getImgID() {
         return imgID;
@@ -44,4 +37,11 @@ public class Image {
         this.itemID = itemID;
     }
 
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
 }

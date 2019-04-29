@@ -23,19 +23,25 @@
   export default {
     name: "Home",
     computed:{
-      threeLatestAuctions(){
-        return this.$store.getters.getThreeLatestAuctions;
-      },
-      threeAuctionsNearDeadline(){
-        return this.$store.getters.getThreeAuctionsNearDeadline;
+      auctions(){
+        return this.$store.getters.getAuctions;
       }
     },
+    data:()=> ({
+      threeLatestAuctions: [],
+      threeAuctionsNearDeadline: [],
+    }),
     components: {
       AuctionCard
     },
-     created(){
-       this.$store.dispatch("getThreeLatestAuctionsFromDB")
-      this.$store.dispatch("getThreeAuctionsNearDeadlineFromDB")
+     async created(){
+       await this.$store.dispatch("getStartPageAuctions")
+       for(let auction of this.$store.getters.getThreeLatestAuctions){
+         this.threeLatestAuctions.push(this.auctions.find(s => s.itemID == auction.itemID))
+       }
+       for(let auction of this.$store.getters.getThreeAuctionsNearDeadline){
+         this.threeAuctionsNearDeadline.push(this.auctions.find(s => s.itemID == auction.itemID))
+       }
   }
   }
 </script>

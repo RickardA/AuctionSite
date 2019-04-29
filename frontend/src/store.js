@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    auctions: null,
+    auctions: Array,
     showPopup: false,
     isLoggedIn: false,
     userName: '',
@@ -17,7 +17,8 @@ export default new Vuex.Store({
     min_price: null,
     images: [],
     infoText: '',
-
+    isConnectedToServer: false,
+    totalPages: null,
     filteredAuctions: null,
     threeLatestAuctions: null,
     threeAuctionsNearDeadline: null,
@@ -26,8 +27,11 @@ export default new Vuex.Store({
     setAuctions(state, auctions) {
       state.auctions = auctions;
     },
+    setTotalAuctionPages(state, totalPages){
+      state.totalPages = totalPages
+    },
     setFilteredAuctions(state, filteredAuctions) {
-      state.filteredAuctions = filteredAuctions;
+      state.auctions = filteredAuctions;
     },
     setThreeLatestAuctions(state, threeLatestAuctions) {
       state.threeLatestAuctions = threeLatestAuctions;
@@ -48,31 +52,24 @@ export default new Vuex.Store({
       state.doneLoading = loading;
     },
     setUploadedImage(state, image) {
-      let test = {img:image, isPrimary: (state.images.length < 1).toString()}
+      let test = {img:image}
+      console.log(test)
       state.images.push(test);
-    },
-    setCheckedImage(state, index) {
-      state.images = state.images.map((image, idx) => {
-        return { img: image.img, isPrimary: (index ===  idx).toString() }
-      })
-    },
-    removeImage(state, index) {
-      let wasPrimary = state.images[index].isPrimary
-      state.images.splice(index, 1);
-      if(wasPrimary){
-      this.commit('setCheckedImage', 0);
-      }
-    }, 
-    clearImage(state){
-      state.images = [];
+      console.log(state.images)
     },
     setInfoText(state, text) {
       state.infoText = text;
+    },
+    setIsConnectedToServer(state, connected) {
+      state.isConnectedToServer = connected;
     }
   },
   getters: {
     getAuctions: state => {
       return state.auctions;
+    },
+    getTotalAuctionPages: state => {
+      return state.totalPages;
     },
     getFilteredAuctions: state => {
       return state.filteredAuctions;
@@ -100,25 +97,32 @@ export default new Vuex.Store({
     },
     getInfoText: state => {
       return state.infoText;
+    },
+    getIsConnectedToServer: state => {
+      return state.isConnectedToServer;
     }
   },
   actions: {
-    async getAuctionsFromDB() {
-      let auctions = await (await fetch('/api/auctions/')).json();
-      await this.commit('setAuctions', auctions);
+    async getAuctionsFromDB(state, page) {
+      let auctions = await (await fetch('/api/auctions/?page='+(page-1)+'&size=3')).json();
+      await this.commit('setAuctions', auctions.content);
+      await this.commit('setTotalAuctionPages', auctions.totalPages)
       this.commit('toggleDoneLoading', true)
     },
     async getFilteredAuctionsFromDB(state, userinput) {
       let filteredAuctions = await (await fetch('/api/auctions/search?title=' + userinput)).json();
       this.commit('setFilteredAuctions', filteredAuctions)
     },
-    async getThreeLatestAuctionsFromDB() {
-      let threeLatestAuctions = await (await fetch('/api/auctions/threelatest')).json();
-      this.commit('setThreeLatestAuctions', threeLatestAuctions)
-    },
-    async getThreeAuctionsNearDeadlineFromDB() {
+    async getStartPageAuctions() {
       let threeAuctionsNearDeadline = await (await fetch('/api/auctions/threenearest')).json();
       this.commit('setThreeAuctionsNearDeadline', threeAuctionsNearDeadline)
+      let threeLatestAuctions = await (await fetch('/api/auctions/threelatest')).json();
+      this.commit('setThreeLatestAuctions', threeLatestAuctions)
+      let temp = [];
+      temp.push(...threeAuctionsNearDeadline)
+      temp.push(...threeLatestAuctions);
+      temp = Vue._.uniqBy(temp, 'itemID');
+      this.commit('setAuctions',temp);
     },
     async authenticateUser() {
       let response = await (await fetch('/api/user/authenticate')).json();
@@ -130,7 +134,7 @@ export default new Vuex.Store({
       }
     },
     async getChoosenAuction(state, auctionID) {
-      if (this.getters.getAuctions === null) {
+      if (this.getters.getAuctions === undefined || this.getters.getAuctions.length === 1 || this.getters.getAuctions.length === 0) {
         await this.dispatch('getAuctionsFromDB');
         return this.getters.getAuctions.find(s => s.itemID == auctionID);
       } else {
@@ -142,24 +146,33 @@ export default new Vuex.Store({
       this.commit('setUserName', response);
     },
 
-    async updateAuction(state, auctionID) {
-      await this.dispatch('sleep', 500);
-      if (this.getters.getAuctions.find(s => s.itemID == auctionID)) {
-        let response = await (await fetch('/api/bids/bid?auctionID=' + auctionID)).json();
-        Vue.set(this.getters.getAuctions.find(s => s.itemID == auctionID), 'bids', response)
-        if (this.getters.getThreeLatestAuctions.find(s => s.itemID == auctionID) != undefined) {
-          Vue.set(this.getters.getThreeLatestAuctions.find(s => s.itemID == auctionID), 'bids', response)
+    async getBidsForAuction(state) {
+      let arrayOfAuctionIDS = [];
+      if(this.getters.getAuctions.length > 0){
+      for(let auction of this.getters.getAuctions) {
+        arrayOfAuctionIDS.push(auction.itemID);
+      };
+      let responseBids = await (await fetch('/api/bids/bid?auctionID=' + arrayOfAuctionIDS)).json();
+      this.dispatch('setBidToAuction',responseBids);
+    }
+    },
+    setBidToAuction(state,bids){
+      let grouped = Vue._.mapValues(Vue._.groupBy(bids, 'itemID'),v => _.sortBy(v, "amount").reverse());
+      let emptyAuction = [{amount: 0}];
+      for(let auction of this.getters.getAuctions){
+        Vue.set(this.getters.getAuctions.find(s => s.itemID == auction.itemID),'bids',grouped[auction.itemID])
+        if(this.getters.getAuctions.find(s => s.itemID == auction.itemID).bids === undefined){
+          Vue.set(this.getters.getAuctions.find(s => s.itemID == auction.itemID),'bids',emptyAuction)
         }
-        if (this.getters.getThreeAuctionsNearDeadline.find(s => s.itemID == auctionID) != undefined) {
-          Vue.set(this.getters.getThreeAuctionsNearDeadline.find(s => s.itemID == auctionID), 'bids', response)
-        }
-        console.log(this.getters.getAuctions.find(s => s.itemID == auctionID));
-      } else {
-        console.log("error");
+      }
+    },
+    updateBidOnAuction(state,bidObject){
+      if (this.getters.getAuctions.find(s => s.itemID == bidObject.itemID)) {
+        this.getters.getAuctions.find(s => s.itemID == bidObject.itemID).bids.unshift(bidObject);
       }
     },
     sleep(state, ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
     }
-  }
+  },
 })

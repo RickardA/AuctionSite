@@ -10,8 +10,8 @@
         <v-card-title primary-title>
           <div>
             <div class="headline">{{auctionObject.title}}</div>
-            <span  class="grey--text"> Starting at: ${{auctionObject.min_price}} </span><br>
-            <span v-if="showBid" class="grey--text">Current Bid: ${{auctionObject.bids[auctionObject.bids.length-1].amount}}</span>
+            <span class="grey--text"> Starting at: ${{auctionObject.min_price}} </span><br>
+            <span v-if="this.auctionObject.bids !== undefined" class="grey--text">Current Bid: ${{auctionObject.bids[0].amount}}</span>
             <span v-else class="grey--text">Current Bid: $0</span><br>
             <span class="grey--text">Auction ends: {{auctionObject.deadline}}</span>
           </div>
@@ -42,7 +42,6 @@ export default {
     },
      data: () => ({
       show: false,
-      showBid: false
     }),
     props: {
         auctionObject:null,
@@ -51,15 +50,6 @@ export default {
       routeToAuction(){
         this.$router.push('/auction?'+this.auctionObject.itemID);
       },
-      async getBids(){
-        await this.$store.dispatch("updateAuction",this.auctionObject.itemID);
-        if(this.auctionObject.hasOwnProperty("bids")){
-        this.showBid = this.auctionObject.bids.length > 0 ? true:false;
-        }
-      },
-    },
-    created(){
-        this.getBids();
     }
 }
 </script>

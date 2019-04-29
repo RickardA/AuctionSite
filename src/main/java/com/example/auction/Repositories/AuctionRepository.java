@@ -2,6 +2,8 @@ package com.example.auction.Repositories;
 
 import com.example.auction.Datamodels.Auction;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -21,6 +23,8 @@ public interface AuctionRepository extends CrudRepository<Auction, Long> {
     Auction findByItemID(long itemID);
     List<Auction> findAll();
     public static String s = "hej";
+
+    Page<Auction> findAll(Pageable pageable);
 
     List<Auction> findByTitleIsContaining(String title);
 

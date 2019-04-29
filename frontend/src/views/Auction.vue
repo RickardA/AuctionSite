@@ -53,21 +53,19 @@
 </template>
 
 <script>
-import Bid from '../components/Bid'
+import Bid from "../components/Bid";
 export default {
-    name:'auction',
-    components:{
-       Bid,
-    },
-    data: () => ( {
-            choosenAuctionID: '',
-            auction:null,
-            loading:true,
-    }),
-    computed:{
-      
-    },
-    methods: {
+  name: "auction",
+  components: {
+    Bid
+  },
+  data: () => ({
+    choosenAuctionID: "",
+    auction: null,
+    loading: true
+  }),
+  computed: {},
+  methods: {
     getUrlQuery() {
       this.urlQuery = {};
       let url = window.location.href;
@@ -75,44 +73,39 @@ export default {
       this.choosenAuctionID = url.replace("?", "");
     },
     async getAuction() {
-     this.auction = await this.$store.dispatch("getChoosenAuction",this.choosenAuctionID);
-     await this.getBids();
-     this.loading = false;
-    },
-    async getBids(){
-        await this.$store.dispatch("updateAuction",this.auction.itemID);
-      }
-    },
-    mounted: function() {
+      this.auction = await this.$store.dispatch(
+        "getChoosenAuction",
+        this.choosenAuctionID
+      );
+      this.loading = false;
+    }
+  },
+  mounted: function() {
     this.getUrlQuery();
     this.getAuction();
   }
-}
+};
 </script>
 
 <style scoped>
 .bid-card {
-   margin: 50px 0 0 0;
-   padding: 10px;
+  margin: 50px 0 0 0;
+  padding: 10px;
 }
 
 .flex {
-   text-align: center;
-   padding: 20px;
+  text-align: center;
+  padding: 20px;
 }
 
 .top-cards {
-   margin: 0 50px 0 50px;
+  margin: 0 50px 0 50px;
 }
 
 .item-information {
-      text-align: left;
-   margin: 0 50px 50px 50px;
+  text-align: left;
+  margin: 0 50px 50px 50px;
 }
-
-
-
-
 </style>
 
 

@@ -3,6 +3,10 @@ import './plugins/vuetify'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import lodash from 'lodash'
+import VueLodash from 'vue-lodash'
+
+Vue.use(VueLodash, lodash)
 
 Vue.config.productionTip = false
 
@@ -29,7 +33,6 @@ new Vue({
 }).$mount('#app')
 
 let ws;
-let isConnected = false;
 connect();
  
 function connect() {
@@ -38,12 +41,17 @@ function connect() {
       showSomething(e.data);
     }
     ws.onopen = (e) => {
-        sendSomething();
-        isConnected = true;
+        store.commit('setIsConnectedToServer',true);
+        store.dispatch('getBidsForAuction');
+        console.log("Connected!")
     };
  
     ws.onclose = (e) => {
         console.log("Closing websocket...");
+        store.commit('setIsConnectedToServer',false);
+        setTimeout(function() {
+          connect();
+        }, 500);
     };
  
   console.log("Connecting...");
@@ -53,16 +61,24 @@ function disconnect() {
     if (ws != null) {
         ws.close();
     }
-    isConnected = false;
+    store.commit('setIsConnectedToServer',false);
     console.log("Disconnected");
 }
  
 function sendSomething() {
-    console.log("sending something")
-    ws.send(JSON.stringify({firstname: "Hello World!" }));
+
 }
  
-function showSomething(message) {
-    console.log(message)
-    store.dispatch('updateAuction',message);
+function showSomething(recievedObject) {
+  let object = JSON.parse(recievedObject);
+  switch(object.type){
+    case 'BID':
+      console.log("New bid recieved");
+      store.dispatch('updateBidOnAuction',object.object)
+      break;
+  }
 }
+
+store.watch((state) => state.auctions, (oldValue, newValue) => {
+  store.dispatch('getBidsForAuction');
+})
