@@ -41,9 +41,9 @@ public class AuctionController {
 
     @Autowired
     private ImageRepository imageRepo;
-    
+
     @GetMapping("/images")
-    private List<Image> getImages(Long itemId){
+    private Iterable getImages(@RequestParam List itemId){
         return imageRepo.getAllImages(itemId);
     }
 

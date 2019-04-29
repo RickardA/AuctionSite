@@ -12,6 +12,6 @@ import java.util.List;
 public interface ImageRepository extends CrudRepository<Image, Long> {
 
     @Query(value = "SELECT * FROM image WHERE itemid = :itemid", nativeQuery = true)
-    List<Image> getAllImages(@Param("itemid") Long itemid);
+    List<Image> getAllImages(@Param("itemid") List<Long> itemid);
 
 }
