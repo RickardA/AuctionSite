@@ -40,7 +40,10 @@
             required
           ></v-text-field>
           <h2>Pick last date of auction</h2>
+          <div id="time">
     <v-date-picker id="calendar" v-model="deadline" :min="minDate" :max="maxDate"></v-date-picker>
+    <v-time-picker id="clock" v-model="picker"></v-time-picker>
+  </div>
    <Imageupload ref="imageUpload" />
         </v-card-text>
         <v-divider class="mt-5"></v-divider>
@@ -150,7 +153,7 @@ export default {
             this.changeText("New auction created");
                 setTimeout(()=> this.changeText(''), 5000);
                 this.$refs.imageUpload.$refs.fileUpload.value = '';
-                this.$store.commit('clearImage');
+                this.$store.commit('setUploadedImage', null);
                 this.$refs.form.reset();
           } 
     }, computed:{
@@ -169,6 +172,13 @@ export default {
 #headtitle{
     margin-bottom: 3px; 
     text-align: center; 
+}
+#time{
+  display:flex;
+  flex-direction: row;
+}
+#calendar{
+  margin-right: 10px; 
 }
 </style>
 
