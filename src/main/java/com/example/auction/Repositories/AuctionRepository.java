@@ -1,6 +1,7 @@
 package com.example.auction.Repositories;
 
 import com.example.auction.Datamodels.Auction;
+import com.example.auction.Datamodels.Bid;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -22,7 +23,6 @@ public interface AuctionRepository extends CrudRepository<Auction, Long> {
 
     @Query(value = "SELECT * FROM auction WHERE STATUS = 'ONGOING'",nativeQuery = true)
     List<Auction> findAll();
-    public static String s = "hej";
 
     List<Auction> findByTitleIsContaining(String title);
 
@@ -31,4 +31,7 @@ public interface AuctionRepository extends CrudRepository<Auction, Long> {
 
     @Query(value = "SELECT * FROM auction WHERE STATUS = 'ONGOING' ORDER BY deadline ASC LIMIT 3", nativeQuery = true)
     List<Auction> findThreeNearestDeadline();
+
+    @Query(value = "SELECT * FROM auction WHERE itemID IN :auctionIDS",nativeQuery = true)
+    List<Auction> getSpecificAuctions(@Param("auctionIDS") List<String> auctionIDS);
 }

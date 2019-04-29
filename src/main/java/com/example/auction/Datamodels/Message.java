@@ -15,15 +15,22 @@ public class Message {
     private long messageID;
     private String sender;
     private String reciever;
-    private byte[] message;
+    private String message;
+    private long itemID;
 
     public Message() {
     }
 
-    public Message(String sender, String reciever, byte[] message) {
+    public Message(long messageID,String sender, String reciever, String message, long itemID) {
+        this.messageID = messageID;
         this.sender = sender;
         this.reciever = reciever;
         this.message = message;
+        this.itemID = itemID;
+    }
+
+    public long getItemID() {
+        return itemID;
     }
 
     public long getMessageID() {
@@ -38,7 +45,7 @@ public class Message {
         return reciever;
     }
 
-    public byte[] getMessage() {
+    public String getMessage() {
         return message;
     }
 }

@@ -19,6 +19,9 @@ export default new Vuex.Store({
     infoText: '',
     websocket: null,
     isConnectedToServer: false,
+    chats: null,
+    auctionsForChats: null,
+    choosenChat: null,
 
     filteredAuctions: null,
     threeLatestAuctions: null,
@@ -51,15 +54,22 @@ export default new Vuex.Store({
     },
     setUploadedImage(state, image) {
       let test = {img:image}
-      console.log(test)
       state.images.push(test);
-      console.log(state.images)
     },
     setInfoText(state, text) {
       state.infoText = text;
     },
     setIsConnectedToServer(state, connected) {
       state.isConnectedToServer = connected;
+    },
+    setChats(state,chats){
+      state.chats = chats;
+    },
+    setAuctionsForChats(state,auctionsForChats){
+      state.auctionsForChats = auctionsForChats;
+    },
+    setChoosenChat(state,choosenChat){
+      state.choosenChat = choosenChat;
     }
   },
   getters: {
@@ -95,6 +105,15 @@ export default new Vuex.Store({
     },
     getIsConnectedToServer: state => {
       return state.isConnectedToServer;
+    },
+    getChats(state){
+      return state.chats;
+    },
+    getAuctionsForChats(state){
+      return state.auctionsForChats;
+    },
+    getChoosenChat(state){
+      return state.choosenChat;
     }
   },
   actions: {
@@ -122,7 +141,8 @@ export default new Vuex.Store({
       let response = await (await fetch('/api/user/authenticate')).json();
       if (response === true) {
         this.commit("toggleLogin", true);
-        this.dispatch('getUserCredentials')
+        await this.dispatch('getUserCredentials')
+        this.state.websocket.send(JSON.stringify({type: "CONNECT", object: {mail: this.getters.getUserName}}));
       } else {
         this.commit("toggleLogin", false);
       }
@@ -165,6 +185,21 @@ export default new Vuex.Store({
     },
     sleep(state, ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
+    },
+    async getUserChats(state){
+      await this.dispatch('sleep',1000);
+      let recievedChats = await (await fetch('/api/messages?userID=' + this.getters.getUserName)).json();
+      let groupedChats = Vue._.groupBy(recievedChats, 'itemID');
+      this.commit('setChats',groupedChats);
+      let auctionsToGet = Object.keys(groupedChats);
+      let recievedAuctions = await (await fetch('/api/auctions/specific?auctionIDS=' + auctionsToGet)).json();
+      this.commit('setAuctionsForChats',recievedAuctions);
+      console.log(recievedAuctions);
+    },
+    updateMessagesOnChat(state,messageObject){
+      if (this.getters.getChats[messageObject.itemID]) {
+        this.getters.getChats[messageObject.itemID].push(messageObject);
+      }
     }
   },
 })

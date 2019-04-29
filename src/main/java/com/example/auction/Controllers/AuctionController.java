@@ -47,6 +47,11 @@ public class AuctionController {
         return repo.findByTitleIsContaining(title);
     }
 
+    @GetMapping("/specific")
+    private List<Auction> getSpecificAuctions(@RequestParam List auctionIDS){
+        return repo.getSpecificAuctions(auctionIDS);
+    }
+
     @GetMapping("/threelatest")
     private Iterable getThreeLatestAuctions(){
         return repo.findLatestThree();

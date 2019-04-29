@@ -71,22 +71,17 @@ function sendSomething() {
  
 function showSomething(recievedObject) {
   let object = JSON.parse(recievedObject);
-  console.log(object);
   switch(object.type){
     case 'BID':
       console.log("New bid recieved");
       store.dispatch('updateBidOnAuction',object.object)
       break;
       case 'MESSAGE':
-      console.log(object.object);
-      console.log(bin2String(object.object.message))
+      store.dispatch('updateMessagesOnChat',object.object);
+      console.log("Message Reccieved");
   }
 }
 
 store.watch((state) => state.auctions, (oldValue, newValue) => {
   store.dispatch('getBidsForAuction');
 })
-
-function bin2String(array) {
-  return String.fromCharCode.apply(String,array)
-}

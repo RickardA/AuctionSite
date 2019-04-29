@@ -114,8 +114,6 @@ export default {
             const deadline = this.deadline;
             const sellerID = this.$store.getters.getUserName;
             const status = this.status;
-            console.log(deadline)
-            console.log(images)
             const response = await fetch('/api/auctions/addAuction', {
               method: 'POST',
               body: JSON.stringify({...this.formInfo, images, deadline, sellerID, status}),

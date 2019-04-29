@@ -58,15 +58,22 @@ public class SocketService {
                 }else{
                     authenticatedSessions.put(connectingUser.getMail(),socketSession);
                 }
+                System.out.println("connected " +connectingUser.getMail());
                 break;
             case "DISCONNECT":
                 User disconnectingUser = gson.fromJson(wrapper.getObject().toString(),User.class);
                 authenticatedSessions.remove(disconnectingUser.getMail());
+                System.out.println("disconnected " + disconnectingUser.getMail());
                 break;
             case "MESSAGE":
                 Message recievedMessage = gson.fromJson(wrapper.getObject().toString(), Message.class);
                 Wrapper newWrapper = new Wrapper("MESSAGE", recievedMessage);
                 messageRepository.save(recievedMessage);
+                try {
+                    sendToOne(authenticatedSessions.get(recievedMessage.getSender()),newWrapper,Wrapper.class);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 if(authenticatedSessions.containsKey(recievedMessage.getReciever())){
                     try {
                         sendToOne(authenticatedSessions.get(recievedMessage.getReciever()),newWrapper,Wrapper.class);
