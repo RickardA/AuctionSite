@@ -14,7 +14,7 @@
     </v-content>
     <BottomNav/>
     <Footer />
-    <Chat />
+    <Chat v-if="this.$store.getters.getLoginState"/>
   </v-app>
 </template>
 

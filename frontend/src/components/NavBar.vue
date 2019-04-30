@@ -31,13 +31,14 @@ export default {
       this.$store.commit("togglePopup", true);
     },
     async signOut() {
+      this.commit('setUserName', response);
       this.$store.state.websocket.send(JSON.stringify({type:"DISCONNECT", object: {mail: this.$store.getters.getUserName}}));
       let response = await fetch("/logout", {
         method: "POST"
       });
       this.$router.push("/");
-      let successfulLogin = !response.url.includes("error");
-      if (successfulLogin === true) {
+      let successfulLogout = !response.url.includes("error");
+      if (successfulLogout === true) {
           this.$store.commit('toggleLogin',false)
       }
     }

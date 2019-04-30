@@ -14,7 +14,7 @@
         right
         @click="openChat"
       >
-        <font-awesome-icon icon="arrow-up" />
+        <font-awesome-icon size="2x" :icon="['fas', 'comments']" />
       </v-btn>
       </template>
 
