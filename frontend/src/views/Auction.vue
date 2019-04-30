@@ -9,15 +9,13 @@
    <v-layout row wrap class="top-cards">
    <v-flex xs4 sm6>
    <v-card v-bind:class="{ [`elevation-${8}`]: true } ">
-     <!--  <v-img
-              :src="auction.imageURL"
-              :aspect-ratio="16/9"
-              class="my-5"
-              contain
-              height="30vh"
-              width="100%"
-
-      ></v-img> -->
+      <v-carousel>
+         <v-carousel-item
+                 v-for="(auction,i) in auction.images"
+                 :key="i"
+                 :src="auction.imgURL"
+         ></v-carousel-item>
+      </v-carousel>
    </v-card>
    </v-flex>
    <v-flex xs4 sm6>
@@ -62,9 +60,10 @@ export default {
   data: () => ({
     choosenAuctionID: "",
     auction: null,
-    loading: true
+    loading: true,
   }),
-  computed: {},
+  computed: {
+  },
   methods: {
     getUrlQuery() {
       this.urlQuery = {};
@@ -83,7 +82,7 @@ export default {
   mounted: function() {
     this.getUrlQuery();
     this.getAuction();
-  }
+  },
 };
 </script>
 

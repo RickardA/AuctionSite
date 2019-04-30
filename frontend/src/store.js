@@ -191,7 +191,6 @@ export default new Vuex.Store({
       for(let auction of this.getters.getAuctions){
         Vue.set(this.getters.getAuctions.find(s => s.itemID == auction.itemID),'images',grouped[auction.itemID])
         }
-        console.log(this.getters.getAuctions)
     },
     updateBidOnAuction(state,bidObject){
       if (this.getters.getAuctions.find(s => s.itemID == bidObject.itemID)) {
