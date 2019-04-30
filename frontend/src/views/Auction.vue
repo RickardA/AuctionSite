@@ -7,7 +7,7 @@
    <v-card>
       <div class="flex display-4">{{auction.title}}</div>
    <v-layout row wrap class="top-cards">
-   <v-flex xs4 sm6>
+   <v-flex xs12 sm12 md7>
    <v-card v-bind:class="{ [`elevation-${8}`]: true } ">
       <v-carousel>
          <v-carousel-item
@@ -18,7 +18,7 @@
       </v-carousel>
    </v-card>
    </v-flex>
-   <v-flex xs4 sm6>
+   <v-flex xs12 sm12 md5>
    <v-card class="bid-card">
       <v-card-text>
          <p> Starting at: ${{auction.min_price}} </p>
