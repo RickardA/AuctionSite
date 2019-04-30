@@ -45,7 +45,7 @@ export default {
   },
   created(){
         this.$store.dispatch("getAuctionsFromDB", this.$router.currentRoute.query.valueOf().p);
-  }
+  },
 }
 </script>
 

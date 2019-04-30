@@ -65,25 +65,17 @@ export default {
   computed: {
   },
   methods: {
-    getUrlQuery() {
-      this.urlQuery = {};
-      let url = window.location.href;
-      url = url.substr(url.lastIndexOf("?"));
-      this.choosenAuctionID = url.replace("?", "");
-    },
     async getAuction() {
       this.auction = await this.$store.dispatch(
         "getChoosenAuction",
-        this.choosenAuctionID
-      );
+        this.$route.fullPath.split("?")[1]);
       this.loading = false;
     }
   },
   mounted: function() {
-    this.getUrlQuery();
     this.getAuction();
   },
-};
+}
 </script>
 
 <style scoped>
