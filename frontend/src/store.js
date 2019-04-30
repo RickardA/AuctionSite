@@ -141,8 +141,7 @@ export default new Vuex.Store({
       let response = await (await fetch('/api/user/authenticate')).json();
       if (response === true) {
         this.commit("toggleLogin", true);
-        await this.dispatch('getUserCredentials')
-        this.state.websocket.send(JSON.stringify({type: "CONNECT", object: {mail: this.getters.getUserName}}));
+        this.dispatch('getUserCredentials')
       } else {
         this.commit("toggleLogin", false);
       }
@@ -157,7 +156,8 @@ export default new Vuex.Store({
     },
     async getUserCredentials() {
       let response = await (await fetch("/api/user/credentials")).text();
-      this.commit('setUserName', response);
+      await this.commit('setUserName', response);
+      this.state.websocket.send(JSON.stringify({type: "CONNECT", object: {mail: this.getters.getUserName}}));
     },
 
     async getBidsForAuction(state) {
@@ -190,11 +190,13 @@ export default new Vuex.Store({
       await this.dispatch('sleep',1000);
       let recievedChats = await (await fetch('/api/messages?userID=' + this.getters.getUserName)).json();
       let groupedChats = Vue._.groupBy(recievedChats, 'itemID');
+      console.log(groupedChats);
       this.commit('setChats',groupedChats);
       let auctionsToGet = Object.keys(groupedChats);
       let recievedAuctions = await (await fetch('/api/auctions/specific?auctionIDS=' + auctionsToGet)).json();
-      this.commit('setAuctionsForChats',recievedAuctions);
       console.log(recievedAuctions);
+      this.commit('setAuctionsForChats',recievedAuctions);
+      
     },
     async updateMessagesOnChat(state,messageObject){
       if(this.getters.getChats === null){

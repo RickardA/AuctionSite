@@ -14,6 +14,7 @@
     </v-content>
     <BottomNav/>
     <Footer />
+    <Chat />
   </v-app>
 </template>
 
@@ -23,6 +24,7 @@ import Popup from './components/Popup'
 import NavBar from './components/NavBar'
 import BottomNav from './components/BottomNav'
 import Footer from './components/Footer'
+import Chat from './components/Chat/Chat'
 
 export default {
   name: 'App',
@@ -31,14 +33,19 @@ export default {
     Popup,
     NavBar,
     BottomNav,
-    Footer
+    Footer,
+    Chat
   },
-  created() {
-    this.$store.dispatch("authenticateUser");
+  async created() {
+    await this.$store.dispatch("authenticateUser");
+    this.$store.dispatch('getUserChats');
   },
   methods:{
     togglePopup(){
       this.$store.commit('togglePopup',true);
+    },
+    openChat(){
+      
     }
   },
   computed:{
@@ -63,5 +70,4 @@ export default {
     z-index: 20;
     margin-top: 9.1vh;
   }
-
 </style>

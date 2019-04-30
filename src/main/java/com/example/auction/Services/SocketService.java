@@ -23,6 +23,7 @@ public class SocketService {
 
     private List<WebSocketSession> sessions = new CopyOnWriteArrayList<>();
     private HashMap<String,WebSocketSession> authenticatedSessions = new HashMap<>();
+    private HashMap<WebSocketSession,String> sessionXuser = new HashMap<>();
 
     public void sendToOne(WebSocketSession webSocketSession, String message) throws IOException {
         webSocketSession.sendMessage(new TextMessage(message));
@@ -50,19 +51,23 @@ public class SocketService {
     public void unpackMessage(WebSocketSession socketSession,TextMessage message){
         Gson gson = new Gson();
         Wrapper wrapper = gson.fromJson(message.getPayload(),Wrapper.class);
+        System.out.println(message.getPayload());
         switch (wrapper.getType()){
             case "CONNECT":
                 User connectingUser = gson.fromJson(wrapper.getObject().toString(),User.class);
                 if(authenticatedSessions.containsKey(connectingUser.getMail())){
                     authenticatedSessions.replace(connectingUser.getMail(),socketSession);
+                    sessionXuser.replace(socketSession,connectingUser.getMail());
                 }else{
                     authenticatedSessions.put(connectingUser.getMail(),socketSession);
+                    sessionXuser.put(socketSession,connectingUser.getMail());
                 }
                 System.out.println("connected " +connectingUser.getMail());
                 break;
             case "DISCONNECT":
                 User disconnectingUser = gson.fromJson(wrapper.getObject().toString(),User.class);
                 authenticatedSessions.remove(disconnectingUser.getMail());
+                sessionXuser.remove(socketSession);
                 System.out.println("disconnected " + disconnectingUser.getMail());
                 break;
             case "MESSAGE":
@@ -94,5 +99,9 @@ public class SocketService {
 
     public void removeSession(WebSocketSession session) {
         sessions.remove(session);
+        String userToRemove = sessionXuser.get(session);
+        authenticatedSessions.remove(userToRemove);
+        sessionXuser.remove(session);
+        System.out.println("removed session for user: " + userToRemove);
     }
 }

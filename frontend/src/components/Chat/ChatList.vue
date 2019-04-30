@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="list">
     <ChatCard  v-for="chat in chats" v-bind:key="chat.itemID" :chat="chat"/>
 </div>
 </template>
@@ -19,6 +19,9 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.list{
+    width: 100% !important;
+    overflow-y: scroll !important;
+}
 </style>

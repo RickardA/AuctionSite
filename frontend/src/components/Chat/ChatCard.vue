@@ -30,7 +30,6 @@ export default {
     methods:{
         openChatWindow(){
             this.$store.commit('setChoosenChat',this.chat);
-            console.log("opening chat for item "+this.chat.itemID);
         }
     }
 }
