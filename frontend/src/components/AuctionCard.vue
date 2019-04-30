@@ -2,11 +2,13 @@
     <v-flex mt-2 mr-2 sm3>
       <v-card>
         <div @click="routeToAuction" class="hover">
-        <!-- <v-img
-          :src="auctionObject.imageURL"
+        <v-img
+          :src="imageURL"
           height="200px"
+          :lazy-src="require('../assets/loading.jpg')"
+          transition="true"
         >
-        </v-img> -->
+        </v-img>
         <v-card-title primary-title>
           <div>
             <div class="headline">{{auctionObject.title}}</div>
@@ -46,11 +48,19 @@ export default {
     props: {
         auctionObject:null,
     },
+  computed: {
+      imageURL(){
+        return this.auctionObject.hasOwnProperty("images") ? this.auctionObject.images[0].imgURL : ''
+    }
+  },
     methods:{
       routeToAuction(){
         this.$router.push('/auction?'+this.auctionObject.itemID);
-      },
-    }
+      }
+    },
+  created(){
+      console.log()
+  }
 }
 </script>
 

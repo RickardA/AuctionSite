@@ -18,7 +18,7 @@
         <v-btn
                 color="teal"
                 flat
-                to="/auctions"
+                to="/auctions/?p=1"
                 value="favorites"
         >
             <span class="pt-1">Auctions</span>

@@ -8,20 +8,18 @@
    <v-card>
       <div class="flex display-4">{{auction.title}}</div>
    <v-layout row wrap class="top-cards">
-   <v-flex xs4 sm6>
+   <v-flex xs12 sm12 md7>
    <v-card v-bind:class="{ [`elevation-${8}`]: true } ">
-     <!--  <v-img
-              :src="auction.imageURL"
-              :aspect-ratio="16/9"
-              class="my-5"
-              contain
-              height="30vh"
-              width="100%"
-
-      ></v-img> -->
+      <v-carousel>
+         <v-carousel-item
+                 v-for="(auction,i) in auction.images"
+                 :key="i"
+                 :src="auction.imgURL"
+         ></v-carousel-item>
+      </v-carousel>
    </v-card>
    </v-flex>
-   <v-flex xs4 sm6>
+   <v-flex xs12 sm12 md5>
    <v-card class="bid-card">
       <v-card-text>
          <p> Starting at: ${{auction.min_price}} </p>
@@ -63,29 +61,22 @@ export default {
   data: () => ({
     choosenAuctionID: "",
     auction: null,
-    loading: true
+    loading: true,
   }),
-  computed: {},
+  computed: {
+  },
   methods: {
-    getUrlQuery() {
-      this.urlQuery = {};
-      let url = window.location.href;
-      url = url.substr(url.lastIndexOf("?"));
-      this.choosenAuctionID = url.replace("?", "");
-    },
     async getAuction() {
       this.auction = await this.$store.dispatch(
         "getChoosenAuction",
-        this.choosenAuctionID
-      );
+        this.$route.fullPath.split("?")[1]);
       this.loading = false;
     }
   },
   mounted: function() {
-    this.getUrlQuery();
     this.getAuction();
-  }
-};
+  },
+}
 </script>
 
 <style scoped>

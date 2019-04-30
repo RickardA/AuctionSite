@@ -43,9 +43,6 @@ export default {
   methods:{
     togglePopup(){
       this.$store.commit('togglePopup',true);
-    },
-    openChat(){
-      
     }
   },
   computed:{
@@ -60,7 +57,7 @@ export default {
 
   .content{
     margin-top: 10vh;
-    margin-bottom: 5vh;
+    margin-bottom: 1vh;
   }
 
   .errorMessage{
@@ -70,4 +67,5 @@ export default {
     z-index: 20;
     margin-top: 9.1vh;
   }
+
 </style>

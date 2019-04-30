@@ -84,4 +84,5 @@ function showSomething(recievedObject) {
 
 store.watch((state) => state.auctions, (oldValue, newValue) => {
   store.dispatch('getBidsForAuction');
+  store.dispatch('getImagesForAuction');
 })

@@ -11,10 +11,6 @@ export default new Vuex.Store({
     userName: '',
     doneLoading: false,
     uploadedImage: null,
-    category: null,
-    title: null,
-    description: null,
-    min_price: null,
     images: [],
     infoText: '',
     websocket: null,
@@ -23,6 +19,7 @@ export default new Vuex.Store({
     auctionsForChats: null,
     choosenChat: null,
 
+    totalPages: null,
     filteredAuctions: null,
     threeLatestAuctions: null,
     threeAuctionsNearDeadline: null,
@@ -30,6 +27,9 @@ export default new Vuex.Store({
   mutations: {
     setAuctions(state, auctions) {
       state.auctions = auctions;
+    },
+    setTotalAuctionPages(state, totalPages){
+      state.totalPages = totalPages
     },
     setFilteredAuctions(state, filteredAuctions) {
       state.auctions = filteredAuctions;
@@ -53,8 +53,23 @@ export default new Vuex.Store({
       state.doneLoading = loading;
     },
     setUploadedImage(state, image) {
-      let test = {img:image}
+      let test = {img:image, isPrimary: (state.images.length < 1).toString()}
       state.images.push(test);
+    },
+    setCheckedImage(state, index) {
+      state.images = state.images.map((image, idx) => {
+        return { img: image.img, isPrimary: (index ===  idx).toString() }
+      })
+    },
+    removeImage(state, index) {
+      let wasPrimary = state.images[index].isPrimary
+      state.images.splice(index, 1);
+      if(wasPrimary){
+      this.commit('setCheckedImage', 0);
+      }
+    },
+    clearImage(state){
+      state.images = [];
     },
     setInfoText(state, text) {
       state.infoText = text;
@@ -75,6 +90,9 @@ export default new Vuex.Store({
   getters: {
     getAuctions: state => {
       return state.auctions;
+    },
+    getTotalAuctionPages: state => {
+      return state.totalPages;
     },
     getFilteredAuctions: state => {
       return state.filteredAuctions;
@@ -117,9 +135,10 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async getAuctionsFromDB() {
-      let auctions = await (await fetch('/api/auctions/')).json();
-      await this.commit('setAuctions', auctions);
+    async getAuctionsFromDB(state, page) {
+      let auctions = await (await fetch('/api/auctions/?page='+(page-1)+'&size=3')).json();
+      await this.commit('setAuctions', auctions.content);
+      await this.commit('setTotalAuctionPages', auctions.totalPages)
       this.commit('toggleDoneLoading', true)
     },
     async getFilteredAuctionsFromDB(state, userinput) {
@@ -162,14 +181,16 @@ export default new Vuex.Store({
 
     async getBidsForAuction(state) {
       let arrayOfAuctionIDS = [];
+      if(this.getters.getAuctions.length > 0){
       for(let auction of this.getters.getAuctions) {
         arrayOfAuctionIDS.push(auction.itemID);
       };
       let responseBids = await (await fetch('/api/bids/bid?auctionID=' + arrayOfAuctionIDS)).json();
       this.dispatch('setBidToAuction',responseBids);
+    }
     },
     setBidToAuction(state,bids){
-      let grouped = Vue._.mapValues(Vue._.groupBy(bids, 'itemID'),v => _.sortBy(v, "amount").reverse());
+      let grouped = Vue._.mapValues(Vue._.groupBy(bids, 'itemID'),v => Vue._.sortBy(v, "amount").reverse());
       let emptyAuction = [{amount: 0}];
       for(let auction of this.getters.getAuctions){
         Vue.set(this.getters.getAuctions.find(s => s.itemID == auction.itemID),'bids',grouped[auction.itemID])
@@ -177,6 +198,23 @@ export default new Vuex.Store({
           Vue.set(this.getters.getAuctions.find(s => s.itemID == auction.itemID),'bids',emptyAuction)
         }
       }
+    },
+    async getImagesForAuction(state) {
+      let arrayOfAuctionIDS = [];
+      if(this.getters.getAuctions.length > 0){
+      for(let auction of this.getters.getAuctions) {
+        arrayOfAuctionIDS.push(auction.itemID);
+      };
+      let responseImages = await (await fetch('/api/auctions/images?itemId=' + arrayOfAuctionIDS)).json();
+      // console.log(responseImages)
+      this.dispatch('setImagesToAuction',responseImages);
+    }
+    },
+    setImagesToAuction(state,images){
+      let grouped = Vue._.mapValues(Vue._.groupBy(images, 'itemID'),v => Vue._.sortBy(v, "isPrimary").reverse());
+      for(let auction of this.getters.getAuctions){
+        Vue.set(this.getters.getAuctions.find(s => s.itemID == auction.itemID),'images',grouped[auction.itemID])
+        }
     },
     updateBidOnAuction(state,bidObject){
       if (this.getters.getAuctions.find(s => s.itemID == bidObject.itemID)) {
@@ -196,7 +234,7 @@ export default new Vuex.Store({
       let recievedAuctions = await (await fetch('/api/auctions/specific?auctionIDS=' + auctionsToGet)).json();
       console.log(recievedAuctions);
       this.commit('setAuctionsForChats',recievedAuctions);
-      
+
     },
     async updateMessagesOnChat(state,messageObject){
       if(this.getters.getChats === null){
