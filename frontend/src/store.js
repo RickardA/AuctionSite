@@ -27,12 +27,16 @@ export default new Vuex.Store({
   mutations: {
     setAuctions(state, auctions) {
       state.auctions = auctions;
+      this.dispatch('getBidsForAuction');
+      this.dispatch('getImagesForAuction');
     },
     setTotalAuctionPages(state, totalPages){
       state.totalPages = totalPages
     },
     setFilteredAuctions(state, filteredAuctions) {
       state.auctions = filteredAuctions;
+      this.dispatch('getBidsForAuction');
+      this.dispatch('getImagesForAuction');
     },
     setThreeLatestAuctions(state, threeLatestAuctions) {
       state.threeLatestAuctions = threeLatestAuctions;
@@ -135,27 +139,6 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async getAuctionsFromDB(state, page) {
-      let auctions = await (await fetch('/api/auctions/?page='+(page-1)+'&size=3')).json();
-      await this.commit('setAuctions', auctions.content);
-      await this.commit('setTotalAuctionPages', auctions.totalPages)
-      this.commit('toggleDoneLoading', true)
-    },
-    async getFilteredAuctionsFromDB(state, userinput) {
-      let filteredAuctions = await (await fetch('/api/auctions/search?title=' + userinput)).json();
-      this.commit('setFilteredAuctions', filteredAuctions)
-    },
-    async getStartPageAuctions() {
-      let threeAuctionsNearDeadline = await (await fetch('/api/auctions/threenearest')).json();
-      this.commit('setThreeAuctionsNearDeadline', threeAuctionsNearDeadline)
-      let threeLatestAuctions = await (await fetch('/api/auctions/threelatest')).json();
-      this.commit('setThreeLatestAuctions', threeLatestAuctions)
-      let temp = [];
-      temp.push(...threeAuctionsNearDeadline)
-      temp.push(...threeLatestAuctions);
-      temp = Vue._.uniqBy(temp, 'itemID');
-      this.commit('setAuctions',temp);
-    },
     async authenticateUser() {
       let response = await (await fetch('/api/user/authenticate')).json();
       if (response === true) {
@@ -163,14 +146,6 @@ export default new Vuex.Store({
         this.dispatch('getUserCredentials')
       } else {
         this.commit("toggleLogin", false);
-      }
-    },
-    async getChoosenAuction(state, auctionID) {
-      if (this.getters.getAuctions === undefined || this.getters.getAuctions.length === 1 || this.getters.getAuctions.length === 0) {
-        await this.dispatch('getAuctionsFromDB');
-        return this.getters.getAuctions.find(s => s.itemID == auctionID);
-      } else {
-        return this.getters.getAuctions.find(s => s.itemID == auctionID);
       }
     },
     async getUserCredentials() {

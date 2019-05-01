@@ -81,8 +81,3 @@ function showSomething(recievedObject) {
       console.log("Message Reccieved");
   }
 }
-
-store.watch((state) => state.auctions, (oldValue, newValue) => {
-  store.dispatch('getBidsForAuction');
-  store.dispatch('getImagesForAuction');
-})

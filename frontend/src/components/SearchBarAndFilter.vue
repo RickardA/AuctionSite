@@ -44,7 +44,7 @@
         methods:{
             goToSearch(searchTitle){
                 this.$router.push('/auctions/search?title=' + searchTitle)
-                    this.$store.dispatch('getFilteredAuctionsFromDB', this.getUrlQuery())
+                    this.getFilteredAuctionsFromDB(this.getUrlQuery());
                 
             },
             getUrlQuery() {
@@ -53,10 +53,14 @@
                 url = url.replace("=", "");
                 return url;
             },
+            async getFilteredAuctionsFromDB(userinput){
+                let filteredAuctions = await (await fetch('/api/auctions/search?title=' + userinput)).json();
+                await this.$store.commit('setFilteredAuctions', filteredAuctions)
+            }
         },
             mounted: function(){
             if(window.location.href.includes("search")){
-                this.$store.dispatch('getFilteredAuctionsFromDB', this.getUrlQuery())
+                this.getFilteredAuctionsFromDB(this.getUrlQuery());
             }
             }
 

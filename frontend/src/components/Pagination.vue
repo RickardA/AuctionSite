@@ -30,26 +30,36 @@
             }
         },
         created(){
+            this.getAuctionsFromDB(this.$router.currentRoute.query.valueOf().p);
             this.pageNumber = parseInt(this.$router.currentRoute.query.valueOf().p);
             setTimeout(()=>{this.totalPages = this.$store.getters.getTotalAuctionPages}, 1000);
-            // this.totalPages = this.$store.getters.getTotalAuctionPages
         },
         methods:{
+            async getAuctionsFromDB(page){
+                this.$store.commit('toggleDoneLoading',false)
+                let auctions = await (await fetch('/api/auctions/?page='+(page-1)+'&size=3')).json();
+                await this.$store.commit('setAuctions', auctions.content);
+                await this.$store.commit('setTotalAuctionPages', auctions.totalPages)
+                this.$store.commit('toggleDoneLoading',true)
+            },
             goToPreviousPage(){
                 if(this.pageNumber > 1){
                 this.$router.push('/auctions/?p='+ --this.pageNumber)
-                this.$store.dispatch("getAuctionsFromDB", this.pageNumber)
                 }
             },
             goToNextPage()
                 {
-                    // this.totalPages = this.$store.getters.getTotalAuctionPages;
                     if(this.pageNumber < this.totalPages){
                     this.$router.push('/auctions/?p=' + ++this.pageNumber)
-                    this.$store.dispatch("getAuctionsFromDB", this.pageNumber)
                     }
                 }
             },
+            watch:{
+                '$route' (to,from){
+                    this.pageNumber = parseInt(this.$router.currentRoute.query.valueOf().p);
+                    this.getAuctionsFromDB(this.pageNumber);
+                }
+            }
     }
 </script>
 

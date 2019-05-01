@@ -19,7 +19,7 @@
 
 <script>
   import AuctionCard from '../components/AuctionCard'
-
+  import Vue from 'vue'
   export default {
     name: "Home",
     computed:{
@@ -35,13 +35,28 @@
       AuctionCard
     },
      async created(){
-       await this.$store.dispatch("getStartPageAuctions")
+       await this.getStartPageAuctions();
        for(let auction of this.$store.getters.getThreeLatestAuctions){
          this.threeLatestAuctions.push(this.auctions.find(s => s.itemID == auction.itemID))
        }
        for(let auction of this.$store.getters.getThreeAuctionsNearDeadline){
          this.threeAuctionsNearDeadline.push(this.auctions.find(s => s.itemID == auction.itemID))
        }
+  },
+  methods:{
+    async getStartPageAuctions(){
+      let threeAuctionsNearDeadline = await (await fetch('/api/auctions/threenearest')).json();
+      this.$store.commit('setThreeAuctionsNearDeadline', threeAuctionsNearDeadline)
+      let threeLatestAuctions = await (await fetch('/api/auctions/threelatest')).json();
+      this.$store.commit('setThreeLatestAuctions', threeLatestAuctions)
+      let temp = [];
+      temp.push(...threeAuctionsNearDeadline)
+      temp.push(...threeLatestAuctions);
+      temp = Vue._.uniqBy(temp, 'itemID');
+      await this.$store.commit('setAuctions',temp);
+      await this.$store.dispatch('getBidsForAuction');
+      await this.$store.dispatch('getImagesForAuction');
+    }
   }
   }
 </script>

@@ -67,13 +67,21 @@ export default {
   },
   methods: {
     async getAuction() {
-      this.auction = await this.$store.dispatch(
-        "getChoosenAuction",
+      this.auction = await this.getChoosenAuction(
         this.$route.fullPath.split("?")[1]);
       this.loading = false;
+    },
+    async getChoosenAuction(auctionID){
+      if (this.$store.getters.getAuctions === undefined || this.$store.getters.getAuctions.length === 1 || this.$store.getters.getAuctions.length === 0) {
+        let recievedAuction = await (await fetch('/api/auctions/specific?auctionIDS=' + auctionID)).json();
+        await this.$store.commit('setAuctions',recievedAuction);
+        return this.$store.getters.getAuctions.find(s => s.itemID == auctionID);
+      } else {
+        return this.$store.getters.getAuctions.find(s => s.itemID == auctionID);
+      }
     }
   },
-  mounted: function() {
+  created: function() {
     this.getAuction();
   },
 }

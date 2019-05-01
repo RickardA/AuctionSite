@@ -19,7 +19,6 @@
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
 import Popup from './components/Popup'
 import NavBar from './components/NavBar'
 import BottomNav from './components/BottomNav'
@@ -29,7 +28,6 @@ import Chat from './components/Chat/Chat'
 export default {
   name: 'App',
   components: {
-    HelloWorld,
     Popup,
     NavBar,
     BottomNav,

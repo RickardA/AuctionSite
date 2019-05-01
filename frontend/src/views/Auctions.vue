@@ -3,9 +3,10 @@
     <SearchBarAndFilter/>
     <v-container justify-center="true" mt-2>
         <h1>All Auctions</h1>
-          <v-layout row justify-center wrap>
+          <v-layout row justify-center wrap v-if="this.$store.getters.getDoneLoader">
         <AuctionCard v-for="auction in auctions" v-bind:key="auction.itemID" :auctionObject="auction"></AuctionCard>
           </v-layout>
+          <Pagination class="pt-3"/>
     </v-container>
     </div>
 </template>
@@ -26,9 +27,6 @@ export default {
       AuctionCard,
       SearchBarAndFilter,
       Pagination,
-  },
-  created(){
-        this.$store.dispatch("getAuctionsFromDB", this.$router.currentRoute.query.valueOf().p);
   },
 }
 </script>
