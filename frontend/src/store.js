@@ -90,6 +90,7 @@ export default new Vuex.Store({
     setChoosenChat(state,choosenChat){
       state.choosenChat = choosenChat;
     }
+
   },
   getters: {
     getAuctions: state => {
@@ -165,13 +166,9 @@ export default new Vuex.Store({
     }
     },
     setBidToAuction(state,bids){
-      let grouped = Vue._.mapValues(Vue._.groupBy(bids, 'itemID'),v => Vue._.sortBy(v, "amount").reverse());
-      let emptyAuction = [{amount: 0}];
+      let grouped = Vue._.mapValues(Vue._.groupBy(bids, 'itemID'),v => Vue._.sortBy(v, "amount").reverse());;
       for(let auction of this.getters.getAuctions){
         Vue.set(this.getters.getAuctions.find(s => s.itemID == auction.itemID),'bids',grouped[auction.itemID])
-        if(this.getters.getAuctions.find(s => s.itemID == auction.itemID).bids === undefined){
-          Vue.set(this.getters.getAuctions.find(s => s.itemID == auction.itemID),'bids',emptyAuction)
-        }
       }
     },
     async getImagesForAuction(state) {
@@ -190,11 +187,6 @@ export default new Vuex.Store({
       for(let auction of this.getters.getAuctions){
         Vue.set(this.getters.getAuctions.find(s => s.itemID == auction.itemID),'images',grouped[auction.itemID])
         }
-    },
-    updateBidOnAuction(state,bidObject){
-      if (this.getters.getAuctions.find(s => s.itemID == bidObject.itemID)) {
-        this.getters.getAuctions.find(s => s.itemID == bidObject.itemID).bids.unshift(bidObject);
-      }
     },
     sleep(state, ms) {
       return new Promise(resolve => setTimeout(resolve, ms));

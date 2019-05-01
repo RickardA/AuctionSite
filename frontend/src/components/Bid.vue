@@ -49,7 +49,7 @@ export default {
     async placeBid() {
       if (this.$refs.form.validate()) {
         if (this.$store.getters.getLoginState) {
-          if (this.amount > this.auctionObject.bids[0].amount && this.amount >= this.auctionObject.min_price) {
+          if (this.amount > this.auctionObject.bids !== undefined && this.amount >= this.auctionObject.min_price) {
             this.createBid();
             let response = await fetch("/api/bids/", {
               method: "POST",

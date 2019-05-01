@@ -74,7 +74,11 @@ function showSomething(recievedObject) {
   switch(object.type){
     case 'BID':
       console.log("New bid recieved");
-      store.dispatch('updateBidOnAuction',object.object)
+      if(store.getters.getAuctions.find(a => a.itemID === object.object.itemID).bids === undefined){
+        Vue.set(store.getters.getAuctions.find(a => a.itemID === object.object.itemID),'bids',[object.object])
+      }else{
+        store.getters.getAuctions.find(a => a.itemID === object.object.itemID).bids.unshift(object.object)
+      }
       break;
       case 'MESSAGE':
       store.dispatch('updateMessagesOnChat',object.object);
