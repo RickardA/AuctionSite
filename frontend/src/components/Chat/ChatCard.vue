@@ -1,5 +1,5 @@
 <template>
-    <v-card color="purple" class="white--text" @click="openChatWindow">
+    <v-card color="indigo lighten-1" class="white--text" @click="openChatWindow">
               <v-layout row>
                 <v-flex xs7>
                   <v-card-title primary-title>
@@ -11,7 +11,7 @@
                 </v-flex>
                 <v-flex xs5>
                   <v-img
-                    src="https://cdn.vuetifyjs.com/images/cards/halcyon.png"
+                    :src="this.chat.images[0].imgURL"
                     height="125px"
                     contain
                   ></v-img>
@@ -29,7 +29,9 @@ export default {
     },
     methods:{
         openChatWindow(){
-            this.$store.commit('setChoosenChat',this.chat);
+          console.log(this.chat);
+            this.$emit('setChoosenChat',this.chat);
+            console.log("printing from chatCard")
         }
     }
 }

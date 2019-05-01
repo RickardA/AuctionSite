@@ -28,8 +28,8 @@
         <v-divider></v-divider>
 
         <v-list class="list">
-        <ChatList  v-if="showList"/>
-        <ChatField v-if="!showList"/>
+        <ChatList @setChoosenChat="setChoosenChat" v-if="showList"/>
+        <ChatField :choosenChat="this.choosenChat" v-if="!showList"/>
         </v-list>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -43,6 +43,7 @@
 <script>
 import ChatList from '../Chat/ChatList'
 import ChatField from '../Chat/ChatField'
+import Vue from 'vue'
 export default {
     name: 'chat',
     components:{
@@ -54,28 +55,46 @@ export default {
         fav: true,
       menu: false,
       showList: true,
+      choosenChat: null,
     }),
-    computed:{
-      choosenChat(){
-        return this.$store.getters.getChoosenChat;
-      }
+    created(){
+      this.getUserChats();
     },
-
     methods:{
       async openChat(){
-          await this.$store.dispatch('getUserChats');
           this.menu = true;
       },
       async showChats(){
-        await this.$store.dispatch('getUserChats');
           this.showList = true;
+      },
+      setChoosenChat(choosenChat){
+        this.choosenChat = choosenChat;
+        this.showList = false;
+      },
+      async getUserChats(){
+        await this.$store.dispatch('sleep',1000);
+        let recievedChats = await (await fetch('/api/messages?userID=' + this.$store.getters.getUserName)).json();
+        let groupedChats = Vue._.groupBy(recievedChats, 'itemID');
+        this.$store.commit('setChats',groupedChats);
+        let auctionsToGet = Object.keys(groupedChats);
+        let recievedAuctions = await (await fetch('/api/auctions/specific?auctionIDS=' + auctionsToGet)).json();
+        this.$store.commit('setAuctionsForChats',recievedAuctions);
+        this.getChatImages();
+    },
+      async getChatImages(){
+          let arrayOfAuctionIDS = [];
+          if(this.$store.getters.getAuctionsForChats.length > 0){
+          for(let auction of this.$store.getters.getAuctionsForChats) {
+            arrayOfAuctionIDS.push(auction.itemID);
+          };
+          let responseImages = await (await fetch('/api/auctions/images?itemId=' + arrayOfAuctionIDS)).json();
+          let grouped = Vue._.mapValues(Vue._.groupBy(responseImages, 'itemID'),v => Vue._.sortBy(v, "isPrimary").reverse());
+          for(let auction of this.$store.getters.getAuctionsForChats){
+            Vue.set(this.$store.getters.getAuctionsForChats.find(s => s.itemID == auction.itemID),'images',grouped[auction.itemID])
+            }
+          }
       }
     },
-    watch:{
-      choosenChat:function(){
-          this.showList = false;
-      }
-    }
 }
 </script>
 

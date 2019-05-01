@@ -1,6 +1,6 @@
 <template>
 <div class="list">
-    <ChatCard  v-for="chat in chats" v-bind:key="chat.itemID" :chat="chat"/>
+    <ChatCard  @setChoosenChat="setChoosenChat" v-for="chat in chats" v-bind:key="chat.itemID" :chat="chat"/>
 </div>
 </template>
 
@@ -14,6 +14,11 @@ export default {
     computed:{
         chats(){
             return this.$store.getters.getAuctionsForChats;
+        }
+    },
+    methods:{
+        setChoosenChat(choosenChat){
+            this.$emit('setChoosenChat',choosenChat);
         }
     }
 }

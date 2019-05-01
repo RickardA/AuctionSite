@@ -178,7 +178,6 @@ export default new Vuex.Store({
         arrayOfAuctionIDS.push(auction.itemID);
       };
       let responseImages = await (await fetch('/api/auctions/images?itemId=' + arrayOfAuctionIDS)).json();
-      // console.log(responseImages)
       this.dispatch('setImagesToAuction',responseImages);
     }
     },
@@ -191,18 +190,7 @@ export default new Vuex.Store({
     sleep(state, ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
     },
-    async getUserChats(state){
-      await this.dispatch('sleep',1000);
-      let recievedChats = await (await fetch('/api/messages?userID=' + this.getters.getUserName)).json();
-      let groupedChats = Vue._.groupBy(recievedChats, 'itemID');
-      console.log(groupedChats);
-      this.commit('setChats',groupedChats);
-      let auctionsToGet = Object.keys(groupedChats);
-      let recievedAuctions = await (await fetch('/api/auctions/specific?auctionIDS=' + auctionsToGet)).json();
-      console.log(recievedAuctions);
-      this.commit('setAuctionsForChats',recievedAuctions);
 
-    },
     async updateMessagesOnChat(state,messageObject){
       if(this.getters.getChats === null){
         await this.dispatch('getUserChats');

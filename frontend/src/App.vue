@@ -36,7 +36,6 @@ export default {
   },
   async created() {
     await this.$store.dispatch("authenticateUser");
-    this.$store.dispatch('getUserChats');
   },
   methods:{
     togglePopup(){

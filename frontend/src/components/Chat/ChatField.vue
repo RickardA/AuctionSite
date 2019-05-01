@@ -20,12 +20,13 @@ export default {
   data: () => ({
     message: ""
   }),
+  props:{
+    choosenChat: Object,
+  },
   computed: {
     chat() {
-      return this.$store.getters.getChoosenChat === null
-        ? false
-        : this.$store.getters.getChats[
-            this.$store.getters.getChoosenChat.itemID
+      return this.$store.getters.getChats[
+            this.choosenChat.itemID
           ];
     }
   },
@@ -36,7 +37,7 @@ export default {
     },
     sendMessage() {
       if (
-        this.$store.getters.getChoosenChat.sellerID ==
+        this.choosenChat.sellerID ==
         this.$store.getters.getUserName
       ) {
         let object = JSON.stringify({
@@ -51,7 +52,7 @@ export default {
       } else {
         let object = JSON.stringify({
           sender: this.$store.getters.getUserName,
-          reciever: this.$store.getters.getChoosenChat.sellerID,
+          reciever: this.choosenChat.sellerID,
           message: this.message,
           itemID: this.chat[0].itemID
         });
