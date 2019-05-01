@@ -4,7 +4,6 @@
 </div>
 <div v-else>
       <v-container class="container">
-        <NewChat :auction="auction"/>
    <v-card>
       <div class="flex display-4">{{auction.title}}</div>
    <v-layout row wrap class="top-cards">
@@ -26,7 +25,8 @@
          <p v-if="this.auction.bids !== undefined ">Current bid: ${{auction.bids[0].amount}}</p>
          <p v-else>Current bid: $0</p>
          <p>Auction ends: {{auction.deadline}}</p>
-          <Bid :auctionObject="auction"/>    
+          <Bid :auctionObject="auction"/>
+          <NewChat :auction="auction"/>    
       </v-card-text>
    </v-card>
    </v-flex>

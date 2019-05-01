@@ -8,9 +8,7 @@
       offset-x
     >
       <template v-slot:activator="{ on }">
-        <v-btn outline large fab v-on="on" color="indigo">
-      <v-icon>edit</v-icon>
-        </v-btn>
+        <v-btn :disabled="!$store.getters.getLoginState" color="primary" flat v-on="on">Contact Seller</v-btn>
       </template>
 
       <v-card>

@@ -62,6 +62,7 @@ export default {
     },
     methods:{
       async openChat(){
+          this.getUserChats();
           this.menu = true;
       },
       async showChats(){

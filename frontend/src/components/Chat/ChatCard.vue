@@ -11,7 +11,7 @@
                 </v-flex>
                 <v-flex xs5>
                   <v-img
-                    :src="this.chat.images[0].imgURL"
+                    :src="imageURL"
                     height="125px"
                     contain
                   ></v-img>
@@ -26,6 +26,11 @@ export default {
     name: 'chatCard',
     props:{
         chat: Object,
+    },
+    computed:{
+      imageURL(){
+        return this.chat.images === undefined ? '' : this.chat.images[0].imgURL;
+      }
     },
     methods:{
         openChatWindow(){
