@@ -1,8 +1,8 @@
 package com.example.auction.Services;
 
-import com.example.auction.Datamodels.Message;
-import com.example.auction.Datamodels.User;
-import com.example.auction.Datamodels.Wrapper;
+import com.example.auction.Datamodels.*;
+import com.example.auction.Repositories.AuctionRepository;
+import com.example.auction.Repositories.BidRepository;
 import com.example.auction.Repositories.MessageRepository;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +20,10 @@ public class SocketService {
 
     @Autowired
     MessageRepository messageRepository;
+    @Autowired
+    BidRepository bidRepository;
+    @Autowired
+    AuctionRepository auctionRepository;
 
     private List<WebSocketSession> sessions = new CopyOnWriteArrayList<>();
     private HashMap<String,WebSocketSession> authenticatedSessions = new HashMap<>();
@@ -103,5 +107,18 @@ public class SocketService {
         authenticatedSessions.remove(userToRemove);
         sessionXuser.remove(session);
         System.out.println("removed session for user: " + userToRemove);
+    }
+
+    public void sendBidNotification(Long bidId){
+        Bid bid = bidRepository.findByBidID(bidId);
+        Auction auction = auctionRepository.findByItemID(bid.getItemID());
+        if(authenticatedSessions.containsKey(bid.getBuyerID())){
+            Wrapper wrapper = new Wrapper("BID_NOTIFICATION", auction);
+            try {
+                sendToOne(authenticatedSessions.get(bid.getBuyerID()), wrapper, Wrapper.class);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

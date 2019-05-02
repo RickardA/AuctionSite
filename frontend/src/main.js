@@ -83,5 +83,9 @@ function showSomething(recievedObject) {
       case 'MESSAGE':
       store.dispatch('updateMessagesOnChat',object.object);
       console.log("Message Reccieved");
+      break;
+      case 'BID_NOTIFICATION':
+      console.log("Notification arrived")
+      break; 
   }
 }
