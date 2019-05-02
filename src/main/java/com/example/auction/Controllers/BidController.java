@@ -9,6 +9,10 @@ import com.example.auction.Services.SocketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityManager;
+import javax.persistence.ParameterMode;
+import javax.persistence.PersistenceContext;
+import javax.persistence.StoredProcedureQuery;
 import java.util.List;
 
 @RestController
@@ -19,6 +23,9 @@ public class BidController {
 
     @Autowired
     private AuctionRepository auctionRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Autowired
     private SocketService socketController;
@@ -36,6 +43,10 @@ public class BidController {
         System.out.println(!auction.getStatus().contains("SOLD"));
         if((bids.isEmpty() || placedBid.getAmount() > bids.get(0).getAmount()) && !auction.getStatus().contains("SOLD") && !auction.getSellerID().equals(placedBid.getBuyerID())) {
             Bid bid = repo.save(placedBid);
+            StoredProcedureQuery updateBid = entityManager.createStoredProcedureQuery("updateBidStatus");
+            updateBid.registerStoredProcedureParameter(1,Long.class, ParameterMode.IN);
+            updateBid.setParameter(1, bid.getItemID());
+            updateBid.execute();
             Wrapper wrapper = new Wrapper("BID", bid);
             socketController.sendToAll(wrapper, Wrapper.class);
             return true;

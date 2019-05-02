@@ -78,7 +78,8 @@ export default {
       this.bid = {
         buyerID: this.$store.getters.getUserName,
         itemID: this.auctionObject.itemID,
-        amount: this.amount
+        amount: this.amount,
+        highestBid: 1,
       };
     }
   }
