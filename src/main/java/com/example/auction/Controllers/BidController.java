@@ -73,7 +73,7 @@ public class BidController {
     }
 
     @PostMapping("updatereadstatus")
-    private void updateReadStatus(@RequestBody Long bidID){
-        repo.updateBidReadStatus(bidID);
+    private void updateReadStatus(@RequestBody List<String> auctionID){
+        repo.updateBidReadStatus(auctionID);
     }
     }

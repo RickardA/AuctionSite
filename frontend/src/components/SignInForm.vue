@@ -107,7 +107,8 @@ export default {
     async getMyBids(){
       let response = await (await fetch("/api/bids/mybids?buyerID=" + this.$store.getters.getUserName)).json();
       await this.$store.commit('setAllBidsByBuyer', response);
-      console.log(response)
+      console.log(response);
+      console.log(this.$store.getters.getAllBidsByBuyer);
     },
     transformRequest(jsonData = {}) {
       return Object.entries(jsonData)

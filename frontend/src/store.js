@@ -18,6 +18,7 @@ export default new Vuex.Store({
     chats: null,
     auctionsForChats: null,
     choosenChat: null,
+    allBidsByBuyer: null,
 
     totalPages: null,
     filteredAuctions: null,

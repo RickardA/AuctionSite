@@ -1,5 +1,5 @@
 <template>
-    <v-card color="indigo lighten-1" class="white--text" @click="openChatWindow">
+    <v-card color="indigo lighten-1" class="white--text" @click="routeToAuction">
               <v-layout row>
                 <v-flex xs7>
                   <v-card-title primary-title>
@@ -32,9 +32,9 @@ export default {
       } */
     },
     methods:{
-        openChatWindow(){
-          console.log("idiot");
-        }
+        routeToAuction(){
+        this.$router.push('/auction?'+this.auctionObject.itemID);
+      }
     }
 }
 </script>

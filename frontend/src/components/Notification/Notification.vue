@@ -1,7 +1,7 @@
 <template>
      <v-menu
       v-model="menu"
-      :close-on-content-click="false"
+      :close-on-content-click="true"
       :nudge-width="200"
       offset-x
     >
@@ -28,7 +28,7 @@
         <v-divider></v-divider>
 
         <v-list class="list">
-          <NotificationCard />
+          <NotificationCard v-for="auction in auctionsForNotification" :key="auction.itemID" :auctionObject="auction"/>
         </v-list>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -52,10 +52,33 @@ export default {
       showList: true,
       choosenChat: null,
     }),
+    computed:{
+      auctionsForNotification(){
+        return this.$store.getters.getAllBidsByBuyer;
+      }
+    },
   methods:{
     openNotification(){
       this.menu = true;
     }
+  },
+  watch:{
+    menu:async function(){
+      if(this.menu === false){
+        console.log("all notifications have been read");
+        let arrayOfAuctionIDS = [];
+        if(this.$store.getters.getAllBidsByBuyer !== null && this.$store.getters.getAllBidsByBuyer.length > 0){
+          for(let auction of this.$store.getters.getAllBidsByBuyer) {
+          arrayOfAuctionIDS.push(auction.itemID);
+      }
+      let response = await fetch("/api/bids/updatereadstatus", {
+        method: "POST",
+        body: JSON.stringify(arrayOfAuctionIDS),
+        headers: { "Content-Type": "application/json"  }
+      });
+      }
+    }
+  }
   }
 }
 </script>
