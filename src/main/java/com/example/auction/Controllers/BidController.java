@@ -45,8 +45,11 @@ public class BidController {
             Bid bid = repo.save(placedBid);
             StoredProcedureQuery updateBid = entityManager.createStoredProcedureQuery("updateBidStatus");
             updateBid.registerStoredProcedureParameter(1,Long.class, ParameterMode.IN);
+            updateBid.registerStoredProcedureParameter(2, String.class, ParameterMode.OUT);
             updateBid.setParameter(1, bid.getItemID());
             updateBid.execute();
+            String changedBidId = (String) updateBid.getOutputParameterValue(2);
+            System.out.println(changedBidId);
             Wrapper wrapper = new Wrapper("BID", bid);
             socketController.sendToAll(wrapper, Wrapper.class);
             return true;
