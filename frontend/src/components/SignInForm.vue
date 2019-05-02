@@ -49,6 +49,8 @@
 </template>
 
 <script>
+  import Vue from 'vue'
+
 export default {
   name: "signInForm",
   data: () => ({
@@ -88,8 +90,9 @@ export default {
       if (successfulLogin === true) {
         this.showErrorMessage(false);
         this.setUserLoggedIn();
-        this.$store.dispatch('getUserCredentials');
+        await this.$store.dispatch('getUserCredentials');
         this.$refs.form.reset();
+        this.getMyBids();
       } else if (successfulLogin === false) {
         this.showErrorMessage(true);
       }
@@ -101,7 +104,12 @@ export default {
     showErrorMessage(displayError) {
       this.displayError = displayError;
     },
-
+    async getMyBids(){
+      let response = await (await fetch("/api/bids/mybids?buyerID=" + this.$store.getters.getUserName)).json();
+      await this.$store.commit('setAllBidsByBuyer', response);
+      let grouped = Vue._.mapValues(Vue._.groupBy(response, 'itemID'),v => Vue._.sortBy(v, "amount").reverse());
+      console.log(grouped)
+    },
     transformRequest(jsonData = {}) {
       return Object.entries(jsonData)
         .map(x => `${encodeURIComponent(x[0])}=${encodeURIComponent(x[1])}`)

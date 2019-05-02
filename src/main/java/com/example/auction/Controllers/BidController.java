@@ -49,7 +49,9 @@ public class BidController {
             updateBid.setParameter(1, bid.getItemID());
             updateBid.execute();
             Long changedBidId = (Long) updateBid.getOutputParameterValue(2);
-            socketController.sendBidNotification(changedBidId);
+            if(changedBidId != null) {
+                socketController.sendBidNotification(changedBidId);
+            }
             System.out.println(changedBidId);
             Wrapper wrapper = new Wrapper("BID", bid);
             socketController.sendToAll(wrapper, Wrapper.class);
@@ -63,4 +65,14 @@ public class BidController {
     private Iterable getBidByID(@RequestParam List auctionID){
         return repo.getAllBids(auctionID);
     }
-}
+
+    @GetMapping("mybids")
+    private Iterable getAllBidsByBuyerID(@RequestParam String buyerID){
+        return repo.findAllByBuyerID(buyerID);
+    }
+
+    @PostMapping("updatereadstatus")
+    private void updateReadStatus(@RequestBody Long bidID){
+        repo.updateBidReadStatus(bidID);
+    }
+    }

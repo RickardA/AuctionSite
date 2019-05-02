@@ -12,4 +12,6 @@ public interface UserRepository extends CrudRepository<User,Long> {
     User findDistinctFirstByMailIgnoreCase(String mail);
     List<User> findAll();
 
+
+
 }

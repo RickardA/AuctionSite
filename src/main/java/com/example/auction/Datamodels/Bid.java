@@ -15,15 +15,17 @@ public class Bid {
     private long itemID = 0;
     private double amount = 0;
     private int highestBid = 0;
+    private int isRead = 0;
 
     public Bid(){
 
     }
-    public Bid(String buyerID, long itemID, double amount, int leading) {
+    public Bid(String buyerID, long itemID, double amount, int leading, int isRead) {
         this.buyerID = buyerID;
         this.itemID = itemID;
         this.amount = amount;
         this.highestBid = leading;
+        this.isRead = isRead;
     }
 
     public long getBidID(){
@@ -61,4 +63,7 @@ public class Bid {
         return highestBid;
     }
 
+    public int getIsRead() {
+        return isRead;
+    }
 }

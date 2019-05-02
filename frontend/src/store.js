@@ -89,6 +89,9 @@ export default new Vuex.Store({
     },
     setChoosenChat(state,choosenChat){
       state.choosenChat = choosenChat;
+    },
+    setAllBidsByBuyer(state, allBidsByBuyer){
+      state.allBidsByBuyer = allBidsByBuyer;
     }
 
   },
@@ -137,6 +140,9 @@ export default new Vuex.Store({
     },
     getChoosenChat(state){
       return state.choosenChat;
+    },
+    getAllBidsByBuyer(state){
+      return state.allBidsByBuyer;
     }
   },
   actions: {
