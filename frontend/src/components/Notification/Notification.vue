@@ -13,8 +13,10 @@
         bottom
         left
         @click="openNotification"
-      >
-        <font-awesome-icon size="2x" :icon="['fas', 'bell']" />
+      ><v-badge top color="red">
+          <span slot="badge">{{numberOfBids}}</span>
+          <font-awesome-icon size="2x" :icon="['fas', 'bell']" />
+        </v-badge>
       </v-btn>
       </template>
 
@@ -55,6 +57,9 @@ export default {
     computed:{
       auctionsForNotification(){
         return this.$store.getters.getAllBidsByBuyer;
+      },
+      numberOfBids(){
+        return this.$store.getters.getAllBidsByBuyer.length;
       }
     },
   methods:{
@@ -71,11 +76,13 @@ export default {
           for(let auction of this.$store.getters.getAllBidsByBuyer) {
           arrayOfAuctionIDS.push(auction.itemID);
       }
+      arrayOfAuctionIDS.unshift(this.$store.getters.getUserName);
       let response = await fetch("/api/bids/updatereadstatus", {
         method: "POST",
         body: JSON.stringify(arrayOfAuctionIDS),
         headers: { "Content-Type": "application/json"  }
       });
+      this.$store.commit('setAllBidsByBuyer', null);
       }
     }
   }
@@ -89,7 +96,7 @@ export default {
     }
 .list{
   height: 40vh;
-  overflow: hidden;
+  overflow-y:auto;
 }
 .test{
   width: 300px !important;

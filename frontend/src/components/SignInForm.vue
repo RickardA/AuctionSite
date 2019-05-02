@@ -114,6 +114,11 @@ export default {
       return Object.entries(jsonData)
         .map(x => `${encodeURIComponent(x[0])}=${encodeURIComponent(x[1])}`)
         .join("&");
+    },
+    created(){
+      if(this.$store.getters.getLoginState){
+        this.getMyBids();
+      }
     }
   }
 };

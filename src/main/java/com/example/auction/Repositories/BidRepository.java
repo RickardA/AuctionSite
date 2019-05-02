@@ -24,10 +24,9 @@ public interface BidRepository extends CrudRepository<Bid, Long> {
     List<Bid> getAllBids(@Param("auctionIDS") List<String> auctionIDS);
 
     @Modifying
-    @Query(value = "UPDATE bid SET is_read = 1 WHERE itemid IN :auction_ids", nativeQuery = true)
-    void updateBidReadStatus(@Param("auction_ids") List<String> auction_ids);
+    @Query(value = "UPDATE bid SET is_read = 1 WHERE buyerid = :user_id AND itemid IN :auction_ids", nativeQuery = true)
+    void updateBidReadStatus(@Param("auction_ids") List<String> auction_ids, @Param("user_id") String user_id);
 
     Bid findByBidID(@Param("bidID")Long bidID);
-
 
 }

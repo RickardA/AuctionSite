@@ -74,6 +74,8 @@ public class BidController {
 
     @PostMapping("updatereadstatus")
     private void updateReadStatus(@RequestBody List<String> auctionID){
-        repo.updateBidReadStatus(auctionID);
+        String userID = auctionID.get(0);
+        auctionID.remove(0);
+        repo.updateBidReadStatus(auctionID,userID);
     }
     }

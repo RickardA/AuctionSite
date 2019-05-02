@@ -85,7 +85,15 @@ function showSomething(recievedObject) {
       console.log("Message Reccieved");
       break;
       case 'BID_NOTIFICATION':
-      console.log("Notification arrived")
+      console.log(object.object);
+        
+        if(store.getters.getAllBidsByBuyer === null){
+          store.commit('setAllBidsByBuyer',[object.object])
+        }else{
+          if(!store.getters.getAllBidsByBuyer.find(a => a.itemID === object.object.itemID)){
+          store.getters.getAllBidsByBuyer.unshift(object.object)
+          }
+        }
       break; 
   }
 }

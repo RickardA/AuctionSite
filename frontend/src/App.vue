@@ -15,7 +15,7 @@
     <BottomNav/>
     <Footer />
     <Chat v-if="this.$store.getters.getLoginState"/>
-    <Notification />
+    <Notification v-if="this.$store.getters.getLoginState && this.$store.getters.getAllBidsByBuyer !== null"/>
   </v-app>
 </template>
 
