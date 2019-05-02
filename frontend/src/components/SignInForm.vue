@@ -107,8 +107,7 @@ export default {
     async getMyBids(){
       let response = await (await fetch("/api/bids/mybids?buyerID=" + this.$store.getters.getUserName)).json();
       await this.$store.commit('setAllBidsByBuyer', response);
-      let grouped = Vue._.mapValues(Vue._.groupBy(response, 'itemID'),v => Vue._.sortBy(v, "amount").reverse());
-      console.log(grouped)
+      console.log(response)
     },
     transformRequest(jsonData = {}) {
       return Object.entries(jsonData)

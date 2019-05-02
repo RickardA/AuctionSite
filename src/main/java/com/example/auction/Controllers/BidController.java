@@ -68,7 +68,8 @@ public class BidController {
 
     @GetMapping("mybids")
     private Iterable getAllBidsByBuyerID(@RequestParam String buyerID){
-        return repo.findAllByBuyerID(buyerID);
+        List<String> test = repo.findAllByBuyerID(buyerID);
+        return auctionRepository.getSpecificAuctions(test);
     }
 
     @PostMapping("updatereadstatus")
