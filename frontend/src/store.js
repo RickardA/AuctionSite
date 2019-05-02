@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    auctions: Array,
+    auctions: null,
     showPopup: false,
     isLoggedIn: false,
     userName: '',
@@ -157,7 +157,7 @@ export default new Vuex.Store({
 
     async getBidsForAuction(state) {
       let arrayOfAuctionIDS = [];
-      if(this.getters.getAuctions.length > 0){
+      if(this.getters.getAuctions !== null && this.getters.getAuctions.length > 0){
       for(let auction of this.getters.getAuctions) {
         arrayOfAuctionIDS.push(auction.itemID);
       };
