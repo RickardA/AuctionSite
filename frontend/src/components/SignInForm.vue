@@ -67,6 +67,11 @@ export default {
       v => /.+@.+/.test(v) || "E-mail must be valid"
     ]
   }),
+  computed:{
+    isLoggedIn(){
+      return this.$store.getters.getUserName;
+    }
+  },
   methods: {
     submitSignIn() {
       this.showErrorMessage(false);
@@ -90,9 +95,8 @@ export default {
       if (successfulLogin === true) {
         this.showErrorMessage(false);
         this.setUserLoggedIn();
-        await this.$store.dispatch('getUserCredentials');
+        this.$store.dispatch('getUserCredentials');
         this.$refs.form.reset();
-        this.getMyBids();
       } else if (successfulLogin === false) {
         this.showErrorMessage(true);
       }
@@ -106,7 +110,7 @@ export default {
     },
     async getMyBids(){
       let response = await (await fetch("/api/bids/mybids?buyerID=" + this.$store.getters.getUserName)).json();
-      await this.$store.commit('setAllBidsByBuyer', response);
+      this.$store.commit('setAllBidsByBuyer', response);
       console.log(response);
       console.log(this.$store.getters.getAllBidsByBuyer);
     },
@@ -115,9 +119,11 @@ export default {
         .map(x => `${encodeURIComponent(x[0])}=${encodeURIComponent(x[1])}`)
         .join("&");
     },
-    created(){
-      if(this.$store.getters.getLoginState){
-        this.getMyBids();
+  },
+  watch:{
+    isLoggedIn:function(){
+      if(this.isLoggedIn){
+         this.getMyBids();
       }
     }
   }
