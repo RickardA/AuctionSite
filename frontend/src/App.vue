@@ -16,6 +16,7 @@
     <Footer />
     <Chat v-if="this.$store.getters.getLoginState"/>
     <Notification v-if="this.$store.getters.getLoginState"/>
+    <Snackbar />
   </v-app>
 </template>
 
@@ -26,6 +27,7 @@ import BottomNav from './components/BottomNav'
 import Footer from './components/Footer'
 import Chat from './components/Chat/Chat'
 import Notification from './components/Notification/Notification'
+import Snackbar from './components/Snackbar'
 
 export default {
   name: 'App',
@@ -35,7 +37,8 @@ export default {
     BottomNav,
     Footer,
     Chat,
-    Notification
+    Notification,
+    Snackbar,
   },
   async created() {
     await this.$store.dispatch("authenticateUser");

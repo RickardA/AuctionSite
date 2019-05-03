@@ -1,5 +1,5 @@
 <template>
-    <v-card color="indigo lighten-1" class="white--text" @click="routeToAuction">
+    <v-card :color="color" class="white--text" @click="routeToAuction">
               <v-layout row>
                 <v-flex xs12>
                   <v-card-title primary-title>
@@ -18,6 +18,7 @@ export default {
     name: 'notificationCard',
     props:{
         auctionObject: Object,
+        color: String
     },
     computed:{
       /*imageURL(){

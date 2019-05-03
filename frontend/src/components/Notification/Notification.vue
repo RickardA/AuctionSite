@@ -31,7 +31,7 @@
         <v-divider></v-divider>
 
         <v-list class="list">
-          <NotificationCard v-for="auction in auctionsForNotification" :key="auction.id" :auctionObject="auction"/>
+          <NotificationCard v-for="auction in auctionsForNotification" :key="auction.id" :auctionObject="auction" color="indigo lighten-1"/>
         </v-list>
         <v-card-actions>
           <v-spacer></v-spacer>
