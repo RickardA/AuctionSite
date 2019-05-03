@@ -26,6 +26,7 @@ public interface AuctionRepository extends CrudRepository<Auction, Long> {
     @Query(value = "SELECT * FROM auction WHERE STATUS = 'ONGOING'",nativeQuery = true)
     List<Auction> findAll();
 
+    @Query(value = "SELECT * FROM auction WHERE STATUS = 'ONGOING' ORDER BY itemid DESC",nativeQuery = true)
     Page<Auction> findAll(Pageable pageable);
 
     List<Auction> findByTitleIsContaining(String title);
