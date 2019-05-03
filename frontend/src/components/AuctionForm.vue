@@ -14,15 +14,6 @@
             label="Title of item"
             placeholder="Title"
             required></v-text-field>
-           <v-autocomplete
-            ref="category"
-            v-model.lazy="formInfo.category"
-            :rules="[() => !!formInfo.category || 'This field is required']"
-            :items="items"
-            label="Choose category"
-            placeholder="Select..."
-            required
-          ></v-autocomplete>
             <v-textarea
       name="input-7-1"
       box
@@ -96,13 +87,6 @@ export default {
         minDate: this.allowedDate(nextDay),
         maxDate: this.allowedDate(nextMonth),
         status: 'ONGOING',
-        items: [
-        'Arts and crafts',
-        'Clothes',
-        'Outdoors',
-        'Electronics',
-        'Something else'
-      ],
       }
     }, methods:{
         async post(){
@@ -135,7 +119,7 @@ export default {
           this.message = newText;
         },
         validateInputs() {
-         return this.formInfo.category && this.formInfo.title && this.formInfo.description && this.formInfo.min_price > 0;
+         return this.formInfo.title && this.formInfo.description && this.formInfo.min_price > 0;
         },
         allowedDate(date){
           var dd = String(date.getDate()).padStart(2, '0');
@@ -154,7 +138,6 @@ export default {
     }, computed:{
         formInfo() {
             return {
-                category: '',
                 description: '',
                 min_price: 0,
                 title: ''

@@ -8,7 +8,6 @@ public class AuctionMapper {
     public static Auction mapAuctionFromRequest(AuctionRequest request) {
         Auction auction = new Auction();
         auction.setTitle(request.getTitle());
-        auction.setCategory(request.getCategory());
         auction.setDeadline(request.getDeadline());
         auction.setDescription(request.getDescription());
         auction.setItemID(request.getItemID());

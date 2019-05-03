@@ -86,7 +86,6 @@ function showSomething(recievedObject) {
       break;
       case 'BID_NOTIFICATION':
       console.log(object.object);
-        
         if(store.getters.getAllBidsByBuyer === null){
           store.commit('setAllBidsByBuyer',[object.object])
         }else{

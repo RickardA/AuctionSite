@@ -14,21 +14,6 @@
                 <v-btn @click="goToSearch(userInput)">GO!</v-btn>
             </v-layout>
         </v-flex>
-
-        <v-flex md8 offset-md2>
-            <v-layout row class="justify-center">
-                <div class="categories">
-                    <v-btn round color="primary">All categories</v-btn>
-                    <v-btn round color="success">Arts and crafts</v-btn>
-                    <v-btn round color="success">Clothes</v-btn>
-                    <v-btn round color="success">Outdoors</v-btn>
-                    <v-btn round color="success">Electronics</v-btn>
-                    <v-btn round color="success">Other stuff</v-btn>
-                </div>
-            </v-layout>
-        </v-flex>
-
-
     </div>
 </template>
 

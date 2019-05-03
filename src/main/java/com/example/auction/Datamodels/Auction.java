@@ -26,11 +26,9 @@ public class Auction {
     private String sellerID;
     @NotNull(message = "Deadline is mandatory")
     private Date deadline;
-    @NotBlank(message = "Category is mandatory")
-    private String category;
     public Auction(){}
 
-    public Auction(Long itemID, String title, double min_price, String status, String description, String sellerID, Date deadline, String category) {
+    public Auction(Long itemID, String title, double min_price, String status, String description, String sellerID, Date deadline) {
         this.itemID = itemID;
         this.title = title;
         this.min_price = min_price;
@@ -38,7 +36,6 @@ public class Auction {
         this.description = description;
         this.sellerID = sellerID;
         this.deadline = deadline;
-        this.category = category;
     }
 
     public Long getItemID() {
@@ -97,11 +94,4 @@ public class Auction {
         this.deadline = deadline;
     }
 
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
 }
