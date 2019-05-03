@@ -25,6 +25,9 @@ export default {
   },
   computed: {
     chat() {
+      setTimeout(()=>{
+        this.scrollToEnd();
+      },1)
       return this.$store.getters.getChats[
             this.choosenChat.itemID
           ];
