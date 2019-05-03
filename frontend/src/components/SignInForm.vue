@@ -89,8 +89,13 @@ export default {
         method: "POST",
         body: this.transformRequest(user),
         headers: { "Content-Type": "application/x-www-form-urlencoded" }
+      }).catch(error =>{
+        this.showErrorMessage(true);
+        this.loading = false;
       });
-      let successfulLogin = response.ok;
+      console.log(this.loading);
+      let successfulLogin = this.loading && !response.url.includes("error");
+      console.log(successfulLogin);
       this.loading = false;
       if (successfulLogin === true) {
         this.showErrorMessage(false);
@@ -108,27 +113,12 @@ export default {
     showErrorMessage(displayError) {
       this.displayError = displayError;
     },
-    async getMyBids(){
-      let response = await (await fetch("/api/bids/mybids?buyerID=" + this.$store.getters.getUserName)).json();
-      if(!response.hasOwnProperty("error")){
-      this.$store.commit('setAllBidsByBuyer', response);
-      }
-      console.log(response);
-      console.log(this.$store.getters.getAllBidsByBuyer);
-    },
     transformRequest(jsonData = {}) {
       return Object.entries(jsonData)
         .map(x => `${encodeURIComponent(x[0])}=${encodeURIComponent(x[1])}`)
         .join("&");
     },
   },
-  watch:{
-    isLoggedIn:function(){
-      if(this.isLoggedIn){
-         this.getMyBids();
-      }
-    }
-  }
 };
 </script>
 

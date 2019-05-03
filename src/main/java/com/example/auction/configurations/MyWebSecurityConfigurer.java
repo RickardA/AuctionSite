@@ -17,14 +17,13 @@ public class MyWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
+        http.authorizeRequests()
+                .antMatchers(HttpMethod.GET,"/api/users/*").hasRole("USER")
                 .antMatchers(HttpMethod.GET,"/api/**").permitAll()
                 .antMatchers("/api/**").hasRole("USER")
-                .and().formLogin().permitAll().defaultSuccessUrl("/", true)
+                .and().formLogin().permitAll()
                 .and().logout().permitAll().logoutSuccessUrl("/")
-                .and().csrf().disable()
-        ;
+                .and().csrf().disable();
     }
 
     @Override

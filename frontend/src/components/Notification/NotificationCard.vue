@@ -1,19 +1,12 @@
 <template>
     <v-card color="indigo lighten-1" class="white--text" @click="routeToAuction">
               <v-layout row>
-                <v-flex xs7>
+                <v-flex xs12>
                   <v-card-title primary-title>
                     <div>
-                      <div class="headline">{{auctionObject.title}}</div>
-                      <div>Price: {{auctionObject.min_price}}</div>
+                      <div>{{auctionObject.name}} placed a higher bid than you on "{{auctionObject.title}}", their bid was: ${{auctionObject.current_price}}</div>
                     </div>
                   </v-card-title>
-                </v-flex>
-                <v-flex xs5>
-                  <v-img
-                    height="125px"
-                    contain
-                  ></v-img>
                 </v-flex>
               </v-layout>
               <v-divider light></v-divider>

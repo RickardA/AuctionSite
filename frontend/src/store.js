@@ -19,6 +19,7 @@ export default new Vuex.Store({
     auctionsForChats: null,
     choosenChat: null,
     allBidsByBuyer: null,
+    numberOfNotifications: 0,
 
     totalPages: null,
     filteredAuctions: null,
@@ -93,7 +94,7 @@ export default new Vuex.Store({
     },
     setAllBidsByBuyer(state, allBidsByBuyer){
       state.allBidsByBuyer = allBidsByBuyer;
-    }
+    },
 
   },
   getters: {
@@ -144,6 +145,9 @@ export default new Vuex.Store({
     },
     getAllBidsByBuyer(state){
       return state.allBidsByBuyer;
+    },
+    getNumberOfNotifications(state){
+      return state.numberOfNotifications
     }
   },
   actions: {
@@ -207,6 +211,22 @@ export default new Vuex.Store({
         this.getters.getChats[messageObject.itemID].push(messageObject);
       }
     }
+    },
+    async getBidsForNotificationAuction(state) {
+      let arrayOfAuctionIDS = [];
+      if(this.getters.getAllBidsByBuyer !== null && this.getters.getAllBidsByBuyer.length > 0){
+      for(let auction of this.getters.getAllBidsByBuyer) {
+        arrayOfAuctionIDS.push(auction.itemID);
+      };
+      let responseBids = await (await fetch('/api/bids/bid?auctionID=' + arrayOfAuctionIDS)).json();
+      this.dispatch('setBidToNotificationAuction',responseBids);
     }
+  },
+  setBidToNotificationAuction(state,bids){
+    let grouped = Vue._.mapValues(Vue._.groupBy(bids, 'itemID'),v => Vue._.sortBy(v, "amount").reverse());;
+    for(let auction of this.getters.getAllBidsByBuyer){
+      Vue.set(this.getters.getAllBidsByBuyer.find(s => s.itemID == auction.itemID),'bids',grouped[auction.itemID])
+    }
+  },
   },
 })

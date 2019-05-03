@@ -13,6 +13,7 @@ import org.springframework.web.socket.WebSocketSession;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 @Service
@@ -109,13 +110,16 @@ public class SocketService {
         System.out.println("removed session for user: " + userToRemove);
     }
 
-    public void sendBidNotification(Long bidId){
-        Bid bid = bidRepository.findByBidID(bidId);
-        Auction auction = auctionRepository.findByItemID(bid.getItemID());
-        if(authenticatedSessions.containsKey(bid.getBuyerID())){
-            Wrapper wrapper = new Wrapper("BID_NOTIFICATION", auction);
+    public void sendBidNotification(Long changedBidId,Long bidId){
+        String id = UUID.randomUUID().toString();
+        Bid newBid = bidRepository.findByBidID(bidId);
+        Bid oldBid = bidRepository.findByBidID((changedBidId));
+        Auction auction = auctionRepository.findByItemID(newBid.getItemID());
+        Notification notification = new Notification(id,auction.getTitle(),newBid.getAmount(),auction.getItemID(),newBid.getBuyerID());
+        if(authenticatedSessions.containsKey(newBid.getBuyerID())){
+            Wrapper wrapper = new Wrapper("BID_NOTIFICATION", notification);
             try {
-                sendToOne(authenticatedSessions.get(bid.getBuyerID()), wrapper, Wrapper.class);
+                sendToOne(authenticatedSessions.get(oldBid.getBuyerID()), wrapper, Wrapper.class);
             } catch (IOException e) {
                 e.printStackTrace();
             }

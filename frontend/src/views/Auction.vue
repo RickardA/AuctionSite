@@ -71,13 +71,13 @@ export default {
         this.$route.fullPath.split("?")[1]);
       this.loading = false;
     },
-    async getChoosenAuction(auctionID){
+    async getChoosenAuction(itemID){
       if (this.$store.getters.getAuctions === null || this.$store.getters.getAuctions.length === 1 || this.$store.getters.getAuctions.length === 0) {
-        let recievedAuction = await (await fetch('/api/auctions/specific?auctionIDS=' + auctionID)).json();
+        let recievedAuction = await (await fetch('/api/auctions/specific?auctionIDS=' + itemID)).json();
         await this.$store.commit('setAuctions',recievedAuction);
-        return this.$store.getters.getAuctions.find(s => s.itemID == auctionID);
+        return this.$store.getters.getAuctions.find(s => s.itemID == itemID);
       } else {
-        return this.$store.getters.getAuctions.find(s => s.itemID == auctionID);
+        return this.$store.getters.getAuctions.find(s => s.itemID == itemID);
       }
     }
   },

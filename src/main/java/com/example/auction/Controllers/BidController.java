@@ -2,6 +2,7 @@ package com.example.auction.Controllers;
 
 import com.example.auction.Datamodels.Auction;
 import com.example.auction.Datamodels.Bid;
+import com.example.auction.Datamodels.Notification;
 import com.example.auction.Datamodels.Wrapper;
 import com.example.auction.Repositories.AuctionRepository;
 import com.example.auction.Repositories.BidRepository;
@@ -13,6 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
 import javax.persistence.StoredProcedureQuery;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -50,7 +52,7 @@ public class BidController {
             updateBid.execute();
             Long changedBidId = (Long) updateBid.getOutputParameterValue(2);
             if(changedBidId != null) {
-                socketController.sendBidNotification(changedBidId);
+                socketController.sendBidNotification(changedBidId,bid.getBidID());
             }
             System.out.println(changedBidId);
             Wrapper wrapper = new Wrapper("BID", bid);
@@ -64,12 +66,6 @@ public class BidController {
     @GetMapping("bid")
     private Iterable getBidByID(@RequestParam List auctionID){
         return repo.getAllBids(auctionID);
-    }
-
-    @GetMapping("mybids")
-    private Iterable getAllBidsByBuyerID(@RequestParam String buyerID){
-        List<String> test = repo.findAllByBuyerID(buyerID);
-        return auctionRepository.getSpecificAuctions(test);
     }
 
     @PostMapping("updatereadstatus")

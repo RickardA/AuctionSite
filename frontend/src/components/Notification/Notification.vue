@@ -13,10 +13,11 @@
         bottom
         left
         @click="openNotification"
-      ><v-badge top color="red">
+      ><v-badge v-if="numberOfBids > 0" top color="red">
           <span slot="badge">{{numberOfBids}}</span>
           <font-awesome-icon size="2x" :icon="['fas', 'bell']" />
         </v-badge>
+        <font-awesome-icon v-if="numberOfBids === 0" size="2x" :icon="['fas', 'bell']" />
       </v-btn>
       </template>
 
@@ -30,7 +31,7 @@
         <v-divider></v-divider>
 
         <v-list class="list">
-          <NotificationCard v-for="auction in auctionsForNotification" :key="auction.itemID" :auctionObject="auction"/>
+          <NotificationCard v-for="auction in auctionsForNotification" :key="auction.id" :auctionObject="auction"/>
         </v-list>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -59,7 +60,7 @@ export default {
         return this.$store.getters.getAllBidsByBuyer;
       },
       numberOfBids(){
-        return this.$store.getters.getAllBidsByBuyer.length;
+        return this.$store.getters.getNumberOfNotifications;
       }
     },
   methods:{
@@ -70,7 +71,6 @@ export default {
   watch:{
     menu:async function(){
       if(this.menu === false){
-        console.log("all notifications have been read");
         let arrayOfAuctionIDS = [];
         if(this.$store.getters.getAllBidsByBuyer !== null && this.$store.getters.getAllBidsByBuyer.length > 0){
           for(let auction of this.$store.getters.getAllBidsByBuyer) {
@@ -82,12 +82,12 @@ export default {
         body: JSON.stringify(arrayOfAuctionIDS),
         headers: { "Content-Type": "application/json"  }
       });
-      this.$store.commit('setAllBidsByBuyer', null);
+        this.$store.state.numberOfNotifications = 0;
       }
     }
+    },
+  },
   }
-  }
-}
 </script>
 
 <style>
