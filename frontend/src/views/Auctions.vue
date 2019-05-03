@@ -1,7 +1,7 @@
 <template>
     <div>
     <SearchBarAndFilter/>
-    <v-container justify-center="true" mt-2>
+    <v-container justify-center="true" class="pt-0">
         <h1>All Auctions</h1>
           <v-layout row justify-center wrap v-if="this.$store.getters.getDoneLoader">
         <AuctionCard v-for="auction in auctions" v-bind:key="auction.itemID" :auctionObject="auction"></AuctionCard>
@@ -32,7 +32,11 @@ export default {
 </script>
 
 <style scoped>
-
+    @import url('https://fonts.googleapis.com/css?family=Cinzel');
+    h1{
+        text-align: center;
+        font-family: Cinzel;
+    }
 </style>
 
 

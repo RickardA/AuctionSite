@@ -10,7 +10,7 @@
             round
             @click="goToNextPage"
         >Next</v-btn>
-        <p>{{pageNumber}}/{{totalPages}}</p>
+        <h4>{{pageNumber}}/{{totalPages}}</h4>
     </div>
 </template>
 
@@ -64,5 +64,12 @@
 </script>
 
 <style scoped>
+    @import url('https://fonts.googleapis.com/css?family=Cinzel');
+
+    h4{
+        font-family: Cinzel;
+    }
+
+
 
 </style>
