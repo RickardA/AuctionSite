@@ -60,3 +60,12 @@
   }
   }
 </script>
+
+<style scoped>
+  @import url('https://fonts.googleapis.com/css?family=Cinzel');
+  h1{
+    text-align: center;
+    font-family: Cinzel;
+  }
+
+</style>
