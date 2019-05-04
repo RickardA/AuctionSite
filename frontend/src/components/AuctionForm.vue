@@ -31,7 +31,7 @@
             required
           ></v-text-field>
           <h2>Pick last date of auction</h2>
-    <v-date-picker id="calendar" v-model="deadline" :min="minDate" :max="maxDate"></v-date-picker>
+    <v-date-picker id="calendar" v-model="deadline" :min="minDate" :max="maxDate" :show-current="minDate" ></v-date-picker>
    <Imageupload ref="imageUpload" />
         </v-card-text>
         <v-divider class="mt-5"></v-divider>
